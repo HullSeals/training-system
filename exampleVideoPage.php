@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <link href="../favicon.ico" rel="icon" type="image/x-icon">
     <link href="../favicon.ico" rel="shortcut icon" type="image/x-icon">
@@ -60,7 +59,7 @@
           </source>
         </video>
         <br><br>
-        <form method="POST" action="https://hullseals.space">
+        <form method="get" action="?send">
             <div class="input-group">
               <p id="notice">Please wait for the video to complete.</p>
                 <button type="submit" class="btn btn-secondary btn-block" id="btn" name="next_btn" disabled="disabled">Next</button>
