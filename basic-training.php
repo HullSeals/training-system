@@ -1,16 +1,12 @@
 <?php
-$answer1 = $_POST['faveadmin'];
-$answer2 = $_POST['quest'];
-$answer3 = $_POST['capital'];
-$totalCorrect = 0;
-    if ($answer1 == "B") { $totalCorrect++; }
-    if ($answer2 == "D") { $totalCorrect++; }
-    if ($answer3 == "A") { $totalCorrect++; }
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+require_once '../users/init.php';  //make sure this path is correct!
+if (!securePage($_SERVER['PHP_SELF'])){die();}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <link href="../favicon.ico" rel="icon" type="image/x-icon">
     <link href="../favicon.ico" rel="shortcut icon" type="image/x-icon">
@@ -19,7 +15,7 @@ $totalCorrect = 0;
     <meta content="hull seals, elite dangerous, distant worlds, seal team fix, mechanics, dw2" name="keywords">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport">
     <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
-    <title>Training: NameOfVideoHere | The Hull Seals</title>
+    <title>Seal Basic Training | The Hull Seals</title>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
     <link rel="stylesheet" type="text/css" href="tempassets/temptrainercss.css" />
     <script src="https://hullseals.space/assets/javascript/allPages.js" integrity="sha384-PsQdnKGi+BdHoxLI6v+pi6WowfGtnraU6GlDD4Uh5Qw2ZFiDD4eWNTNG9+bHL3kf" crossorigin="anonymous"></script>
@@ -62,17 +58,72 @@ $totalCorrect = 0;
         </header>
         <section class="introduction">
 	    <article id="intro3">
-<?php
-if ($totalCorrect == 3) {
-  echo "<p>Congrats! You did it!<br><br>Ready to move on to the next section, or back to the menu?</p>";
-  unset($_SESSION[vid1watched]);
-}
-elseif ($totalCorrect < 3) {
-  echo "<p>not quite... want to go back and try again, or rewatch the video?</p>";
-}
-else {
-  die("Hacking Attempt...");
-} ?>
+        <h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
+        <p>Please select a module below, or check your completion status.</p>
+        <br>
+        <table class="table table-dark table-striped table-bordered table-hover table-responsive-md">
+          <tr>
+              <td>Module</td>
+              <td>Status</td>
+              <td>Length</td>
+              <td>Options</td>
+          </tr>
+          <tr>
+            <td>Welcome and Introduction</td>
+            <td>Complete</td>
+            <td>4 Minutes</td>
+            <td><a href="exampleVideoPage.php" class="btn btn-secondary active">Review</a></td>
+          </tr>
+          <tr>
+            <td>What is a Seal and the SOP</td>
+            <td>Complete</td>
+            <td>15 Minutes</td>
+            <td><a href="exampleVideoPage.php" class="btn btn-secondary active">Review</a></td>
+          </tr>
+          <tr>
+            <td>Ship Equipment</td>
+            <td>In Progress</td>
+            <td>11 Minutes</td>
+            <td><a href="exampleVideoPage.php" class="btn btn-warning active">Continue</a></td>
+          </tr>
+          <tr>
+            <td>Common Terms</td>
+            <td>Not Yet Started</td>
+            <td>6 Minutes</td>
+            <td><a href="exampleVideoPage.php" class="btn btn-success active">Begin?</a></td>
+          </tr>
+          <tr>
+            <td>Frequently Asked Questions</td>
+            <td>Not Yet Started</td>
+            <td>8 Minutes</td>
+            <td><a href="exampleVideoPage.php" class="btn btn-success active">Begin?</a></td>
+          </tr>
+          <tr>
+            <td>Standard Case Breakdown</td>
+            <td>Not Yet Started</td>
+            <td>10 Minutes</td>
+            <td><a href="exampleVideoPage.php" class="btn btn-success active">Begin?</a></td>
+          </tr>
+          <tr>
+            <td>Navigating our Website</td>
+            <td>Not Yet Started</td>
+            <td>10 Minutes</td>
+            <td><a href="exampleVideoPage.php" class="btn btn-success active">Begin?</a></td>
+          </tr>
+          <tr>
+            <td>Third Party Tools</td>
+            <td>Not Yet Started</td>
+            <td>10 Minutes</td>
+            <td><a href="exampleVideoPage.php" class="btn btn-success active">Begin?</a></td>
+          </tr>
+          <tr>
+            <td>Conclusion</td>
+            <td>Locked</td>
+            <td>3 Minutes</td>
+            <td><a href="#" class="btn btn-danger disabled">Finish Previous Modules First</a></td>
+          </tr>
+        </table>
+        <p>2/9 Modules Complete.</p>
       </article>
             <div class="clearfix"></div>
         </section>

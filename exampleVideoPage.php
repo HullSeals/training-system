@@ -59,7 +59,7 @@
           </source>
         </video>
         <br><br>
-        <form method="get" action="?send">
+        <form method="post" action="exampleQuiz.php">
             <div class="input-group">
               <p id="notice">Please wait for the video to complete.</p>
                 <button type="submit" class="btn btn-secondary btn-block" id="btn" name="next_btn" disabled="disabled">Next</button>

@@ -1,16 +1,5 @@
-<?php
-$answer1 = $_POST['faveadmin'];
-$answer2 = $_POST['quest'];
-$answer3 = $_POST['capital'];
-$totalCorrect = 0;
-    if ($answer1 == "B") { $totalCorrect++; }
-    if ($answer2 == "D") { $totalCorrect++; }
-    if ($answer3 == "A") { $totalCorrect++; }
-?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <link href="../favicon.ico" rel="icon" type="image/x-icon">
     <link href="../favicon.ico" rel="shortcut icon" type="image/x-icon">
@@ -19,7 +8,7 @@ $totalCorrect = 0;
     <meta content="hull seals, elite dangerous, distant worlds, seal team fix, mechanics, dw2" name="keywords">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport">
     <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
-    <title>Training: NameOfVideoHere | The Hull Seals</title>
+    <title>Training Portal | The Hull Seals</title>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
     <link rel="stylesheet" type="text/css" href="tempassets/temptrainercss.css" />
     <script src="https://hullseals.space/assets/javascript/allPages.js" integrity="sha384-PsQdnKGi+BdHoxLI6v+pi6WowfGtnraU6GlDD4Uh5Qw2ZFiDD4eWNTNG9+bHL3kf" crossorigin="anonymous"></script>
@@ -62,17 +51,9 @@ $totalCorrect = 0;
         </header>
         <section class="introduction">
 	    <article id="intro3">
-<?php
-if ($totalCorrect == 3) {
-  echo "<p>Congrats! You did it!<br><br>Ready to move on to the next section, or back to the menu?</p>";
-  unset($_SESSION[vid1watched]);
-}
-elseif ($totalCorrect < 3) {
-  echo "<p>not quite... want to go back and try again, or rewatch the video?</p>";
-}
-else {
-  die("Hacking Attempt...");
-} ?>
+        <h1>Welcome to the Hull Seals training portal.</h1>
+        <p>To continue, please select your course below.</p>
+        <a href="basic-training.php" class="btn btn-lg btn-primary">Basic Seal Training</a>
       </article>
             <div class="clearfix"></div>
         </section>
