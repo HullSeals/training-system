@@ -1,4 +1,10 @@
-
+<?php
+session_start();
+if($_SESSION['goodLink'] != "true"){
+   //send them back
+   header("Location: exampleVideoPage.php");
+}
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

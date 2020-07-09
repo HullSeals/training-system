@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (isset($_GET['send']))
+{
+  $_SESSION['goodLink'] = "true";
+  header("Location: exampleQuiz.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,7 +67,7 @@
           </source>
         </video>
         <br><br>
-        <form method="post" action="exampleQuiz.php">
+        <form method="post" action="?send">
             <div class="input-group">
               <p id="notice">Please wait for the video to complete.</p>
                 <button type="submit" class="btn btn-secondary btn-block" id="btn" name="next_btn" disabled="disabled">Next</button>
