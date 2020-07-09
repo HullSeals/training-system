@@ -1,4 +1,9 @@
 <?php
+session_start();
+if($_SESSION['oursite'] != "true"){
+   //send them back
+   header("Location: .");
+}
 $answer1 = $_POST['faveadmin'];
 $answer2 = $_POST['quest'];
 $answer3 = $_POST['capital'];
