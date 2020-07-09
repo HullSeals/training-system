@@ -60,7 +60,7 @@ if($_SESSION['goodLink'] != "true"){
 	    <article id="intro3">
         <h1>Quiz: TopicNameHere</h1>
         <br />
-        <form action="result.php" method = "post">
+        <form action="results.php" method = "post">
           <div class="input-group mb-3">
             <p>1. Who is your least favorite Admin?<br />
               <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="A">Drebin<br>
