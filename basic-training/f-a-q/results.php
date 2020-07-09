@@ -64,10 +64,10 @@ $totalCorrect = 0;
 	    <article id="intro3">
 <?php
 if ($totalCorrect == 3) {
-  echo '<h3>Congrats! You did it!</h3><br><p>Ready to move on to the <a class="btn btn-primary" href="exampleVideoPage.php">Next Section</a>, or back to the <a href="basic-training.php" class="btn btn-primary">menu</a>?</p>';
+  echo '<h3>Congrats! You did it!</h3><br><p>Ready to move on to the <a class="btn btn-primary" href=".">Next Section</a>, or back to the <a href="basic-training.php" class="btn btn-primary">menu</a>?</p>';
 }
 elseif ($totalCorrect < 3) {
-  echo '<h3>Not quite...</h3><br><p>Want to <a class="btn btn-primary" href="exampleVideoPage.php">Rewatch the Video</a>, or go back and <a href="javascript:history.go(-1)" class="btn btn-primary">try the quiz again</a>?</p>';
+  echo '<h3>Not quite...</h3><br><p>Want to <a class="btn btn-primary" href=".">Rewatch the Video</a>, or go back and <a href="javascript:history.go(-1)" class="btn btn-primary">try the quiz again</a>?</p>';
 }
 else {
   die("Hacking Attempt...");
