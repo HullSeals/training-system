@@ -1,6 +1,6 @@
 <?php
 session_start();
-if($_SESSION['goodLink'] != "true"){
+if($_SESSION['terms'] != "true"){
    //send them back
    header("Location: .");
 }

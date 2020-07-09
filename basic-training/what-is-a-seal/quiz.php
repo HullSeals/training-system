@@ -1,6 +1,6 @@
 <?php
 session_start();
-if($_SESSION['goodLink'] != "true"){
+if($_SESSION['whatsaseal'] != "true"){
    //send them back
    header("Location: .");
 }

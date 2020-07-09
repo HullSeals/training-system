@@ -1,9 +1,7 @@
 <?php
-session_start();
 if (isset($_GET['send']))
 {
-  $_SESSION['goodLink'] = "true";
-  header("Location: quiz.php");
+  header("Location: ..");
 }
 ?>
 <!DOCTYPE html>

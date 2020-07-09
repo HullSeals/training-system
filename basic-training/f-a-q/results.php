@@ -21,7 +21,7 @@ $totalCorrect = 0;
     <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
     <title>Training: NameOfVideoHere | The Hull Seals</title>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-    <link rel="stylesheet" type="text/css" href="assets/trainercss.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/trainercss.css" />
     <script src="https://hullseals.space/assets/javascript/allPages.js" integrity="sha384-PsQdnKGi+BdHoxLI6v+pi6WowfGtnraU6GlDD4Uh5Qw2ZFiDD4eWNTNG9+bHL3kf" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
@@ -64,10 +64,11 @@ $totalCorrect = 0;
 	    <article id="intro3">
 <?php
 if ($totalCorrect == 3) {
-  echo '<h3>Congrats! You did it!</h3><br><p>Ready to move on to the <a class="btn btn-primary" href=".">Next Section</a>, or back to the <a href="basic-training.php" class="btn btn-primary">menu</a>?</p>';
+  $_SESSION['faq'] = "false";
+  echo '<h2>Congrats! You did it!</h2><br><p>Ready to go back to the <a href=".." class="btn btn-primary">menu</a>?</p>';
 }
 elseif ($totalCorrect < 3) {
-  echo '<h3>Not quite...</h3><br><p>Want to <a class="btn btn-primary" href=".">Rewatch the Video</a>, or go back and <a href="javascript:history.go(-1)" class="btn btn-primary">try the quiz again</a>?</p>';
+    echo '<h2>Not Quite...</h2><br><p>Want to <a class="btn btn-primary" href=".">Rewatch the Video</a>, or go back and <a href="quiz.php" class="btn btn-primary">try the quiz again</a>?</p>';
 }
 else {
   die("Hacking Attempt...");
