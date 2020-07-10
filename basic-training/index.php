@@ -17,7 +17,7 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
     <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
     <title>Seal Basic Training | The Hull Seals</title>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-    <link rel="stylesheet" type="text/css" href="../assets/trainercss.css" />
+    <link rel="stylesheet" type="text/css" href="assets/trainercss.css" />
     <script src="https://hullseals.space/assets/javascript/allPages.js" integrity="sha384-PsQdnKGi+BdHoxLI6v+pi6WowfGtnraU6GlDD4Uh5Qw2ZFiDD4eWNTNG9+bHL3kf" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
@@ -68,60 +68,42 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
               <td>Length</td>
               <td>Options</td>
           </tr>
-          <tr>
-            <td>Welcome and Introduction</td>
-            <td>Complete</td>
-            <td>4 Minutes</td>
-            <td><a href="welcome" class="btn btn-secondary active">Review</a></td>
-          </tr>
-          <tr>
-            <td>What is a Seal and the SOP</td>
-            <td>Complete</td>
-            <td>15 Minutes</td>
-            <td><a href="what-is-a-seal" class="btn btn-secondary active">Review</a></td>
-          </tr>
-          <tr>
-            <td>Ship Equipment</td>
-            <td>In Progress</td>
-            <td>11 Minutes</td>
-            <td><a href="equipment" class="btn btn-warning active">Continue</a></td>
-          </tr>
-          <tr>
-            <td>Common Terms</td>
-            <td>Not Yet Started</td>
-            <td>6 Minutes</td>
-            <td><a href="common-terms" class="btn btn-success active">Begin?</a></td>
-          </tr>
-          <tr>
-            <td>Frequently Asked Questions</td>
-            <td>Not Yet Started</td>
-            <td>8 Minutes</td>
-            <td><a href="f-a-q" class="btn btn-success active">Begin?</a></td>
-          </tr>
-          <tr>
-            <td>Standard Case Breakdown</td>
-            <td>Not Yet Started</td>
-            <td>10 Minutes</td>
-            <td><a href="case-breakdown" class="btn btn-success active">Begin?</a></td>
-          </tr>
-          <tr>
-            <td>Navigating our Website</td>
-            <td>Not Yet Started</td>
-            <td>10 Minutes</td>
-            <td><a href="our-website" class="btn btn-success active">Begin?</a></td>
-          </tr>
-          <tr>
-            <td>Third Party Tools</td>
-            <td>Not Yet Started</td>
-            <td>10 Minutes</td>
-            <td><a href="third-party-tools" class="btn btn-success active">Begin?</a></td>
-          </tr>
-          <tr>
-            <td>Conclusion</td>
-            <td>Locked</td>
-            <td>3 Minutes</td>
-            <td><a href="#" class="btn btn-danger disabled">Finish Previous Modules First</a></td>
-          </tr>
+          <?php
+          mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+          $db = include 'assets/db.php';
+          $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['port']);
+
+          $stmt = $mysqli->prepare("SELECT module_name, progress_name, module_ID, progressID
+          FROM training.module_progression As mp
+          JOIN training.modules_lu AS ml ON ml.moduleID = mp.module_ID
+          JOIN training.progression_lu AS pl ON pl.progressID = mp.progress
+          WHERE seal_ID = ?;");
+          $stmt->bind_param("i", $user->data()->id);
+          $stmt->execute();
+          $result = $stmt->get_result();
+
+          while ($row = $result->fetch_assoc()) {
+            $field1name = $row["progress_name"];
+            $field2name = $row["module_name"];
+            echo '<tr>
+              <td>'.$field2name.'</td>
+              <td>'.$field1name.'</td>
+              <td> LengthHere</td>
+              <td>';
+              if ($field1name == "Not Yet Started") {
+                echo '<form method="post" action="?begin"><button type="submit" class="btn btn-success btn-block" id="'.$row["module_ID"].''.$row["progressID"].' name="next_btn">Begin?</button>';
+              }
+              elseif ($field1name == "In Progress") {
+                echo '<form method="post" action="?continue"><button type="submit" class="btn btn-warning btn-block" id="btn" name="next_btn">Continue</button>';
+              }
+              elseif ($field1name == "Complete") {
+                echo '<form method="post" action="?review"><button type="submit" class="btn btn-secondary btn-block" id="btn" name="next_btn">Review</button>';
+              }
+              echo '</td>
+            </tr>';
+          }
+          $result->free();
+          ?>
         </table>
         <p>2/9 Modules Complete.</p>
       </article>
