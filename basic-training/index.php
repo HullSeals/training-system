@@ -12,14 +12,15 @@ if (isset($_GET['begin'])) {
         $selectedMod[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
     }
     if (!count($validationErrors)) {
-        $stmt = $mysqli->prepare('CALL sp(?,?)');
-        $stmt->bind_param('ii',$selectedMod['moduleName'], $user->data()->id);
-        $stmt->execute();
-        foreach ($stmt->error_list as $error) {
-            $validationErrors[] = 'DB: ' . $error['error'];
-        }
-        $stmt->close();
-        header("Location: ");
+        //$stmt = $mysqli->prepare('CALL sp(?,?)');
+        //$stmt->bind_param('ii',$selectedMod['moduleName'], $user->data()->id);
+        //$stmt->execute();
+        //foreach ($stmt->error_list as $error) {
+        //    $validationErrors[] = 'DB: ' . $error['error'];
+        //}
+        //$stmt->close();
+        $headerLocale = $selectedMod['moduleName'];
+        header("Location: $headerLocale");
     }
   }
   if (isset($_GET['continue'])) {
@@ -49,7 +50,7 @@ if (isset($_GET['begin'])) {
                 $validationErrors[] = 'DB: ' . $error['error'];
             }
             $stmt->close();
-            header("Location: ");
+            header("Location:");
         }
       }
 ?>
