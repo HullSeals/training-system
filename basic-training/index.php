@@ -5,8 +5,18 @@ error_reporting(E_ALL);
 require_once '../../users/init.php';  //make sure this path is correct!
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
-$counter = 0;
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+$db = include 'assets/db.php';
+$mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['port']);
 
+$stmt2 = $mysqli->prepare("SELECT count(module_ID) AS status FROM module_progression WHERE progress = 3 AND seal_ID = ?;");
+$stmt2->bind_param("i", $user->data()->id);
+$stmt2->execute();
+$result2 = $stmt2->get_result();
+while ($extractarray = $result2->fetch_assoc()) {
+  $notArray2=$extractarray['status'];
+}
+$stmt2->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -72,10 +82,6 @@ $counter = 0;
               <td>Options</td>
           </tr>
           <?php
-          mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-          $db = include 'assets/db.php';
-          $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['port']);
-
           $stmt = $mysqli->prepare("SELECT module_name, progress_name, module_ID, progressID, length
           FROM training.module_progression As mp
           JOIN training.modules_lu AS ml ON ml.moduleID = mp.module_ID
@@ -89,7 +95,6 @@ $counter = 0;
             $field1name = $row["progress_name"];
             $field2name = $row["module_name"];
             $field3name = $row["length"];
-            $counter = $counter++;
             if ($row["module_name"] == 'Conclusion') {
               continue;
             }
@@ -111,27 +116,27 @@ $counter = 0;
             </tr>';
           }
           echo '<tr><td>Conclusion</td>';
-          if ($counter<8) {
+          if ($notArray2<8) {
             echo '<td>Locked</td>';
           }
-          elseif ($counter==8) {
+          elseif ($notArray2==8) {
             echo '<td>Ready</td>';
           }
           echo '<td>6 Minutes</td>';
-          if ($counter<8) {
+          if ($notArray2<8) {
             echo '<td><a href="#" class="btn btn-danger btn-block disabled" id="9" name="next_btn">Complete Previous Modules First</a></td>';
           }
-          elseif ($counter==8) {
+          elseif ($notArray2==8) {
             echo '<td><a href="9" class="btn btn-success btn-block" id="9" name="next_btn">Begin?</a></td>';
           }
-          elseif ($counter==9) {
+          elseif ($notArray2==9) {
             echo '<td><a href="9" class="btn btn-secondary btn-block" id="9" name="next_btn">Review</a></td>';
           }
           echo '</tr>';
           $result->free();
           ?>
         </table>
-        <p><?php echo $counter;?>/9 Modules Complete.</p>
+        <p><?php echo $notArray2;?>/9 Modules Complete.</p>
       </article>
             <div class="clearfix"></div>
         </section>
