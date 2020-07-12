@@ -4,6 +4,54 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once '../../users/init.php';  //make sure this path is correct!
 if (!securePage($_SERVER['PHP_SELF'])){die();}
+
+$selectedMod = [];
+$validationErrors = [];
+if (isset($_GET['review'])) {
+    foreach ($_REQUEST as $key => $value) {
+        $selectedMod[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
+    }
+    if (!count($validationErrors)) {
+        $stmt = $mysqli->prepare('CALL sp(?,?)');
+        $stmt->bind_param('ii',$selectedMod['moduleName'], $user->data()->id);
+        $stmt->execute();
+        foreach ($stmt->error_list as $error) {
+            $validationErrors[] = 'DB: ' . $error['error'];
+        }
+        $stmt->close();
+        header("Location: ");
+    }
+  }
+  if (isset($_GET['continue'])) {
+      foreach ($_REQUEST as $key => $value) {
+          $selectedMod[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
+      }
+      if (!count($validationErrors)) {
+          $stmt = $mysqli->prepare('CALL sp(?,?)');
+          $stmt->bind_param('ii',$selectedMod['moduleName'], $user->data()->id);
+          $stmt->execute();
+          foreach ($stmt->error_list as $error) {
+              $validationErrors[] = 'DB: ' . $error['error'];
+          }
+          $stmt->close();
+          header("Location: ");
+      }
+    }
+    if (isset($_GET['review'])) {
+        foreach ($_REQUEST as $key => $value) {
+            $selectedMod[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
+        }
+        if (!count($validationErrors)) {
+            $stmt = $mysqli->prepare('CALL sp(?,?)');
+            $stmt->bind_param('ii',$selectedMod['moduleName'], $user->data()->id);
+            $stmt->execute();
+            foreach ($stmt->error_list as $error) {
+                $validationErrors[] = 'DB: ' . $error['error'];
+            }
+            $stmt->close();
+            header("Location: ");
+        }
+      }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,6 +109,15 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
         <h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
         <p>Please select a module below, or check your completion status.</p>
         <br>
+        <?php
+        if (count($validationErrors)) {
+            foreach ($validationErrors as $error) {
+                echo '<div class="alert alert-danger">' . $error . '</div>';
+            }
+            echo '<br>';
+        }
+        ?>
+
         <table class="table table-dark table-striped table-bordered table-hover table-responsive-md">
           <tr>
               <td>Module</td>
@@ -91,13 +148,13 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
               <td> LengthHere</td>
               <td>';
               if ($field1name == "Not Yet Started") {
-                echo '<form method="post" action="?begin"><button type="submit" class="btn btn-success btn-block" id="'.$row["module_ID"].''.$row["progressID"].' name="next_btn">Begin?</button>';
+                echo '<form method="post" action="?begin"><input type="hidden" name="moduleName" value="'.$row["module_ID"].'" required><button type="submit" class="btn btn-success btn-block" id="'.$row["module_ID"].'" name="next_btn">Begin?</button>';
               }
               elseif ($field1name == "In Progress") {
-                echo '<form method="post" action="?continue"><button type="submit" class="btn btn-warning btn-block" id="btn" name="next_btn">Continue</button>';
+                echo '<form method="post" action="?continue"><input type="hidden" name="moduleName" value="'.$row["module_ID"].'" required><button type="submit" class="btn btn-warning btn-block" id="'.$row["module_ID"].'" name="next_btn">Continue</button>';
               }
               elseif ($field1name == "Complete") {
-                echo '<form method="post" action="?review"><button type="submit" class="btn btn-secondary btn-block" id="btn" name="next_btn">Review</button>';
+                echo '<form method="post" action="?review"><input type="hidden" name="moduleName" value="'.$row["module_ID"].'" required><button type="submit" class="btn btn-secondary btn-block" id="'.$row["module_ID"].'" name="next_btn">Review</button>';
               }
               echo '</td>
             </tr>';
