@@ -7,7 +7,7 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
 
 $selectedMod = [];
 $validationErrors = [];
-if (isset($_GET['review'])) {
+if (isset($_GET['begin'])) {
     foreach ($_REQUEST as $key => $value) {
         $selectedMod[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
     }
