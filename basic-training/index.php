@@ -5,54 +5,8 @@ error_reporting(E_ALL);
 require_once '../../users/init.php';  //make sure this path is correct!
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
-$selectedMod = [];
-$validationErrors = [];
-if (isset($_GET['begin'])) {
-    foreach ($_REQUEST as $key => $value) {
-        $selectedMod[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
-    }
-    if (!count($validationErrors)) {
-        //$stmt = $mysqli->prepare('CALL sp(?,?)');
-        //$stmt->bind_param('ii',$selectedMod['moduleName'], $user->data()->id);
-        //$stmt->execute();
-        //foreach ($stmt->error_list as $error) {
-        //    $validationErrors[] = 'DB: ' . $error['error'];
-        //}
-        //$stmt->close();
-        $headerLocale = $selectedMod['moduleName'];
-        header("Location: $headerLocale");
-    }
-  }
-  if (isset($_GET['continue'])) {
-      foreach ($_REQUEST as $key => $value) {
-          $selectedMod[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
-      }
-      if (!count($validationErrors)) {
-          $stmt = $mysqli->prepare('CALL sp(?,?)');
-          $stmt->bind_param('ii',$selectedMod['moduleName'], $user->data()->id);
-          $stmt->execute();
-          foreach ($stmt->error_list as $error) {
-              $validationErrors[] = 'DB: ' . $error['error'];
-          }
-          $stmt->close();
-          header("Location: ");
-      }
-    }
-    if (isset($_GET['review'])) {
-        foreach ($_REQUEST as $key => $value) {
-            $selectedMod[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
-        }
-        if (!count($validationErrors)) {
-            $stmt = $mysqli->prepare('CALL sp(?,?)');
-            $stmt->bind_param('ii',$selectedMod['moduleName'], $user->data()->id);
-            $stmt->execute();
-            foreach ($stmt->error_list as $error) {
-                $validationErrors[] = 'DB: ' . $error['error'];
-            }
-            $stmt->close();
-            header("Location:");
-        }
-      }
+$counter = 0;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -110,15 +64,6 @@ if (isset($_GET['begin'])) {
         <h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
         <p>Please select a module below, or check your completion status.</p>
         <br>
-        <?php
-        if (count($validationErrors)) {
-            foreach ($validationErrors as $error) {
-                echo '<div class="alert alert-danger">' . $error . '</div>';
-            }
-            echo '<br>';
-        }
-        ?>
-
         <table class="table table-dark table-striped table-bordered table-hover table-responsive-md">
           <tr>
               <td>Module</td>
@@ -131,7 +76,7 @@ if (isset($_GET['begin'])) {
           $db = include 'assets/db.php';
           $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['port']);
 
-          $stmt = $mysqli->prepare("SELECT module_name, progress_name, module_ID, progressID
+          $stmt = $mysqli->prepare("SELECT module_name, progress_name, module_ID, progressID, length
           FROM training.module_progression As mp
           JOIN training.modules_lu AS ml ON ml.moduleID = mp.module_ID
           JOIN training.progression_lu AS pl ON pl.progressID = mp.progress
@@ -143,27 +88,50 @@ if (isset($_GET['begin'])) {
           while ($row = $result->fetch_assoc()) {
             $field1name = $row["progress_name"];
             $field2name = $row["module_name"];
+            $field3name = $row["length"];
+            $counter = $counter++;
+            if ($row["module_name"] == 'Conclusion') {
+              continue;
+            }
             echo '<tr>
               <td>'.$field2name.'</td>
               <td>'.$field1name.'</td>
-              <td> LengthHere</td>
+              <td>'.$field3name.' Minutes</td>
               <td>';
               if ($field1name == "Not Yet Started") {
-                echo '<form method="post" action="?begin"><input type="hidden" name="moduleName" value="'.$row["module_ID"].'" required><button type="submit" class="btn btn-success btn-block" id="'.$row["module_ID"].'" name="next_btn">Begin?</button>';
+                echo '<a href="'.$row["module_ID"].'" class="btn btn-success btn-block" id="'.$row["module_ID"].'" name="next_btn">Begin?</a>';
               }
               elseif ($field1name == "In Progress") {
-                echo '<form method="post" action="?continue"><input type="hidden" name="moduleName" value="'.$row["module_ID"].'" required><button type="submit" class="btn btn-warning btn-block" id="'.$row["module_ID"].'" name="next_btn">Continue</button>';
+                echo '<a href="'.$row["module_ID"].'" class="btn btn-warning btn-block" id="'.$row["module_ID"].'" name="next_btn">Continue</a>';
               }
               elseif ($field1name == "Complete") {
-                echo '<form method="post" action="?review"><input type="hidden" name="moduleName" value="'.$row["module_ID"].'" required><button type="submit" class="btn btn-secondary btn-block" id="'.$row["module_ID"].'" name="next_btn">Review</button>';
+                echo '<a href="'.$row["module_ID"].'" class="btn btn-secondary btn-block" id="'.$row["module_ID"].'" name="next_btn">Review</a>';
               }
               echo '</td>
             </tr>';
           }
+          echo '<tr><td>Conclusion</td>';
+          if ($counter<8) {
+            echo '<td>Locked</td>';
+          }
+          elseif ($counter==8) {
+            echo '<td>Ready</td>';
+          }
+          echo '<td>6 Minutes</td>';
+          if ($counter<8) {
+            echo '<td><a href="#" class="btn btn-danger btn-block disabled" id="9" name="next_btn">Complete Previous Modules First</a></td>';
+          }
+          elseif ($counter==8) {
+            echo '<td><a href="9" class="btn btn-success btn-block" id="9" name="next_btn">Begin?</a></td>';
+          }
+          elseif ($counter==9) {
+            echo '<td><a href="9" class="btn btn-secondary btn-block" id="9" name="next_btn">Review</a></td>';
+          }
+          echo '</tr>';
           $result->free();
           ?>
         </table>
-        <p>2/9 Modules Complete.</p>
+        <p><?php echo $counter;?>/9 Modules Complete.</p>
       </article>
             <div class="clearfix"></div>
         </section>
