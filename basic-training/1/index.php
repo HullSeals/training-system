@@ -9,6 +9,16 @@ if (isset($_GET['send']))
 {
   header("Location: ..");
 }
+require '../../assets/ipinfo.php';
+
+//mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+//$db = include '../../assets/db.php';
+//$mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['port']);
+//$stmt = $mysqli->prepare('CALL sp(?,?,?,?)');
+//$stmt->bind_param("iii", $user->data()->id, $lgd_ip, );
+//$stmt->execute();
+//$stmt->close();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
