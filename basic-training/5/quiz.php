@@ -5,7 +5,10 @@ error_reporting(E_ALL);
 require_once '../../../users/init.php';  //make sure this path is correct!
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
-session_start();
+if(!isset($_SESSION))
+  {
+    session_start();
+  }
 if($_SESSION['faq'] != "true"){
    //send them back
    header("Location: .");

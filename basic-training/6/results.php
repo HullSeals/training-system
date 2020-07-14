@@ -5,7 +5,10 @@ error_reporting(E_ALL);
 require_once '../../../users/init.php';  //make sure this path is correct!
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
-session_start();
+if(!isset($_SESSION))
+  {
+    session_start();
+  }
 if($_SESSION['breakdown'] != "true"){
    //send them back
    header("Location: .");
@@ -66,6 +69,9 @@ $totalCorrect = 0;
 <?php
 if ($totalCorrect == 3) {
   $_SESSION['breakdown'] = "false";
+  $moduleID=2;
+  require '../../assets/ipinfo.php';
+  require '../../assets/nextSetter.php';
   echo '<h2>Congrats! You did it!</h2><br><p>Ready to go back to the <a href=".." class="btn btn-primary">menu</a>?</p>';
 }
 elseif ($totalCorrect < 3) {

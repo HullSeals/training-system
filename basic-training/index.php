@@ -112,6 +112,9 @@ $stmt2->close();
           elseif ($notArray2==8) {
             echo '<td>Ready</td>';
           }
+          elseif ($notArray2 == 9) {
+            echo '<td>Complete</td>';
+          }
           echo '<td>6 Minutes</td>';
           if ($notArray2<8) {
             echo '<td><a href="#" class="btn btn-danger btn-block disabled" id="9" name="next_btn">Complete Previous Modules First</a></td>';

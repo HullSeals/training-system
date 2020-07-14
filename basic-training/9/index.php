@@ -4,11 +4,10 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once '../../../users/init.php';  //make sure this path is correct!
 if (!securePage($_SERVER['PHP_SELF'])){die();}
-
-if (isset($_GET['send']))
-{
-  header("Location: ..");
-}
+if(!isset($_SESSION))
+  {
+    session_start();
+  }
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $db = include '../../assets/db.php';
 $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['port']);
@@ -22,6 +21,17 @@ while ($extractarray = $result2->fetch_assoc()) {
 }
 $stmt2->close();
 if ($notArray2<8) {
+  header("Location: ..");
+}
+elseif ($notArray2>=8) {
+  require '../../assets/ipinfo.php';
+
+  $moduleID=9;
+  require '../../assets/progressChecker.php';
+}
+if (isset($_GET['send']))
+{
+  require '../../assets/nextSetter.php';
   header("Location: ..");
 }
 ?>
@@ -71,7 +81,7 @@ if ($notArray2<8) {
         <h1>Lorem Ipsum</h1>
         <p>The Fitnessgram Pacer Test is...</p>
         <video width="100%" controls id="video">
-          <source src="../assets/videos/Soothing 30 Second of Ocean Waves.mp4" type="video/mp4">
+          <source src="../../assets/videos/Soothing 30 Second of Ocean Waves.mp4" type="video/mp4">
             Your Browser does not support this video. Please contact the Cybers.
           </source>
         </video>

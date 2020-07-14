@@ -5,12 +5,20 @@ error_reporting(E_ALL);
 require_once '../../../users/init.php';  //make sure this path is correct!
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
-session_start();
+if(!isset($_SESSION))
+  {
+    session_start();
+  }
+
 if (isset($_GET['send']))
 {
   $_SESSION['whatsaseal'] = "true";
   header("Location: quiz.php");
 }
+require '../../assets/ipinfo.php';
+
+$moduleID=2;
+require '../../assets/progressChecker.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,7 +66,7 @@ if (isset($_GET['send']))
         <h1>Lorem Ipsum</h1>
         <p>The Fitnessgram Pacer Test is...</p>
         <video width="100%" controls id="video">
-          <source src="../assets/videos/Soothing 30 Second of Ocean Waves.mp4" type="video/mp4">
+          <source src="../../assets/videos/Soothing 30 Second of Ocean Waves.mp4" type="video/mp4">
             Your Browser does not support this video. Please contact the Cybers.
           </source>
         </video>
@@ -69,6 +77,8 @@ if (isset($_GET['send']))
                 <button type="submit" class="btn btn-secondary btn-block" id="btn" name="next_btn" disabled="disabled">Next</button>
             </div>
         </form>
+        <br />
+        <a href=".." class="btn btn-danger btn-block" id="back_btn" name="back_btn">Go Back</a>
       </article>
             <div class="clearfix"></div>
         </section>

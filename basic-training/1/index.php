@@ -4,21 +4,19 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once '../../../users/init.php';  //make sure this path is correct!
 if (!securePage($_SERVER['PHP_SELF'])){die();}
-
-if (isset($_GET['send']))
-{
-  header("Location: ..");
-}
+if(!isset($_SESSION))
+  {
+    session_start();
+  }
 require '../../assets/ipinfo.php';
 
-//mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-//$db = include '../../assets/db.php';
-//$mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['port']);
-//$stmt = $mysqli->prepare('CALL sp(?,?,?,?)');
-//$stmt->bind_param("iii", $user->data()->id, $lgd_ip, );
-//$stmt->execute();
-//$stmt->close();
-
+$moduleID=1;
+require '../../assets/progressChecker.php';
+if (isset($_GET['send']))
+{
+  require '../../assets/nextSetter.php';
+  header("Location: ..");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,8 +64,8 @@ require '../../assets/ipinfo.php';
         <h1>Lorem Ipsum</h1>
         <p>The Fitnessgram Pacer Test is...</p>
         <video width="100%" controls id="video">
-          <source src="../assets/videos/Soothing 30 Second of Ocean Waves.mp4" type="video/mp4">
-            Your Browser does not support this video. Please contact the Cybers.
+          <source src="../../assets/videos/Soothing 30 Second of Ocean Waves.mp4" type="video/mp4">
+            <h3>Your Browser does not support this video. Please contact the Cybers.</h3>
           </source>
         </video>
         <br><br>
@@ -77,6 +75,8 @@ require '../../assets/ipinfo.php';
                 <button type="submit" class="btn btn-secondary btn-block" id="btn" name="next_btn" disabled="disabled">Next</button>
             </div>
         </form>
+        <br />
+        <a href=".." class="btn btn-danger btn-block" id="back_btn" name="back_btn">Go Back</a>
       </article>
             <div class="clearfix"></div>
         </section>
