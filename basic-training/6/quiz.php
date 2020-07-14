@@ -17,54 +17,13 @@ if($_SESSION['breakdown'] != "true"){
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="../../../favicon.ico" rel="icon" type="image/x-icon">
-    <link href="../../../favicon.ico" rel="shortcut icon" type="image/x-icon">
-    <meta charset="UTF-8">
-    <meta content="David Sangrey" name="author">
-    <meta content="hull seals, elite dangerous, distant worlds, seal team fix, mechanics, dw2" name="keywords">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport">
+    <?php include '../../assets/header.php'; ?>
     <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
     <title>Quiz: Case Breakdown | The Hull Seals</title>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-    <link rel="stylesheet" type="text/css" href="../assets/trainercss.css" />
-    <script src="https://hullseals.space/assets/javascript/allPages.js" integrity="sha384-PsQdnKGi+BdHoxLI6v+pi6WowfGtnraU6GlDD4Uh5Qw2ZFiDD4eWNTNG9+bHL3kf" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="home">
-        <header>
-            <nav class="navbar container navbar-expand-lg navbar-expand-md navbar-dark" role="navigation">
-                <a class="navbar-brand" href="#"><img src="../../../images/emblem_scaled.png" height="30" class="d-inline-block align-top" alt="Logo"> Hull Seals</a>
-
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://hullseals.space/https://hullseals.space">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://hullseals.space/knowledge">Knowledge Base</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://hullseals.space/journal">Journal Reader</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://hullseals.space/about">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://hullseals.space/contact">Contact</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://hullseals.space/https://hullseals.space/users/">Login/Register</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
+      <?php include '../../assets/menuCode.php';?>
         <section class="introduction">
 	    <article id="intro3">
         <h1>Quiz: TopicNameHere</h1>
