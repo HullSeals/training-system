@@ -270,10 +270,10 @@ header {
         display: none;
     }
 
-    .introduction article {
+    /*.introduction article {
         max-width: 786px;
         float: right;
-    }
+    }*/
 
     .page-footer {
         text-align: left;
@@ -291,8 +291,8 @@ header {
 }
 
 
-@media (min-width: 1890px) {
+/*@media (min-width: 1890px) {
     .introduction article {
         margin-right: 10rem;
     }
-}
+}*/

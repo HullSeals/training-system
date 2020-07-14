@@ -24,7 +24,7 @@ if($_SESSION['faq'] != "true"){
 <body>
     <div id="home">
       <?php include '../../assets/menuCode.php';?>
-        <section class="introduction">
+        <section class="introduction container">
 	    <article id="intro3">
         <h1>Quiz: TopicNameHere</h1>
         <br />

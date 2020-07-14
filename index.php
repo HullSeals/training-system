@@ -8,7 +8,7 @@
 <body>
     <div id="home">
       <?php include 'assets/menuCode.php';?>
-        <section class="introduction">
+        <section class="introduction container">
 	    <article id="intro3">
         <h1>Welcome to the Hull Seals training portal.</h1>
         <p>To continue, please select your course below.</p>

@@ -28,7 +28,7 @@ if (isset($_GET['send']))
 <body>
     <div id="home">
       <?php include '../../assets/menuCode.php';?>
-        <section class="introduction">
+        <section class="introduction container">
 	    <article id="intro3">
         <h1>Lorem Ipsum</h1>
         <p>The Fitnessgram Pacer Test is...</p>

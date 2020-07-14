@@ -33,7 +33,7 @@ $totalCorrect = 0;
 <body>
     <div id="home">
       <?php include '../../assets/menuCode.php';?>
-        <section class="introduction">
+        <section class="introduction container">
 	    <article id="intro3">
 <?php
 if ($totalCorrect == 3) {

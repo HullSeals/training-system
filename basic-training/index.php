@@ -28,7 +28,7 @@ $stmt2->close();
 <body>
     <div id="home">
       <?php include '../assets/menuCode.php';?>
-        <section class="introduction">
+        <section class="introduction container">
 	    <article id="intro3">
         <h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
         <p>Please select a module below, or check your completion status.</p>
