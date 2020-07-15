@@ -26,7 +26,7 @@ if($_SESSION['breakdown'] != "true"){
       <?php include '../../assets/menuCode.php';?>
         <section class="introduction container">
 	    <article id="intro3">
-        <h1>Quiz: TopicNameHere</h1>
+        <h1>Quiz: Case Breakdown</h1>
         <br />
         <form action="results.php" method = "post">
           <div class="input-group mb-3">

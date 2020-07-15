@@ -19,14 +19,14 @@ if($_SESSION['3pt'] != "true"){
 <head>
   <?php include '../../assets/headerCenter.php'; ?>
     <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
-    <title>Quiz: Case Breakdown | The Hull Seals</title>
+    <title>Quiz: Third Party Tools | The Hull Seals</title>
 </head>
 <body>
     <div id="home">
       <?php include '../../assets/menuCode.php';?>
         <section class="introduction container">
 	    <article id="intro3">
-        <h1>Quiz: TopicNameHere</h1>
+        <h1>Quiz: Third Party Tools</h1>
         <br />
         <form action="results.php" method = "post">
           <div class="input-group mb-3">

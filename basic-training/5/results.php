@@ -28,7 +28,7 @@ $totalCorrect = 0;
 <head>
   <?php include '../../assets/headerCenter.php'; ?>
     <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
-    <title>Training: NameOfVideoHere | The Hull Seals</title>
+    <title>Training: Frequently Asked Questions | The Hull Seals</title>
 </head>
 <body>
     <div id="home">

@@ -30,8 +30,8 @@ if (isset($_GET['send']))
       <?php include '../../assets/menuCode.php';?>
         <section class="introduction container">
 	    <article id="intro3">
-        <h1>Lorem Ipsum</h1>
-        <p>The Fitnessgram Pacer Test is...</p>
+        <h1>Welcome and Introduction</h1>
+        <!--<p>Welcome to the Hull Seals Basic Training Course</p>-->
         <video width="100%" controls id="video">
           <source src="../../assets/videos/Soothing 30 Second of Ocean Waves.mp4" type="video/mp4">
           </source>

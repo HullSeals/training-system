@@ -32,8 +32,7 @@ require '../../assets/progressChecker.php';
       <?php include '../../assets/menuCode.php';?>
         <section class="introduction container">
 	    <article id="intro3">
-        <h1>Lorem Ipsum</h1>
-        <p>The Fitnessgram Pacer Test is...</p>
+        <h1>What is a Seal?</h1>
         <video width="100%" controls id="video">
           <source src="../../assets/videos/Soothing 30 Second of Ocean Waves.mp4" type="video/mp4">
             Your Browser does not support this video. Please contact the Cybers.
