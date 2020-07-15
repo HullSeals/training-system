@@ -30,27 +30,25 @@ if($_SESSION['whatsaseal'] != "true"){
         <br />
         <form action="results.php" method = "post">
           <div class="input-group mb-3">
-            <p>1. Who is your least favorite Admin?<br />
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="A">Drebin<br>
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="B">Rixxan<br>
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="C">Akastus<br>
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="D">MiddleNate<br>
+            <p>1. Do the Seals charge for our services?<br />
+              <input type="radio" name="charge" id="charge" required="" value="A">Yes.<br>
+              <input type="radio" name="charge" id="charge" required="" value="B">No.<br>
             </p>
           </div>
           <div class="input-group mb-3">
-            <p>2. What is your Quest?<br />
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="A">MPHG? Really?<br>
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="B">What? I Don&#39;t know that!<br>
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="C">I just want to sleep<br>
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="D">I seek the Holy Grail<br>
+            <p>2. Are the procedures in the SOP required at all times?<br />
+              <input type="radio" name="SOPr" required="" id="SOPr" value="A">Yes, at all times.<br>
+              <input type="radio" name="SOPr" required="" id="SOPr" value="B">No, they are only suggestions.<br>
+              <input type="radio" name="SOPr" required="" id="SOPr" value="C">Yes, even out of date versions.<br>
+              <input type="radio" name="SOPr" required="" id="SOPr" value="D">No, but they are the best guide and are strongly encouraged.<br>
             </p>
           </div>
           <div class="input-group mb-3">
-            <p>3. What... is the Capital of Assyria?<br />
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="A">Well, I don&#39;t know that!<br>
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="B">Assur<br>
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="C">Nineveh<br>
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="D">Ni!<br>
+            <p>3. Where can you view the updated SOPs?<br />
+              <input type="radio" name="nSOP" required="" id="nSOP" value="A">In the knowledge base.<br>
+              <input type="radio" name="nSOP" required="" id="nSOP" value="B">In IRC, by asking for a copy from a Trainer.<br>
+              <input type="radio" name="nSOP" required="" id="nSOP" value="C">By Emailing the Seal admins.<br>
+              <input type="radio" name="nSOP" required="" id="nSOP" value="D">There is no written SOP. It is all guidance and advice shared among Seals.<br>
             </p>
           </div>
           <button class="btn btn-primary" type="submit">Submit</button>

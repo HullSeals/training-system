@@ -13,9 +13,9 @@ if($_SESSION['whatsaseal'] != "true"){
    //send them back
    header("Location: .");
 }
-$answer1 = $_POST['faveadmin'];
-$answer2 = $_POST['quest'];
-$answer3 = $_POST['capital'];
+$answer1 = $_POST['charge'];
+$answer2 = $_POST['SOPr'];
+$answer3 = $_POST['nSOP'];
 $totalCorrect = 0;
     if ($answer1 == "B") { $totalCorrect++; }
     if ($answer2 == "D") { $totalCorrect++; }
