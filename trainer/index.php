@@ -50,20 +50,23 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['po
         </thead>
         <tbody>
           <?php
-          $stmt = $mysqli->prepare(";");
-          $stmt->bind_param("", );
+          $stmt = $mysqli->prepare("SELECT username, seal_name, SUM(CASE WHEN progress = 3 THEN 1 ELSE 0 END) AS completed
+          FROM auth.users AS u
+          JOIN sealsudb.staff AS s ON s.seal_ID = u.ID
+          JOIN training.module_progression AS m ON m.seal_ID = u.ID
+          WHERE s.primary = TRUE
+          GROUP BY u.ID;");
           $stmt->execute();
           $result = $stmt->get_result();
-
           while ($row = $result->fetch_assoc()) {
             $field1name = $row["username"];
-            $field2name = $row["cmdr_name"];
-            $field3name = $row["modules"];
+            $field2name = $row["seal_name"];
+            $field3name = $row["completed"];
             echo '<tr>
               <td>'.$field2name.'</td>
               <td>'.$field1name.'</td>
               <td>'.$field3name.'</td>
-              <td><a href="manage-trainee.php?cne='.$field1name.'" class="btn btn-warning active">Manage Pup</a></td>
+              <td><a href="manage-trainee.php?cne='.$field1name.'" class="btn btn-warning active">Manage CMDR</a></td>
             </tr>';
           }
           $result->free();
