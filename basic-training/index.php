@@ -98,7 +98,7 @@ $stmt2->close();
           $result->free();
           ?>
         </table>
-        <p><?php echo $notArray2;?>/9 Modules Complete.</p>
+        <p><?php echo $notArray2;?>/9 Modules Complete. <a href=".." class="btn btn-small btn-danger" style="float: right;">Go To Training Home</a></p>
       </article>
             <div class="clearfix"></div>
         </section>
