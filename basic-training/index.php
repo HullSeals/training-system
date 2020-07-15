@@ -21,7 +21,7 @@ $stmt2->close();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <?php include '../assets/header.php'; ?>
+  <?php include '../assets/headerCenter.php'; ?>
     <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
     <title>Seal Basic Training | The Hull Seals</title>
 </head>

@@ -9,7 +9,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="https://hullseals.space/https://hullseals.space">Home</a>
+                    <a class="nav-link" href="https://hullseals.space">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="https://hullseals.space/knowledge">Knowledge Base</a>
@@ -24,7 +24,7 @@
                     <a class="nav-link" href="https://hullseals.space/contact">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="https://hullseals.space/https://hullseals.space/users/">Login/Register</a>
+                    <a class="nav-link" href="https://hullseals.space/users/">Login/Register</a>
                 </li>
             </ul>
         </div>

@@ -17,7 +17,7 @@ if($_SESSION['equipment'] != "true"){
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <?php include '../../assets/header.php'; ?>
+  <?php include '../../assets/headerCenter.php'; ?>
     <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
 </head>
 <body>
