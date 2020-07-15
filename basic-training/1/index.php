@@ -38,14 +38,16 @@ if (isset($_GET['send']))
           <h3>Your Browser does not support this video. Please contact the Cybers.</h3>
         </video>
         <br><br>
+        <p id="notice">Please wait for the video to complete.</p>
         <form method="post" action="?send">
             <div class="input-group">
-              <p id="notice">Please wait for the video to complete.</p>
-                <button type="submit" class="btn btn-secondary btn-block" id="btn" name="next_btn" disabled="disabled">Next</button>
+              <div class="btn-group" role="group">
+                <a href=".." class="btn btn-danger btn-lg" id="back_btn" name="back_btn">Go Back</a>
+                <button type="submit" class="btn btn-secondary btn-lg" id="btn" name="next_btn" disabled="disabled">Next</button>
+              </div>
             </div>
         </form>
         <br />
-        <a href=".." class="btn btn-danger btn-block" id="back_btn" name="back_btn">Go Back</a>
       </article>
             <div class="clearfix"></div>
         </section>

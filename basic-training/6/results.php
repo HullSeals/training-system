@@ -49,6 +49,7 @@ elseif ($totalCorrect < 3) {
 else {
   die("Hacking Attempt...");
 } ?>
+<p><a href=".." class="btn btn-small btn-danger" style="float: right;">Back to Menu</a></p>
       </article>
             <div class="clearfix"></div>
         </section>

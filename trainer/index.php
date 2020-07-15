@@ -63,8 +63,8 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['po
             $field2name = $row["seal_name"];
             $field3name = $row["completed"];
             echo '<tr>
-              <td>'.$field2name.'</td>
               <td>'.$field1name.'</td>
+              <td>'.$field2name.'</td>
               <td>'.$field3name.'</td>
               <td><a href="manage-trainee.php?cne='.$field1name.'" class="btn btn-warning active">Manage CMDR</a></td>
             </tr>';
