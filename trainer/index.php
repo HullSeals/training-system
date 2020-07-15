@@ -12,9 +12,25 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['po
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <?php include '../assets/headerCenter.php'; ?>
+  <link href="https://hullseals.space/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="https://hullseals.space/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta content="David Sangrey" name="author">
+  <meta content="hull seals, elite dangerous, distant worlds, seal team fix, mechanics, dw2" name="keywords">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport">
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
     <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
     <title>Trainer Management Dashboard | The Hull Seals</title>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha384-/LjQZzcpTzaYn7qWqRIWYC5l8FWEZ2bIHIz0D73Uzba4pShEcdLdZyZkI4Kv676E" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="datatables.min.css"/>
+    <script type="text/javascript" src="datatables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://hullseals.space/trainings/assets/trainerCentercss.css" />
+    <script>
+    $(document).ready(function() {
+    $('#PupList').DataTable();
+} );</script>
 </head>
 <body>
     <div id="home">
@@ -23,13 +39,36 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['po
 	    <article id="intro3">
         <h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
         <br>
-        <table class="table table-dark table-striped table-bordered table-hover table-responsive-md">
+        <table class="table table-hover table-dark table-responsive-md table-bordered table-striped" id="PupList">
+          <thead>
           <tr>
-              <td>Seal Username</td>
-              <td>Primary CMDR Name</td>
-              <td>Modules Completed</td>
-              <td>Options</td>
+              <th>Username</th>
+              <th>Primary Name</th>
+              <th>Modules Completed</th>
+              <th>Options</th>
           </tr>
+        </thead>
+        <tbody>
+          <?php
+          $stmt = $mysqli->prepare(";");
+          $stmt->bind_param("", );
+          $stmt->execute();
+          $result = $stmt->get_result();
+
+          while ($row = $result->fetch_assoc()) {
+            $field1name = $row["username"];
+            $field2name = $row["cmdr_name"];
+            $field3name = $row["modules"];
+            echo '<tr>
+              <td>'.$field2name.'</td>
+              <td>'.$field1name.'</td>
+              <td>'.$field3name.'</td>
+              <td><a href="manage-trainee.php?cne='.$field1name.'" class="btn btn-warning active">Manage Pup</a></td>
+            </tr>';
+          }
+          $result->free();
+          ?>
+        </tbody>
         </table>
         <br>
         <p><a href=".." class="btn btn-small btn-danger" style="float: right;">Go To Training Home</a></p>

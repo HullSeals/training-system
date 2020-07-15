@@ -34,12 +34,15 @@ $stmt2->close();
         <p>Please select a module below, or check your completion status.</p>
         <br>
         <table class="table table-dark table-striped table-bordered table-hover table-responsive-md">
+          <thead>
           <tr>
-              <td>Module</td>
-              <td>Status</td>
-              <td>Length</td>
-              <td>Options</td>
+              <th>Module</th>
+              <th>Status</th>
+              <th>Length</th>
+              <th>Options</th>
           </tr>
+        </thead>
+        <tbody>
           <?php
           $stmt = $mysqli->prepare("SELECT module_name, progress_name, module_ID, progressID, length
           FROM training.module_progression As mp
@@ -97,6 +100,7 @@ $stmt2->close();
           echo '</tr>';
           $result->free();
           ?>
+        </tbody>
         </table>
         <p><?php echo $notArray2;?>/9 Modules Complete. <a href=".." class="btn btn-small btn-danger" style="float: right;">Go To Training Home</a></p>
       </article>
