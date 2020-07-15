@@ -31,7 +31,7 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
         <button type="button" class="btn btn-secondary btn-lg" data-toggle="tooltip" data-placement="top" title="Coming Soon!">Kingfisher Training</button>
         <?php
         if (hasPerm([4,7,8,9,10],$user->data()->id)){
-        echo '<button type="button" class="btn btn-info btn-lg" data-toggle="tooltip" data-placement="top" title="Coming Soon!">Trainer Dashboard</button>';
+        echo '<a href="trainer" type="button" class="btn btn-info btn-lg">Trainer Dashboard</a>';
         }
         ?>
       </div>
