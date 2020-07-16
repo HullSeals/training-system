@@ -13,13 +13,15 @@ if($_SESSION['equipment'] != "true"){
    //send them back
    header("Location: .");
 }
-$answer1 = $_POST['faveadmin'];
-$answer2 = $_POST['quest'];
-$answer3 = $_POST['capital'];
+$answer1 = $_POST['rating'];
+$answer2 = $_POST['minCargo'];
+$answer3 = $_POST['howAssigned'];
+$answer4 = $_POST['LifeSupport'];
 $totalCorrect = 0;
-    if ($answer1 == "B") { $totalCorrect++; }
-    if ($answer2 == "D") { $totalCorrect++; }
-    if ($answer3 == "A") { $totalCorrect++; }
+    if ($answer1 == "D") { $totalCorrect++; }
+    if ($answer2 == "A") { $totalCorrect++; }
+    if ($answer3 == "C") { $totalCorrect++; }
+    if ($answer4 == "C") { $totalCorrect++; }
 ?>
 
 <!DOCTYPE html>
@@ -36,14 +38,14 @@ $totalCorrect = 0;
         <section class="introduction container">
 	    <article id="intro3">
 <?php
-if ($totalCorrect == 3) {
+if ($totalCorrect == 4) {
   $_SESSION['equipment'] = "false";
   $moduleID=2;
   require '../../assets/ipinfo.php';
   require '../../assets/nextSetter.php';
   echo '<h2>Congrats! You did it!</h2><br><p>Ready to go back to the <a href=".." class="btn btn-primary">menu</a>?</p>';
 }
-elseif ($totalCorrect < 3) {
+elseif ($totalCorrect < 4) {
     echo '<h2>Not Quite...</h2><br><p>Want to <a class="btn btn-primary" href=".">Rewatch the Video</a>, or go back and <a href="quiz.php" class="btn btn-primary">try the quiz again</a>?</p>';
 }
 else {

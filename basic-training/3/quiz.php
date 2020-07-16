@@ -29,27 +29,36 @@ if($_SESSION['equipment'] != "true"){
         <br />
         <form action="results.php" method = "post">
           <div class="input-group mb-3">
-            <p>1. Who is your least favorite Admin?<br />
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="A">Drebin<br>
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="B">Rixxan<br>
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="C">Akastus<br>
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="D">MiddleNate<br>
+            <p>1. What rating of modules (A-E) is preferred for Repair Limpet Controllers?<br />
+              <input type="radio" name="rating" id="rating" required="" value="A"> A-Rated<br>
+              <input type="radio" name="rating" id="rating" required="" value="B"> B-Rated<br>
+              <input type="radio" name="rating" id="rating" required="" value="C"> C-Rated<br>
+              <input type="radio" name="rating" id="rating" required="" value="D"> D-Rated<br>
+              <input type="radio" name="rating" id="rating" required="" value="E"> E-Rated<br>
             </p>
           </div>
           <div class="input-group mb-3">
-            <p>2. What is your Quest?<br />
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="A">MPHG? Really?<br>
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="B">What? I Don&#39;t know that!<br>
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="C">I just want to sleep<br>
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="D">I seek the Holy Grail<br>
+            <p>2. What is the minimum tons of cargo capacity to have?<br />
+              <input type="radio" name="minCargo" required="" id="minCargo" value="A"> At Least 4 Tons<br>
+              <input type="radio" name="minCargo" required="" id="minCargo" value="B"> Minimum 8 Tons<br>
+              <input type="radio" name="minCargo" required="" id="minCargo" value="C"> 2 Tons or More<br>
+              <input type="radio" name="minCargo" required="" id="minCargo" value="D"> More than 16 Tons<br>
             </p>
           </div>
           <div class="input-group mb-3">
-            <p>3. What... is the Capital of Assyria?<br />
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="A">Well, I don&#39;t know that!<br>
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="B">Assur<br>
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="C">Nineveh<br>
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="D">Ni!<br>
+            <p>3. How are cases assigned to Seals?<br />
+              <input type="radio" name="howAssigned" required="" id="howAssigned" value="A"> First come, first serve.<br>
+              <input type="radio" name="howAssigned" required="" id="howAssigned" value="B"> Combination of both distance and jumps<br>
+              <input type="radio" name="howAssigned" required="" id="howAssigned" value="C"> Jumps to Client<br>
+              <input type="radio" name="howAssigned" required="" id="howAssigned" value="D"> Distance to Client<br>
+            </p>
+          </div>
+          <div class="input-group mb-3">
+            <p>4. What size life support is advised?<br />
+              <input type="radio" name="LifeSupport" required="" id="LifeSupport" value="A"> A-Rated Life Support<br>
+              <input type="radio" name="LifeSupport" required="" id="LifeSupport" value="B"> D-Rated Life Support<br>
+              <input type="radio" name="LifeSupport" required="" id="LifeSupport" value="C"> Either A or D-Rated Life Support<br>
+              <input type="radio" name="LifeSupport" required="" id="LifeSupport" value="D"> E-Rated Life Support<br>
             </p>
           </div>
           <button class="btn btn-primary" type="submit">Submit</button>

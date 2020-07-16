@@ -13,13 +13,13 @@ if($_SESSION['oursite'] != "true"){
    //send them back
    header("Location: .");
 }
-$answer1 = $_POST['faveadmin'];
-$answer2 = $_POST['quest'];
-$answer3 = $_POST['capital'];
+$answer1 = $_POST['ppwk'];
+$answer2 = $_POST['ircname'];
+$answer3 = $_POST['howstored'];
 $totalCorrect = 0;
-    if ($answer1 == "B") { $totalCorrect++; }
-    if ($answer2 == "D") { $totalCorrect++; }
-    if ($answer3 == "A") { $totalCorrect++; }
+    if ($answer1 == "D") { $totalCorrect++; }
+    if ($answer2 == "A") { $totalCorrect++; }
+    if ($answer3 == "B") { $totalCorrect++; }
 ?>
 
 <!DOCTYPE html>

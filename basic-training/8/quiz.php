@@ -30,27 +30,27 @@ if($_SESSION['3pt'] != "true"){
         <br />
         <form action="results.php" method = "post">
           <div class="input-group mb-3">
-            <p>1. Who is your least favorite Admin?<br />
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="A">Drebin<br>
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="B">Rixxan<br>
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="C">Akastus<br>
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="D">MiddleNate<br>
+            <p>1. What is the most common Seal use for EDSM?<br />
+              <input type="radio" name="EDSM" id="EDSM" required="" value="A">Drebin<br>
+              <input type="radio" name="EDSM" id="EDSM" required="" value="B">Rixxan<br>
+              <input type="radio" name="EDSM" id="EDSM" required="" value="C">Akastus<br>
+              <input type="radio" name="EDSM" id="EDSM" required="" value="D">MiddleNate<br>
             </p>
           </div>
           <div class="input-group mb-3">
-            <p>2. What is your Quest?<br />
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="A">MPHG? Really?<br>
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="B">What? I Don&#39;t know that!<br>
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="C">I just want to sleep<br>
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="D">I seek the Holy Grail<br>
+            <p>2. For optimal Spansh routing, what percentage should your efficiency be set to?<br />
+              <input type="radio" name="Spansh" required="" id="Spansh" value="A"> 100%<br>
+              <input type="radio" name="Spansh" required="" id="Spansh" value="B"> 80%<br>
+              <input type="radio" name="Spansh" required="" id="Spansh" value="C"> 60%<br>
+              <input type="radio" name="Spansh" required="" id="Spansh" value="D"> 20%<br>
             </p>
           </div>
           <div class="input-group mb-3">
-            <p>3. What... is the Capital of Assyria?<br />
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="A">Well, I don&#39;t know that!<br>
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="B">Assur<br>
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="C">Nineveh<br>
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="D">Ni!<br>
+            <p>3. How is EDDB commonly used by Seals?<br />
+              <input type="radio" name="EDDB" required="" id="EDDB" value="A"> Tracking Expeditions across the galaxy.<br>
+              <input type="radio" name="EDDB" required="" id="EDDB" value="B"> Finding nearby stations for Repairs.<br>
+              <input type="radio" name="EDDB" required="" id="EDDB" value="C"> Mapping Seal rescues.<br>
+              <input type="radio" name="EDDB" required="" id="EDDB" value="D"> Maintaining an active star map of the known galaxy.<br>
             </p>
           </div>
           <button class="btn btn-primary" type="submit">Submit</button>

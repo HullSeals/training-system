@@ -30,27 +30,27 @@ if($_SESSION['oursite'] != "true"){
         <br />
         <form action="results.php" method = "post">
           <div class="input-group mb-3">
-            <p>1. Who is your least favorite Admin?<br />
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="A">Drebin<br>
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="B">Rixxan<br>
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="C">Akastus<br>
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="D">MiddleNate<br>
+            <p>1. What should you do if a CMDR does not appear on the paperwork form?<br />
+              <input type="radio" name="ppwk" id="ppwk" required="" value="A"> Manually enter the name even if it doesn't pop up.<br>
+              <input type="radio" name="ppwk" id="ppwk" required="" value="B"> Put the missing name in the Notes.<br>
+              <input type="radio" name="ppwk" id="ppwk" required="" value="C"> Put "Other_Civ_CMDRs" in the field.<br>
+              <input type="radio" name="ppwk" id="ppwk" required="" value="D"> Both B and C.<br>
             </p>
           </div>
           <div class="input-group mb-3">
-            <p>2. What is your Quest?<br />
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="A">MPHG? Really?<br>
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="B">What? I Don&#39;t know that!<br>
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="C">I just want to sleep<br>
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="D">I seek the Holy Grail<br>
+            <p>2. In order to have permissions assigned in IRC, where must a user register an IRC alias?<br />
+              <input type="radio" name="ircname" required="" id="ircname" value="A"> The IRC alias sub-form of CMDR Management<br>
+              <input type="radio" name="ircname" required="" id="ircname" value="B"> Your username is your registered alias.<br>
+              <input type="radio" name="ircname" required="" id="ircname" value="C"> Any CMDR Name registered in the CMDR Management form is used.<br>
+              <input type="radio" name="ircname" required="" id="ircname" value="D"> Names must be assigned by the CyberSeals<br>
             </p>
           </div>
           <div class="input-group mb-3">
-            <p>3. What... is the Capital of Assyria?<br />
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="A">Well, I don&#39;t know that!<br>
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="B">Assur<br>
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="C">Nineveh<br>
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="D">Ni!<br>
+            <p>3. Are paperwork cases recorded by registered CMDR or for your whole accounts?<br />
+              <input type="radio" name="howstored" required="" id="howstored" value="A"> All data is anonymized - we don't save people's names.<br>
+              <input type="radio" name="howstored" required="" id="howstored" value="B"> All cases are recorded under your account, regardless of alias name.<br>
+              <input type="radio" name="howstored" required="" id="howstored" value="C"> Cases are recorded under each CMDR name individually.<br>
+              <input type="radio" name="howstored" required="" id="howstored" value="D"> It depends on your user preferences.<br>
             </p>
           </div>
           <button class="btn btn-primary" type="submit">Submit</button>

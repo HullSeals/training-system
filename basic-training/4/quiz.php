@@ -30,27 +30,27 @@ if($_SESSION['terms'] != "true"){
         <br />
         <form action="results.php" method = "post">
           <div class="input-group mb-3">
-            <p>1. Who is your least favorite Admin?<br />
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="A">Drebin<br>
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="B">Rixxan<br>
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="C">Akastus<br>
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="D">MiddleNate<br>
+            <p>1. What does FR mean?<br />
+              <input type="radio" name="FR" id="FR" required="" value="A"> Fleet Carrier ReBCed<br>
+              <input type="radio" name="FR" id="FR" required="" value="B"> Fuel Rat<br>
+              <input type="radio" name="FR" id="FR" required="" value="C"> Flaming Nachos<br>
+              <input type="radio" name="FR" id="FR" required="" value="D"> Friend ReBC<br>
             </p>
           </div>
           <div class="input-group mb-3">
-            <p>2. What is your Quest?<br />
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="A">MPHG? Really?<br>
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="B">What? I Don&#39;t know that!<br>
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="C">I just want to sleep<br>
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="D">I seek the Holy Grail<br>
+            <p>2. What does BC mean?<br />
+              <input type="radio" name="BC" required="" id="BC" value="A"> Banned Client<br>
+              <input type="radio" name="BC" required="" id="BC" value="B"> Bacon<br>
+              <input type="radio" name="BC" required="" id="BC" value="C"> Beacon<br>
+              <input type="radio" name="BC" required="" id="BC" value="D"> Bacon Cheeseburger<br>
             </p>
           </div>
           <div class="input-group mb-3">
-            <p>3. What... is the Capital of Assyria?<br />
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="A">Well, I don&#39;t know that!<br>
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="B">Assur<br>
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="C">Nineveh<br>
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="D">Ni!<br>
+            <p>3. What does PW mean?<br />
+              <input type="radio" name="PW" required="" id="PW" value="A"> Potassium Wombat<br>
+              <input type="radio" name="PW" required="" id="PW" value="B"> Paperwork<br>
+              <input type="radio" name="PW" required="" id="PW" value="C"> Proceeding to Wing<br>
+              <input type="radio" name="PW" required="" id="PW" value="D"> Potentially Wrong System<br>
             </p>
           </div>
           <button class="btn btn-primary" type="submit">Submit</button>

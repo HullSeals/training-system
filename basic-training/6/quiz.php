@@ -30,27 +30,28 @@ if($_SESSION['breakdown'] != "true"){
         <br />
         <form action="results.php" method = "post">
           <div class="input-group mb-3">
-            <p>1. Who is your least favorite Admin?<br />
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="A">Drebin<br>
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="B">Rixxan<br>
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="C">Akastus<br>
-              <input aria-label="Least Favorite Admin" type="radio" name="faveadmin" id="faveadmin" required="" value="D">MiddleNate<br>
+            <p>1. When should you call for jumps?<br />
+              <input type="radio" name="whencall" id="whencall" required="" value="A"> After the Dispatcher has issued a general call.<br>
+              <input type="radio" name="whencall" id="whencall" required="" value="B"> As soon as the system is declared.<br>
+              <input type="radio" name="whencall" id="whencall" required="" value="C"> After all of clientinfo has been verified.<br>
+              <input type="radio" name="whencall" id="whencall" required="" value="D"> Don't - Dispatch will assign seals they know are close-by.<br>
             </p>
           </div>
           <div class="input-group mb-3">
-            <p>2. What is your Quest?<br />
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="A">MPHG? Really?<br>
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="B">What? I Don&#39;t know that!<br>
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="C">I just want to sleep<br>
-              <input aria-label="What is your Quest" type="radio" name="quest" required="" id="quest" value="D">I seek the Holy Grail<br>
+            <p>2. What should you do if you are unable to go on a call?<br />
+              <input type="radio" name="nocando" required="" id="nocando" value="A"> Report that you have seen the case but can't go in the general chat channel.<br>
+              <input type="radio" name="nocando" required="" id="nocando" value="B"> Report to Dispatch via private message.<br>
+              <input type="radio" name="nocando" required="" id="nocando" value="C"> Report to Dispatch you are unable to go.<br>
+              <input type="radio" name="nocando" required="" id="nocando" value="D"> Don't put any message in the channels.<br>
             </p>
           </div>
           <div class="input-group mb-3">
-            <p>3. What... is the Capital of Assyria?<br />
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="A">Well, I don&#39;t know that!<br>
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="B">Assur<br>
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="C">Nineveh<br>
-              <input aria-label="What is the Capital of Assyria?" type="radio" name="capital" required="" id="capital" value="D">Ni!<br>
+            <p>3. What color is a case with 25% hull?<br />
+              <input type="radio" name="color" required="" id="color" value="A"> Code Black<br>
+              <input type="radio" name="color" required="" id="color" value="B"> Code Green<br>
+              <input type="radio" name="color" required="" id="color" value="C"> Code Amber<br>
+              <input type="radio" name="color" required="" id="color" value="D"> Code Red<br>
+              <input type="radio" name="color" required="" id="color" value="E"> Code Blue<br>
             </p>
           </div>
           <button class="btn btn-primary" type="submit">Submit</button>
