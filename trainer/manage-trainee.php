@@ -7,6 +7,8 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
 if (!isset($_GET['cne'])) {
   Redirect::to('index.php');
 }
+$beingManaged = $_GET['cne'];
+$beingManaged = intval($beingManaged);
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $db = include '../assets/db.php';
 $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['port']);
@@ -24,7 +26,7 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['po
         <section class="introduction container">
 	    <article id="intro3">
         <h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
-        <p>You are managing user: <em><?php echo $_GET['cne'];?></em></p>
+        <p>You are managing user: <em><?php echo echousername($beingManaged);?></em></p>
         <br>
       </article>
             <div class="clearfix"></div>
