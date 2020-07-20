@@ -217,7 +217,7 @@ if (isset($_GET['rem']))
     </tbody>
     </table>
       <br>
-      <p><a href=".." class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
+      <p><a href="." class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
       </article>
             <div class="clearfix"></div>
         </section>
