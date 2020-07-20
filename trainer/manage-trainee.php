@@ -2,13 +2,18 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+//UserSpice Required
 require_once '../../users/init.php';  //make sure this path is correct!
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 if (!isset($_GET['cne'])) {
   Redirect::to('index.php');
 }
+
+//Who are we working with?
 $beingManaged = $_GET['cne'];
 $beingManaged = intval($beingManaged);
+
 //SQL for the first part
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $db = include '../assets/db.php';
@@ -50,6 +55,7 @@ $perm17=0;
 //Perm Mod SQL
 $mysqli2 = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['port']);
 $data=[];
+
 //Add Perm
 if (isset($_GET['add']))
 {
@@ -76,9 +82,7 @@ if (isset($_GET['rem']))
   $stmt4->execute();
   $stmt4->close();
   header("Location: manage-trainer.php?cne=$beingManaged");
-
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,6 +90,13 @@ if (isset($_GET['rem']))
   <?php include '../assets/headerCenter.php'; ?>
     <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
     <title>Manage Trainee | The Hull Seals</title>
+    <link rel="stylesheet" type="text/css" href="datatables.min.css"/>
+    <script type="text/javascript" src="datatables.min.js"></script>
+    <script>
+    	$(document).ready(function() {
+    	$('#LookupList').DataTable();
+  		} );
+  	</script>
 </head>
 <body>
     <div id="home">
@@ -216,6 +227,47 @@ if (isset($_GET['rem']))
         ?>
     </tbody>
     </table>
+    <br>
+    <?php
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+$mysqli5 = new mysqli($db['server'], $db['user'], $db['pass'], 'records', $db['port']);
+$stmt5 = $mysqli5->prepare("SELECT c.*, ca.dispatch
+  FROM cases AS c
+  INNER JOIN case_assigned AS ca ON ca.case_ID = c.case_ID
+  INNER JOIN sealsudb.staff AS ss ON ss.seal_id = ca.seal_kf_id
+  WHERE seal_id = ?");
+  $stmt5->bind_param("i", $beingManaged);
+$stmt5->execute();
+$result5 = $stmt5->get_result();
+if($result5->num_rows === 0) exit('No Rescues');
+echo '<table border="5" cellspacing="2" cellpadding="2" class="table table-dark table-striped table-bordered table-hover table-sm table-responsive-sm" id="LookupList">
+      <thead>
+      <tr>
+          <th> <font face="Arial">Case ID</font> </th>
+          <th> <font face="Arial">Case Date</font> </th>
+          <th> <font face="Arial">CMDR Type?</font> </th>
+      </tr>
+      </thead>';
+    while ($row5 = $result5->fetch_assoc()) {
+        $field15name = $row5["case_ID"];
+        $field25name = $row5["case_created"];
+        $field35name = $row5["dispatch"];
+        echo '<tr>
+                  <td>'.$field15name.'</td>
+                  <td>'.$field25name.'</td>
+                  <td>';
+                  if ($field35name == "1") {
+                    echo 'Dispatcher';
+                  }
+                  elseif ($field35name == "0") {
+                    echo 'Seal';
+                  }
+                  echo '</td>
+                </tr>';
+    }
+    echo '</table>';
+    $result5->free();
+?>
       <br>
       <p><a href="." class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
       </article>
