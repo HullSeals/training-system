@@ -128,17 +128,11 @@ GROUP BY user_id;");
 $stmtStaffCheck->bind_param("i", $beingManaged);
 $stmtStaffCheck->execute();
 $resultStaffCheck = $stmtStaffCheck->get_result();
-$stmtStaffCheck->close();
-while ($rowStaffCheck = mysqli_fetch_array($resultStaffCheck, MYSQLI_NUM))
-{
-    foreach ($rowStaffCheck as $r)
-    {
-        $extractArray = $r;
-    }
-}
+$extractArray = $resultStaffCheck->fetch_row()[0];
 if ($extractArray!=0) {
   header("Location: view-trainer.php?cne=$beingManaged");
 }
+$stmtStaffCheck->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
