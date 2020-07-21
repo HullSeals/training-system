@@ -75,7 +75,9 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['po
         </tbody>
         </table>
         <br>
+        <h4>To manage a Staff Member, please contact the CyberSeals.</h4>
         <p><a href=".." class="btn btn-small btn-danger" style="float: right;">Go To Training Home</a></p>
+        <br>
       </article>
             <div class="clearfix"></div>
         </section>
