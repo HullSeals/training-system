@@ -43,6 +43,27 @@ $stmt2->execute();
 $result2 = $stmt2->get_result();
 $stmt2->close();
 
+//Case History
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+$mysqli5 = new mysqli($db['server'], $db['user'], $db['pass'], 'records', $db['port']);
+$stmt5 = $mysqli5->prepare("SELECT c.*, ca.dispatch
+  FROM cases AS c
+  INNER JOIN case_assigned AS ca ON ca.case_ID = c.case_ID
+  INNER JOIN auth.users AS ss ON id = ca.seal_kf_id
+  WHERE id = ?");
+  $stmt5->bind_param("i", $beingManaged);
+$stmt5->execute();
+$result5 = $stmt5->get_result();
+$stmt5->close();
+//Known Aliases
+$mysqliAlias = new mysqli($db['server'], $db['user'], $db['pass'], 'sealsudb', $db['port']);
+$stmtAlias = $mysqliAlias->prepare("SELECT seal_name, platform_name FROM staff
+JOIN lookups.platform_lu AS s ON s.platform_id=platform
+WHERE seal_id = ?");
+$stmtAlias->bind_param("i", $beingManaged);
+$stmtAlias->execute();
+$resultAlias = $stmtAlias->get_result();
+$stmtAlias->close();
 //Awful, awful badness. TODO. Fix.
 $perm1=0;
 $perm2=0;
@@ -106,9 +127,43 @@ if (isset($_GET['rem']))
         <h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
         <p>You are managing user: <em><?php echo echousername($beingManaged);?></em></p>
         <br>
+        <h3>Registered CMDRs</h3>
+        <br>
+        <div class="table-responsive-md">
+        <table class="table table-hover table-dark table-bordered table-striped" id="remPerms">
+          <thead>
+          <tr>
+            <th>CMDR Name</th>
+            <th>CMDR Platform</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+          if ($resultAlias->num_rows === 0) {
+            echo '<tr>
+            <td>No CMDRs.</td>
+            <td>Remind them to Register!</td>
+            </tr>';
+          }
+          else {
+            while ($rowAlias=$resultAlias->fetch_assoc()) {
+              $fieldAliasName=$rowAlias["seal_name"];
+              $fieldAliasPLT=$rowAlias["platform_name"];
+            echo '<tr>
+            <td>'.$fieldAliasName.'</td>
+            <td>'.$fieldAliasPLT.'</td>
+            </tr>';
+          }
+        }
+          $resultAlias->free();
+        ?>
+      </tbody>
+      </table></div>
+        <br>
         <h3>Permission Management</h3>
         <br>
-        <table class="table table-hover table-dark table-bordered table-striped table-responsive-sm" id="remPerms">
+        <div class="table-responsive-md">
+        <table class="table table-hover table-dark table-bordered table-striped" id="remPerms">
           <thead>
           <tr>
             <th>Existing Permissions</th>
@@ -152,9 +207,10 @@ if (isset($_GET['rem']))
           $result->free();
         ?>
       </tbody>
-      </table>
+      </table></div>
       <br>
-      <table class="table table-hover table-dark table-bordered table-striped table-responsive-sm" id="addPerms">
+      <div class="table-responsive-md">
+      <table class="table table-hover table-dark table-bordered table-striped" id="addPerms">
         <thead>
         <tr>
           <th>Unassigned Permissions</th>
@@ -228,31 +284,29 @@ if (isset($_GET['rem']))
         }
         ?>
     </tbody>
-    </table>
+    </table></div>
     <br>
     <h3>Cases Assigned</h3>
     <br>
-    <?php
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-$mysqli5 = new mysqli($db['server'], $db['user'], $db['pass'], 'records', $db['port']);
-$stmt5 = $mysqli5->prepare("SELECT c.*, ca.dispatch
-  FROM cases AS c
-  INNER JOIN case_assigned AS ca ON ca.case_ID = c.case_ID
-  INNER JOIN sealsudb.staff AS ss ON ss.seal_id = ca.seal_kf_id
-  WHERE seal_id = ?");
-  $stmt5->bind_param("i", $beingManaged);
-$stmt5->execute();
-$result5 = $stmt5->get_result();
-if($result5->num_rows === 0) exit('No Rescues');
-echo '<table border="5" cellspacing="2" cellpadding="2" class="table table-dark table-striped table-bordered table-hover table-sm table-responsive-sm" id="LookupList">
+    <div class="table-responsive-md">
+    <table border="5" cellspacing="2" cellpadding="2" class="table table-dark table-striped table-bordered table-hover" id="LookupList">
       <thead>
       <tr>
           <th> <font face="Arial">Case ID</font> </th>
           <th> <font face="Arial">Case Date</font> </th>
           <th> <font face="Arial">CMDR Type?</font> </th>
       </tr>
-      </thead>';
-    while ($row5 = $result5->fetch_assoc()) {
+      </thead>
+    <?php
+    if ($result5->num_rows === 0) {
+      echo '<tr>
+      <td>No Rescues</td>
+      <td>No Rescues</td>
+      <td>No Rescues</td>
+      </tr>';
+    }
+    else {
+      while ($row5 = $result5->fetch_assoc()) {
         $field15name = $row5["case_ID"];
         $field25name = $row5["case_created"];
         $field35name = $row5["dispatch"];
@@ -269,7 +323,8 @@ echo '<table border="5" cellspacing="2" cellpadding="2" class="table table-dark 
                   echo '</td>
                 </tr>';
     }
-    echo '</table>';
+  }
+    echo '</table></div>';
     $result5->free();
 ?>
       <br>
