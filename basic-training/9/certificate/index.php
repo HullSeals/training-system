@@ -37,14 +37,12 @@ $pdf->AddPage();
 
     $sigx = 24;
     $sigy = 50;
-    $sig = realpath("./signature.png");
+    $sig = realpath('./signature.png');
 
     $custx = 30;
     $custy = 230;
 
-    $wmarky = 0;
-    $wmarkx = 0;
-    $wmarkh = 158;
+    $wmarkh = 150;
     $wmarkw = 170;
     $wmark = realpath("./watermark.jpg");
 
@@ -80,7 +78,7 @@ if (file_exists($seal)) {
     $pdf->Image($seal, $sealx, $sealy, '', '');
 }
 if (file_exists($sig)) {
-    $pdf->Image($sig, $sigx, $sigy, '', '');
+    $pdf->Image($sig, '','','','','','','',C,'','',C);
 }
 
 // Add text
@@ -91,6 +89,7 @@ certificate_print_text($pdf, $x, $y + 20, 'C', $fontserif, '', 20, "This is to c
 certificate_print_text($pdf, $x, $y + 36, 'C', $fontsans, '', 30, echousername($user->data()->id));
 certificate_print_text($pdf, $x, $y + 55, 'C', $fontsans, '', 20, "has successfully completed");
 certificate_print_text($pdf, $x, $y + 72, 'C', $fontsans, '', 20, "Hull Seals Basic Training");
+certificate_print_text($pdf, $x, $y + 82, 'C', $fontsans, '', 10, "on");
 certificate_print_text($pdf, $x, $y + 92, 'C', $fontsans, '', 14, $IGDate . "-" . $IGYear);
 header ("Content-Type: application/pdf");
 echo $pdf->Output('', 'S');

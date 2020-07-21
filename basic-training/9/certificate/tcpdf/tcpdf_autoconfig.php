@@ -145,11 +145,11 @@ if (!defined('PDF_AUTHOR')) {
 }
 
 if (!defined('PDF_HEADER_TITLE')) {
-	define ('PDF_HEADER_TITLE', 'Certificate of Completion: The Hull Seals');
+	define ('PDF_HEADER_TITLE', 'The Hull Seals');
 }
 
 if (!defined('PDF_HEADER_STRING')) {
-	define ('PDF_HEADER_STRING', "");
+	define ('PDF_HEADER_STRING', "The Hull Seals");
 }
 
 if (!defined('PDF_UNIT')) {

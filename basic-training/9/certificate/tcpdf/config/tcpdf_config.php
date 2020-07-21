@@ -109,7 +109,7 @@ define ('PDF_AUTHOR', 'The Hull Seals');
 /**
  * Header title.
  */
-define ('PDF_HEADER_TITLE', 'Certificate of Completion: The Hull Seals');
+define ('PDF_HEADER_TITLE', 'The Hull Seals: Basic Training Completion');
 
 /**
  * Header description string.
