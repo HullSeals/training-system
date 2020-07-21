@@ -87,10 +87,10 @@ if (isset($_GET['rem']))
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" type="text/css" href="datatables.min.css"/>
   <?php include '../assets/headerCenter.php'; ?>
     <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
     <title>Manage Trainee | The Hull Seals</title>
-    <link rel="stylesheet" type="text/css" href="datatables.min.css"/>
     <script type="text/javascript" src="datatables.min.js"></script>
     <script>
     	$(document).ready(function() {
@@ -105,6 +105,8 @@ if (isset($_GET['rem']))
 	    <article id="intro3">
         <h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
         <p>You are managing user: <em><?php echo echousername($beingManaged);?></em></p>
+        <br>
+        <h3>Permission Management</h3>
         <br>
         <table class="table table-hover table-dark table-bordered table-striped table-responsive-sm" id="remPerms">
           <thead>
@@ -227,6 +229,8 @@ if (isset($_GET['rem']))
         ?>
     </tbody>
     </table>
+    <br>
+    <h3>Cases Assigned</h3>
     <br>
     <?php
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);

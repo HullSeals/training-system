@@ -44,7 +44,7 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['po
           <tr>
               <th>Username</th>
               <th>Primary Name</th>
-              <th>Modules Completed</th>
+              <th>BT Modules Completed</th>
               <th>Options</th>
           </tr>
         </thead>
