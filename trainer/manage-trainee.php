@@ -24,7 +24,7 @@ $stmt = $mysqli->prepare("SELECT u.name AS name, permission_id
 FROM permissions AS u
 JOIN user_permission_matches AS s ON s.permission_id = u.ID
 WHERE user_id = ?
-AND permission_id IN (1,2,3,4,5,6,16,17)
+AND permission_id IN (1,2,3,5,6,16,17)
 ORDER BY permission_id ASC;");
 $stmt->bind_param("i", $beingManaged);
 $stmt->execute();
@@ -36,7 +36,7 @@ $stmt2 = $mysqli->prepare("SELECT u.name AS name
 FROM permissions AS u
 JOIN user_permission_matches AS s ON s.permission_id = u.ID
 WHERE user_id = ?
-AND permission_id IN (1,2,3,4,6,16,17)
+AND permission_id IN (1,2,3,6,16,17)
 ORDER BY permission_id ASC;");
 $stmt2->bind_param("i", $beingManaged);
 $stmt2->execute();
@@ -82,7 +82,6 @@ $stmtBTP->close();
 $perm1=0;
 $perm2=0;
 $perm3=0;
-$perm4=0;
 $perm6=0;
 $perm16=0;
 $perm17=0;
@@ -154,7 +153,7 @@ $stmtStaffCheck->close();
         <section class="introduction container">
 	    <article id="intro3">
         <h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
-        <p>You are managing user: <em><?php echo echousername($beingManaged);?></em></p>
+        <p>You are managing user: <em><?php echo echousername($beingManaged);?></em> <a href="." class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
         <br>
         <h3>Registered CMDRs</h3>
         <br>
@@ -239,9 +238,6 @@ $stmtStaffCheck->close();
             if ($row["permission_id"]==3) {
               $perm3 = 1;
             }
-            if ($row["permission_id"]==4) {
-              $perm4 = 1;
-            }
             if ($row["permission_id"]==6) {
               $perm6 = 1;
             }
@@ -297,15 +293,6 @@ $stmtStaffCheck->close();
           <td>Kingfisher</td>
           <td><form method="post" action="?add&cne='.$beingManaged.'">
 		      <input type="hidden" name="permAdded" value="3">
-          <button type="submit" class="btn btn-secondary" id="add" name="add">Add</button>
-        </form></td>
-          </tr>';
-        }
-        if ($perm4==0) {
-          echo '<tr>
-          <td>Trainer</td>
-          <td><form method="post" action="?add&cne='.$beingManaged.'">
-		      <input type="hidden" name="permAdded" value="4">
           <button type="submit" class="btn btn-secondary" id="add" name="add">Add</button>
         </form></td>
           </tr>';

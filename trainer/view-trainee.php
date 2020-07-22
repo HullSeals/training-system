@@ -74,7 +74,7 @@ $stmtBTP->close();
         <section class="introduction container">
 	    <article id="intro3">
         <h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
-        <p>You are viewing restricted  user: <em><?php echo echousername($beingManaged);?></em></p>
+        <p>You are viewing restricted  user: <em><?php echo echousername($beingManaged);?> </em><a href="." class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
         <br>
         <h3>Registered CMDRs</h3>
         <br>

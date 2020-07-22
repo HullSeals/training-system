@@ -22,7 +22,7 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
       <?php include 'assets/menuCode.php';?>
         <section class="introduction container">
 	    <article id="intro3">
-        <h1>Welcome to the Hull Seals training portal.</h1>
+        <h1>Welcome To The Hull Seals Training Portal</h1>
         <p>To continue, please select your course below.</p>
         <div class="btn-group" role="group">
         <a href="basic-training" class="btn btn-lg btn-primary">Basic Seal Training</a>

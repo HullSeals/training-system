@@ -38,6 +38,8 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['po
         <section class="introduction container">
 	    <article id="intro3">
         <h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
+        <p><a href=".." class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
+        <br>
         <br>
         <table class="table table-hover table-dark table-responsive-md table-bordered table-striped" id="PupList">
           <thead>
@@ -54,7 +56,7 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['po
           FROM auth.users AS u
           JOIN sealsudb.staff AS s ON s.seal_ID = u.ID
           JOIN training.module_progression AS m ON m.seal_ID = u.ID
-          WHERE s.primary = TRUE
+          WHERE s.primary_act = TRUE
           GROUP BY u.ID;");
           $stmt->execute();
           $result = $stmt->get_result();
