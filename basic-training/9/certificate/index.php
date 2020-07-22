@@ -42,8 +42,8 @@ $pdf->AddPage();
     $custx = 30;
     $custy = 230;
 
-    $wmarkh = 150;
-    $wmarkw = 170;
+    $wmarkh = 120;
+    $wmarkw = 140;
     $wmark = realpath("./watermark.jpg");
 
     $brdrx = 0;
@@ -70,7 +70,7 @@ $pdf->Rect(16, 16, 265, 178);
 // Set alpha to semi-transparency
 if (file_exists($wmark)) {
     $pdf->SetAlpha(0.2);
-    $pdf->Image($wmark, '','',211,194,'','','C','','','C');
+    $pdf->Image($wmark, '',20,211,150,'','','C','','','C');
 }
 
 $pdf->SetAlpha(1);
@@ -89,8 +89,8 @@ certificate_print_text($pdf, $x, $y + 20, 'C', $fontserif, '', 20, "This is to c
 certificate_print_text($pdf, $x, $y + 36, 'C', $fontsans, '', 30, echousername($user->data()->id));
 certificate_print_text($pdf, $x, $y + 55, 'C', $fontsans, '', 20, "has successfully completed");
 certificate_print_text($pdf, $x, $y + 72, 'C', $fontsans, '', 20, "Hull Seals Basic Training");
-certificate_print_text($pdf, $x, $y + 82, 'C', $fontsans, '', 10, "on");
-certificate_print_text($pdf, $x, $y + 92, 'C', $fontsans, '', 14, $IGDate . "-" . $IGYear);
+certificate_print_text($pdf, $x, $y + 85, 'C', $fontsans, '', 10, "on");
+certificate_print_text($pdf, $x, $y + 92, 'C', $fontsans, '', 18, $IGDate . "-" . $IGYear);
 certificate_print_text($pdf, $x+25, $y + 120, '', $fontsans, '', 14, "________________________");
 certificate_print_text($pdf, $x+28, $y + 128, '', $fontsans, '', 14, "Halpy, Mascot of the Seals");
 certificate_print_text($pdf, $x+190, $y + 120, '', $fontsans, '', 14, "________________________");
