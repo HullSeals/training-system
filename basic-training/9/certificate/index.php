@@ -78,7 +78,7 @@ if (file_exists($sig)) {
   $pdf->Image($sig, 35,140,'','');
 }
 if (file_exists($siguk)) {
-  $pdf->Image($siguk, 175,140,'','');
+  $pdf->Image($siguk, 210,145,'','');
 }
 
 // Add text
@@ -92,7 +92,7 @@ certificate_print_text($pdf, $x, $y + 72, 'C', $fontsans, '', 20, "Hull Seals Ba
 certificate_print_text($pdf, $x, $y + 85, 'C', $fontsans, '', 10, "on");
 certificate_print_text($pdf, $x, $y + 92, 'C', $fontsans, '', 18, $IGDate . "-" . $IGYear);
 certificate_print_text($pdf, $x+25, $y + 120, '', $fontsans, '', 14, "________________________");
-certificate_print_text($pdf, $x+28, $y + 128, '', $fontsans, '', 14, "Halpy, Mascot of the Seals");
+certificate_print_text($pdf, $x+28, $y + 128, '', $fontsans, '', 14, "Halpy, God of the Seals");
 certificate_print_text($pdf, $x+190, $y + 120, '', $fontsans, '', 14, "________________________");
 certificate_print_text($pdf, $x+198, $y + 128, '', $fontsans, '', 14, "Unknown, Head Trainer");
 header ("Content-Type: application/pdf");
