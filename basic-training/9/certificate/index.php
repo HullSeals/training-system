@@ -31,13 +31,13 @@ $pdf->AddPage();
     $x = 10;
     $y = 40;
 
-    $sealx = 150;
-    $sealy = 220;
-    $seal = realpath("./seal.png");
-
     $sigx = 24;
     $sigy = 50;
-    $sig = realpath('./signature.png');
+    $sig = realpath("signature.gif");
+
+    $sigxuk = 24;
+    $sigyuk = 50;
+    $siguk = realpath("uk.gif");
 
     $custx = 30;
     $custy = 230;
@@ -70,15 +70,15 @@ $pdf->Rect(16, 16, 265, 178);
 // Set alpha to semi-transparency
 if (file_exists($wmark)) {
     $pdf->SetAlpha(0.2);
-    $pdf->Image($wmark, '','',211,194,'','',C,'','',C);
+    $pdf->Image($wmark, '','',211,194,'','','C','','','C');
 }
 
 $pdf->SetAlpha(1);
-if (file_exists($seal)) {
-    $pdf->Image($seal, $sealx, $sealy, '', '');
-}
 if (file_exists($sig)) {
-    $pdf->Image($sig, '','','','','','','',C,'','',C);
+  $pdf->Image($sig, 35,140,'','');
+}
+if (file_exists($siguk)) {
+  $pdf->Image($siguk, 175,140,'','');
 }
 
 // Add text
@@ -91,5 +91,9 @@ certificate_print_text($pdf, $x, $y + 55, 'C', $fontsans, '', 20, "has successfu
 certificate_print_text($pdf, $x, $y + 72, 'C', $fontsans, '', 20, "Hull Seals Basic Training");
 certificate_print_text($pdf, $x, $y + 82, 'C', $fontsans, '', 10, "on");
 certificate_print_text($pdf, $x, $y + 92, 'C', $fontsans, '', 14, $IGDate . "-" . $IGYear);
+certificate_print_text($pdf, $x+25, $y + 120, '', $fontsans, '', 14, "________________________");
+certificate_print_text($pdf, $x+28, $y + 128, '', $fontsans, '', 14, "Halpy, Mascot of the Seals");
+certificate_print_text($pdf, $x+190, $y + 120, '', $fontsans, '', 14, "________________________");
+certificate_print_text($pdf, $x+198, $y + 128, '', $fontsans, '', 14, "Unknown, Head Trainer");
 header ("Content-Type: application/pdf");
 echo $pdf->Output('', 'S');
