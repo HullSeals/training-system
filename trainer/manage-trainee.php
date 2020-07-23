@@ -251,7 +251,7 @@ $stmtStaffCheck->close();
             <td>'.$field1name.'</td>
             <td><form method="post" action="?rem&cne='.$beingManaged.'">
   		      <input type="hidden" name="permRemoved" value="'.$field2name.'">
-            <button type="submit" class="btn btn-warning" id="remove" name="remove">Remove</button>
+            <button type="submit" class="btn btn-secondary" id="remove" name="remove">Remove</button>
           </form></td>
             </tr>';
           }
@@ -275,7 +275,7 @@ $stmtStaffCheck->close();
           <td>Pup</td>
           <td><form method="post" action="?add&cne='.$beingManaged.'">
 		      <input type="hidden" name="permAdded" value="1">
-          <button type="submit" class="btn btn-success" id="add" name="add">Add</button>
+          <button type="submit" class="btn btn-secondary" id="add" name="add">Add</button>
         </form></td>
           </tr>';
         }
@@ -284,7 +284,7 @@ $stmtStaffCheck->close();
           <td>Seal</td>
           <td><form method="post" action="?add&cne='.$beingManaged.'">
 		      <input type="hidden" name="permAdded" value="2">
-          <button type="submit" class="btn btn-success" id="add" name="add">Add</button>
+          <button type="submit" class="btn btn-secondary" id="add" name="add">Add</button>
         </form></td>
           </tr>';
         }
@@ -293,7 +293,7 @@ $stmtStaffCheck->close();
           <td>Kingfisher</td>
           <td><form method="post" action="?add&cne='.$beingManaged.'">
 		      <input type="hidden" name="permAdded" value="3">
-          <button type="submit" class="btn btn-success" id="add" name="add">Add</button>
+          <button type="submit" class="btn btn-secondary" id="add" name="add">Add</button>
         </form></td>
           </tr>';
         }
@@ -302,7 +302,7 @@ $stmtStaffCheck->close();
           <td>Dispatcher</td>
           <td><form method="post" action="?add&cne='.$beingManaged.'">
 		      <input type="hidden" name="permAdded" value="6">
-          <button type="submit" class="btn btn-success" id="add" name="add">Add</button>
+          <button type="submit" class="btn btn-secondary" id="add" name="add">Add</button>
         </form></td>
           </tr>';
         }
@@ -311,7 +311,7 @@ $stmtStaffCheck->close();
           <td>Walrus</td>
           <td><form method="post" action="?add&cne='.$beingManaged.'">
 		      <input type="hidden" name="permAdded" value="17">
-          <button type="submit" class="btn btn-success" id="add" name="add">Add</button>
+          <button type="submit" class="btn btn-secondary" id="add" name="add">Add</button>
         </form></td>
           </tr>';
         }
@@ -320,7 +320,7 @@ $stmtStaffCheck->close();
           <td>ChemSeal</td>
           <td><form method="post" action="?add&cne='.$beingManaged.'">
 		      <input type="hidden" name="permAdded" value="17">
-          <button type="submit" class="btn btn-success" id="add" name="add">Add</button>
+          <button type="submit" class="btn btn-secondary" id="add" name="add">Add</button>
         </form></td>
           </tr>';
         }

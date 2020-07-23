@@ -27,7 +27,9 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'training_records'
  <link rel="stylesheet" type="text/css" href="https://hullseals.space/trainings/assets/trainerCentercss.css" />
  <script>
  $(document).ready(function() {
- $('#PaperworkList').DataTable();
+ $('#PaperworkList').DataTable({
+   "order": [[ 0, 'desc' ]]
+ });
 } );</script>
 </head>
 <body>
@@ -36,7 +38,7 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'training_records'
       <section class="introduction container">
     <article id="intro3">
       <h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
-      <p><a href=".." class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
+      <p><a href="." class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
       <br>
       <br>
       <table class="table table-hover table-dark table-responsive-md table-bordered table-striped" id="PaperworkList">
@@ -52,10 +54,20 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'training_records'
       </thead>
       <tbody>
         <?php
-        $stmt = $mysqli->prepare("SELECT c.case_ID, client_nm, current_sys, platform_name, case_created
-    FROM cases AS c
+        $stmt = $mysqli->prepare("WITH sealsCTI
+AS
+(
+    SELECT MIN(ID), seal_ID, seal_name
+    FROM sealsudb.staff
+    GROUP BY seal_ID
+)
+SELECT c.case_ID, seal_name, client_nm, current_sys, platform_name, case_created
+FROM sealsCTI AS cti
+    JOIN case_assigned AS ca ON ca.seal_kf_id = cti.seal_ID
+    JOIN cases AS c ON c.case_ID = ca.case_ID
     JOIN case_seal AS cs ON cs.case_ID = c.case_ID
-    JOIN lookups.platform_lu AS plu ON plu.platform_id = c.platform;");
+    JOIN lookups.platform_lu AS plu ON plu.platform_id = c.platform
+WHERE ca.dispatch IS FALSE AND ca.support IS FALSE");
         $stmt->execute();
         $result = $stmt->get_result();
         while ($row = $result->fetch_assoc()) {
