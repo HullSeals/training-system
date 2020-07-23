@@ -12,7 +12,7 @@ require '../assets/ipinfo.php';
 
 $db = include '../assets/db.php';
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-$mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['port']);
+$mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'training_records', $db['port']);
 $platformList = [];
 $res = $mysqli->query('SELECT * FROM lookups.platform_lu ORDER BY platform_id');
 while ($burgerking = $res->fetch_assoc())
@@ -79,7 +79,13 @@ if (isset($_GET['send']))
             $validationErrors[] = 'DB: ' . $error['error'];
         }
         $result = mysqli_stmt_get_result($stmt);
-        $extractArray = $result->fetch_row()[0];
+        while ($row = mysqli_fetch_array($result, MYSQLI_NUM))
+        {
+            foreach ($row as $r)
+            {
+                $extractArray = $r;
+            }
+        }
         $stmt->close();
         $disparray = explode(", ", $data['dispatcher']);
         foreach ($disparray as $dispNM)
@@ -108,7 +114,7 @@ if (isset($_GET['send']))
  <html lang="en">
  <head>
    <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
- 	<title>Paperwork | The Hull Seals</title>
+ 	<title>Drill Paperwork | The Hull Seals</title>
   <meta content="David Sangrey" name="author">
   <?php include '../assets/headerCenter.php'; ?>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/css/bootstrap-tokenfield.min.css">
@@ -117,16 +123,16 @@ if (isset($_GET['send']))
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/css/bootstrap-tokenfield.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <link href="bootstrap-toggle.min.css" rel="stylesheet">
-  <script src="bootstrap-toggle.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js" integrity="sha384-Q9RsZ4GMzjlu4FFkJw4No9Hvvm958HqHmXI9nqo5Np2dA/uOVBvKVxAvlBQrDhk4" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="home">
       <?php include '../assets/menuCode.php';?>
       <section class="introduction container">
     <article id="intro3">
-      <h1>Seal Case Paperwork</h1>
-      <h5>Complete for cases below 95%. Do NOT complete for Self Repairs.</h5>
+      <h1 style="text-align: center;">DRILL - DRILL - DRILL</h1>
+      <h5>Complete for Drill Cases Only. Do NOT complete for Seal repairs.</h5>
       <hr>
       <?php if (count($validationErrors)) {foreach ($validationErrors as $error) {echo '<div class="alert alert-danger">' . $error . '</div>';}echo '<br>';}?>
       <form action="?send" method="post">
@@ -144,7 +150,7 @@ if (isset($_GET['send']))
           <input aria-label="Starting Hull %" class="form-control" max="100" min="1" name="hull" placeholder="Starting Hull %" required="" type="number" value="<?= $data['hull'] ?? '' ?>">
         </div>
         <div class="input-group mb-3">
-          <input aria-label="Canopy Breached?" name="cb" type="checkbox" value="1" data-toggle="toggle" data-on="Canopy Breached" data-off="Canopy Not Breached" data-onstyle="danger" data-offstyle="success">
+          <label class="input-group-text text-primary"><input aria-label="Canopy Breached?" name="cb" type="checkbox" value="1" data-toggle="toggle" data-on="Canopy Breached" data-off="Canopy Not Breached" data-onstyle="danger" data-offstyle="success">  </label>
         </div>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
@@ -161,7 +167,7 @@ if (isset($_GET['send']))
           </select>
         </div>
         <div class="input-group mb-3">
-          <label class="input-group-text text-primary" id="dispatched"><input aria-label="Self Dispatched?" name="dispatched" type="checkbox" value="1"> Check If Self Dispatched</label>
+          <label class="input-group-text text-primary" id="dispatched"><input aria-label="Self Dispatched?" name="dispatched" type="checkbox" value="1" data-toggle="toggle" data-on="Self-Dispatched" data-off="Dispatched Case" data-onstyle="danger" data-offstyle="success"></label>
         </div>
         <div class="input-group mb-3">
           <input aria-label="Who was Dispatching?" class="form-control" id="dispatcher" name="dispatcher" placeholder="Who was Dispatching? (If None, Leave Blank)" type="text" value="<?= $data['dispatcher'] ?? '' ?>">
