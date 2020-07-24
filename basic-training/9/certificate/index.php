@@ -70,7 +70,7 @@ $pdf->Rect(16, 16, 265, 178);
 // Set alpha to semi-transparency
 if (file_exists($wmark)) {
     $pdf->SetAlpha(0.2);
-    $pdf->Image($wmark, '',20,211,150,'','','C','','','C');
+    $pdf->Image($wmark, '0','5','','','','','R','','','C');
 }
 
 $pdf->SetAlpha(1);
