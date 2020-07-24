@@ -136,11 +136,11 @@ $stmtStaffCheck->close();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" type="text/css" href="datatables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../assets/datatables.min.css"/>
   <?php include '../assets/headerCenter.php'; ?>
     <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
     <title>Manage Trainee | The Hull Seals</title>
-    <script type="text/javascript" src="datatables.min.js"></script>
+    <script type="text/javascript" src="../assets/datatables.min.js"></script>
     <script>
     	$(document).ready(function() {
     	$('#LookupList').DataTable();
@@ -153,7 +153,7 @@ $stmtStaffCheck->close();
         <section class="introduction container">
 	    <article id="intro3">
         <h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
-        <p>You are managing user: <em><?php echo echousername($beingManaged);?></em> <a href="." class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
+        <p>You are managing user: <em><?php echo echousername($beingManaged);?></em> <a href="manage.php" class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
         <br>
         <h3>Registered CMDRs</h3>
         <br>
@@ -370,7 +370,7 @@ $stmtStaffCheck->close();
     $result5->free();
 ?>
       <br>
-      <p><a href="." class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
+      <p><a href="manage.php" class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
       </article>
             <div class="clearfix"></div>
         </section>

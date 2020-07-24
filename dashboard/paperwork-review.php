@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 require_once '../../users/init.php';  //make sure this path is correct!
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 if (!isset($_GET['cne'])) {
-  Redirect::to('index.php');
+  Redirect::to('paperwork-list.php');
 }
 
 //Who are we working with?

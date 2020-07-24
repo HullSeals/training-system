@@ -22,8 +22,8 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'training_records'
  <meta content="David Sangrey" name="author">
  <?php include '../assets/headerCenter.php'; ?>
  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
- <link rel="stylesheet" type="text/css" href="datatables.min.css"/>
- <script type="text/javascript" src="datatables.min.js"></script>
+ <link rel="stylesheet" type="text/css" href="../assets/datatables.min.css"/>
+ <script type="text/javascript" src="../assets/datatables.min.js"></script>
  <link rel="stylesheet" type="text/css" href="https://hullseals.space/trainings/assets/trainerCentercss.css" />
  <script>
  $(document).ready(function() {

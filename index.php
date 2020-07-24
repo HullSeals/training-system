@@ -24,14 +24,14 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
 	    <article id="intro3">
         <h1>Welcome To The Hull Seals Training Portal</h1>
         <p>To continue, please select your course below.</p>
-        <div class="btn-group" role="group">
+        <div class="btn-group" style="display:flex;" role="group">
         <a href="basic-training" class="btn btn-lg btn-primary">Basic Seal Training</a>
         <button type="button" class="btn btn-secondary btn-lg" data-toggle="tooltip" data-placement="top" title="Coming Soon!">Dispatcher Training</button>
         <button type="button" class="btn btn-secondary btn-lg" data-toggle="tooltip" data-placement="top" title="Coming Soon!">Code Black Training</button>
         <button type="button" class="btn btn-secondary btn-lg" data-toggle="tooltip" data-placement="top" title="Coming Soon!">Kingfisher Training</button>
         <?php
         if (hasPerm([4,7,8,9,10],$user->data()->id)){
-        echo '<a href="trainer" type="button" class="btn btn-info btn-lg">Trainer Dashboard</a>';
+        echo '<a href="dashboard" type="button" class="btn btn-info btn-lg">Trainer Dashboard</a>';
         }
         ?>
       </div>

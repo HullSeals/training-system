@@ -24,8 +24,8 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['po
 
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha384-/LjQZzcpTzaYn7qWqRIWYC5l8FWEZ2bIHIz0D73Uzba4pShEcdLdZyZkI4Kv676E" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="datatables.min.css"/>
-    <script type="text/javascript" src="datatables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assets/datatables.min.css"/>
+    <script type="text/javascript" src="../assets/datatables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://hullseals.space/trainings/assets/trainerCentercss.css" />
     <script>
     $(document).ready(function() {
@@ -38,7 +38,7 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['po
         <section class="introduction container">
 	    <article id="intro3">
         <h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
-        <p><a href=".." class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
+        <p><a href="." class="btn btn-small btn-danger" style="float: right;">Back to Dashboard</a></p>
         <br>
         <br>
         <table class="table table-hover table-dark table-responsive-md table-bordered table-striped" id="PupList">
@@ -79,8 +79,7 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['po
         <br>
         <h4>To manage a Staff Member, please contact the CyberSeals.</h4>
         <br>
-        <p><a href="paperwork-list.php" class="btn btn-small btn-primary">Drill Paperwork Review</a>
-        <a href=".." class="btn btn-small btn-danger" style="float: right;">Go To Training Home</a></p>
+        <a href="." class="btn btn-small btn-danger" style="float: right;">Back to Dashboard</a></p>
         <br>
       </article>
             <div class="clearfix"></div>
