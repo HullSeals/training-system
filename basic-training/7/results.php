@@ -38,7 +38,7 @@ $totalCorrect = 0;
 <?php
 if ($totalCorrect == 3) {
   $_SESSION['oursite'] = "false";
-  $moduleID=2;
+  $moduleID=7;
   require '../../assets/ipinfo.php';
   require '../../assets/nextSetter.php';
   echo '<h2>Congrats! You did it!</h2><br><p>Ready to go back to the <a href=".." class="btn btn-primary">menu</a>?</p>';

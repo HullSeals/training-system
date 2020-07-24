@@ -40,7 +40,7 @@ $totalCorrect = 0;
 <?php
 if ($totalCorrect == 4) {
   $_SESSION['equipment'] = "false";
-  $moduleID=2;
+  $moduleID=3;
   require '../../assets/ipinfo.php';
   require '../../assets/nextSetter.php';
   echo '<h2>Congrats! You did it!</h2><br><p>Ready to go back to the <a href=".." class="btn btn-primary">menu</a>?</p>';
