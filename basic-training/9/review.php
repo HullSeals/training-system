@@ -40,6 +40,7 @@ require '../../assets/nextSetter.php';
           <a href="https://hullseals.space/SuperSecretInviteLink" target="_blank" class="list-group-item list-group-item-action list-group-item-dark">Our Discord</a>
           <a href="http://hullse.al/tSignUp" target="_blank" class="list-group-item list-group-item-action list-group-item-dark">Drill Signup Form</a>
           <a href="https://hullse.al/SOP" target="_blank" class="list-group-item list-group-item-action list-group-item-dark">Seal SOP</a>
+          <a href="certificate" target="_blank" class="list-group-item list-group-item-action list-group-item-primary">Print your Completion Certificate!</a>
         </div>
         <br>
         <p><a href=".." class="btn btn-small btn-danger" style="float: right;">Done? Go back to Basic Training Home</a></p>

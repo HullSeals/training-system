@@ -7,6 +7,24 @@ error_reporting(E_ALL);
 require_once '../../../../users/init.php';  //make sure this path is correct!
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
+//Verify Completion
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+$db = include '../../../assets/db.php';
+$mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['port']);
+
+$stmt2 = $mysqli->prepare("SELECT count(module_ID) AS status FROM module_progression WHERE progress = 3 AND seal_ID = ?;");
+$stmt2->bind_param("i", $user->data()->id);
+$stmt2->execute();
+$result2 = $stmt2->get_result();
+while ($extractarray = $result2->fetch_assoc()) {
+  $notArray2=$extractarray['status'];
+}
+$stmt2->close();
+if ($notArray2!=9) {
+  header("Location: ..");
+}
+
+//Dates
 $IGYear = date("Y")+1286;
 $IGDate = date("d-M");
 
