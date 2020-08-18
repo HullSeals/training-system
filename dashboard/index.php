@@ -22,17 +22,17 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
         <br>
         <h3>Trainer Resources</h3>
       <div class="btn-group" style="display:flex;" role="group">
-        <a href="manage.php" class="btn btn-lg btn-primary">Manage Seals</a>
-        <button type="button" class="btn btn-secondary disabled">          </button>
-        <a href="paperwork-list.php" class="btn btn-lg btn-primary">Paperwork Review</a>
+        <a href="manage.php" class="btn btn-lg btn-primary" style="max-width: 33%;">Manage Seals</a>
+        <button type="button" class="btn btn-secondary disabled" style="max-width: 33%;">          </button>
+        <a href="paperwork-list.php" class="btn btn-lg btn-primary" style="max-width: 33%;">Paperwork Review</a>
       </div>
       <br>
       <br>
       <h3>Links for Pups</h3>
       <div class="btn-group" style="display:flex;" role="group">
-        <a href="../basic-training" class="btn btn-lg btn-primary">Basic Training</a>
-        <button type="button" class="btn btn-secondary disabled">          </button>
-        <a href="../training-paperwork" class="btn btn-lg btn-primary">Drill Paperwork</a>
+        <a href="../basic-training" class="btn btn-lg btn-primary" style="max-width: 33%;">Basic Training</a>
+        <button type="button" class="btn btn-secondary disabled" style="max-width: 33%;">          </button>
+        <a href="../training-paperwork" class="btn btn-lg btn-primary" style="max-width: 33%;">Drill Paperwork</a>
       </div>
       </article>
             <div class="clearfix"></div>
