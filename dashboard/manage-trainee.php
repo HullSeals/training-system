@@ -31,18 +31,6 @@ $stmt->execute();
 $result = $stmt->get_result();
 $stmt->close();
 
-//Unassigned Perms
-$stmt2 = $mysqli->prepare("SELECT u.name AS name
-FROM permissions AS u
-JOIN user_permission_matches AS s ON s.permission_id = u.ID
-WHERE user_id = ?
-AND permission_id IN (1,2,3,6,16,17)
-ORDER BY permission_id ASC;");
-$stmt2->bind_param("i", $beingManaged);
-$stmt2->execute();
-$result2 = $stmt2->get_result();
-$stmt2->close();
-
 //Case History
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $mysqli5 = new mysqli($db['server'], $db['user'], $db['pass'], 'records', $db['port']);
@@ -310,7 +298,7 @@ $stmtStaffCheck->close();
           echo '<tr>
           <td>Walrus</td>
           <td><form method="post" action="?add&cne='.$beingManaged.'">
-		      <input type="hidden" name="permAdded" value="17">
+		      <input type="hidden" name="permAdded" value="16">
           <button type="submit" class="btn btn-secondary" id="add" name="add">Add</button>
         </form></td>
           </tr>';

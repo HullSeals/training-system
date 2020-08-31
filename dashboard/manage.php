@@ -44,7 +44,6 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['po
         <table class="table table-hover table-dark table-responsive-md table-bordered table-striped" id="PupList">
           <thead>
           <tr>
-              <th>Username</th>
               <th>Primary Name</th>
               <th>BT Modules Completed</th>
               <th>Options</th>
@@ -52,21 +51,18 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['po
         </thead>
         <tbody>
           <?php
-          $stmt = $mysqli->prepare("SELECT u.ID AS ID, username, seal_name, SUM(CASE WHEN progress = 3 THEN 1 ELSE 0 END) AS completed
-          FROM auth.users AS u
-          JOIN sealsudb.staff AS s ON s.seal_ID = u.ID
-          JOIN training.module_progression AS m ON m.seal_ID = u.ID
+          $stmt = $mysqli->prepare("SELECT s.seal_ID AS ID, seal_name, SUM(CASE WHEN progress = 3 THEN 1 ELSE 0 END) AS completed
+          FROM sealsudb.staff AS s
+          JOIN training.module_progression AS m ON m.seal_ID = s.seal_ID
           WHERE s.primary_act = TRUE
-          GROUP BY u.ID;");
+          GROUP BY s.seal_ID;");
           $stmt->execute();
           $result = $stmt->get_result();
           while ($row = $result->fetch_assoc()) {
-            $field1name = $row["username"];
             $field2name = $row["seal_name"];
             $field3name = $row["completed"];
             $field4name = $row["ID"];
             echo '<tr>
-              <td>'.$field1name.'</td>
               <td>'.$field2name.'</td>
               <td>'.$field3name.'</td>
               <td><a href="manage-trainee.php?cne='.$field4name.'" class="btn btn-warning active">Manage CMDR</a></td>
