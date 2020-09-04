@@ -25,7 +25,7 @@ $mysqli5 = new mysqli($db['server'], $db['user'], $db['pass'], 'records', $db['p
 $stmt5 = $mysqli5->prepare("SELECT c.*, ca.dispatch
   FROM cases AS c
   INNER JOIN case_assigned AS ca ON ca.case_ID = c.case_ID
-  INNER JOIN auth.users AS ss ON id = ca.seal_kf_id
+  INNER JOIN sealsudb.staff AS ss ON seal_ID = ca.seal_kf_id
   WHERE id = ?");
   $stmt5->bind_param("i", $beingManaged);
 $stmt5->execute();
