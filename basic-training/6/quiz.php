@@ -17,13 +17,13 @@ if($_SESSION['breakdown'] != "true"){
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include '../../assets/headerCenter.php'; ?>
+    <?php include '../../../assets/includes/headerCenter.php'; ?>
     <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
     <title>Quiz: Case Breakdown | The Hull Seals</title>
 </head>
 <body>
     <div id="home">
-      <?php include '../../assets/menuCode.php';?>
+      <?php include '../../../assets/includes/menuCode.php';?>
         <section class="introduction container">
 	    <article id="intro3">
         <h1>Quiz: Case Breakdown</h1>

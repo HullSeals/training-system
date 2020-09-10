@@ -24,7 +24,7 @@ if ($notArray2<8) {
   header("Location: ..");
 }
 elseif ($notArray2>=8) {
-  require '../../assets/ipinfo.php';
+  require '../../../assets/includes/ipinfo.php';
 
   $moduleID=9;
   require '../../assets/progressChecker.php';
@@ -38,13 +38,13 @@ if (isset($_GET['send']))
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <?php include '../../assets/headerCenter.php'; ?>
+  <?php include '../../../assets/includes/headerCenter.php'; ?>
     <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
     <title>Training: Conclusion | The Hull Seals</title>
 </head>
 <body>
     <div id="home">
-      <?php include '../../assets/menuCode.php';?>
+      <?php include '../../../assets/includes/menuCode.php';?>
         <section class="introduction container">
 	    <article id="intro3">
         <h1>Conclusion</h1>
@@ -67,7 +67,7 @@ if (isset($_GET['send']))
             <div class="clearfix"></div>
         </section>
     </div>
-    <?php include '../../assets/footer.php'; ?>
+    <?php include '../../../assets/includes/footer.php'; ?>
 </body>
 </html>
 <?php require_once '../../assets/videoScripts.php'; ?>

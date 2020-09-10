@@ -59,11 +59,11 @@ $stmtAssigned->close();
   <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
  <title>Drill Paperwork Review | The Hull Seals</title>
  <meta content="David Sangrey" name="author">
- <?php include '../assets/headerCenter.php'; ?>
+ <?php include '../../assets/includes/headerCenter.php'; ?>
 </head>
 <body>
     <div id="home">
-      <?php include '../assets/menuCode.php';?>
+      <?php include '../../assets/includes/menuCode.php';?>
       <section class="introduction container">
     <article id="intro3">
       <h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
@@ -188,6 +188,6 @@ $stmtAssigned->close();
     <div class="clearfix"></div>
 </section>
 </div>
-<?php include '../assets/footer.php'; ?>
+<?php include '../../assets/includes/footer.php'; ?>
 </body>
 </html>

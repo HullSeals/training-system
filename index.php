@@ -8,7 +8,7 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <?php include 'assets/headerCenter.php'; ?>
+  <?php include '../assets/includes/headerCenter.php'; ?>
     <title>Training Portal | The Hull Seals</title>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
 <script>
@@ -19,7 +19,7 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
 </head>
 <body>
     <div id="home">
-      <?php include 'assets/menuCode.php';?>
+      <?php include '../assets/includes/menuCode.php';?>
         <section class="introduction container">
 	    <article id="intro3">
         <h1>Welcome To The Hull Seals Training Portal</h1>
@@ -39,6 +39,6 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
             <div class="clearfix"></div>
         </section>
     </div>
-    <?php include 'assets/footer.php'; ?>
+    <?php include '../assets/includes/footer.php'; ?>
 </body>
 </html>

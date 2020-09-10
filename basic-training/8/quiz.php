@@ -17,13 +17,13 @@ if($_SESSION['3pt'] != "true"){
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <?php include '../../assets/headerCenter.php'; ?>
+  <?php include '../../../assets/includes/headerCenter.php'; ?>
     <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
     <title>Quiz: Third Party Tools | The Hull Seals</title>
 </head>
 <body>
     <div id="home">
-      <?php include '../../assets/menuCode.php';?>
+      <?php include '../../../assets/includes/menuCode.php';?>
         <section class="introduction container">
 	    <article id="intro3">
         <h1>Quiz: Third Party Tools</h1>
@@ -59,6 +59,6 @@ if($_SESSION['3pt'] != "true"){
             <div class="clearfix"></div>
         </section>
     </div>
-    <?php include '../../assets/footer.php'; ?>
+    <?php include '../../../assets/includes/footer.php'; ?>
 </body>
 </html>

@@ -13,11 +13,11 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
   <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
  <title>Drill Paperwork | The Hull Seals</title>
  <meta content="David Sangrey" name="author">
- <?php include '../assets/headerCenter.php'; ?>
+ <?php include '../../assets/includes/headerCenter.php'; ?>
 </head>
 <body>
     <div id="home">
-      <?php include '../assets/menuCode.php';?>
+      <?php include '../../assets/includes/menuCode.php';?>
       <section class="introduction container">
     <article id="intro3">
 				<h1 style="text-align: center;">Drill Paperwork</h1>
@@ -27,6 +27,6 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
       <div class="clearfix"></div>
   </section>
   </div>
-  <?php include '../assets/footer.php'; ?>
+  <?php include '../../assets/includes/footer.php'; ?>
   </body>
   </html>

@@ -8,7 +8,7 @@ require_once '../../users/init.php';  //make sure this path is correct!
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
 //IP Tracking Stuff
-require '../assets/ipinfo.php';
+require '../../assets/includes/ipinfo.php';
 
 $db = include '../assets/db.php';
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -116,7 +116,7 @@ if (isset($_GET['send']))
    <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
  	<title>Drill Paperwork | The Hull Seals</title>
   <meta content="David Sangrey" name="author">
-  <?php include '../assets/headerCenter.php'; ?>
+  <?php include '../../assets/includes/headerCenter.php'; ?>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/css/bootstrap-tokenfield.min.css">
   <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
@@ -128,7 +128,7 @@ if (isset($_GET['send']))
 </head>
 <body>
     <div id="home">
-      <?php include '../assets/menuCode.php';?>
+      <?php include '../../assets/includes/menuCode.php';?>
       <section class="introduction container">
     <article id="intro3">
       <h1 style="text-align: center;">DRILL - DRILL - DRILL</h1>
@@ -184,7 +184,7 @@ if (isset($_GET['send']))
     <div class="clearfix"></div>
 </section>
 </div>
-<?php include '../assets/footer.php'; ?>
+<?php include '../../assets/includes/footer.php'; ?>
 </body>
 </html>
 <script type="text/javascript">

@@ -20,11 +20,11 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'training_records'
   <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
  <title>Drill Paperwork List | The Hull Seals</title>
  <meta content="David Sangrey" name="author">
- <?php include '../assets/headerCenter.php'; ?>
+ <?php include '../../assets/includes/headerCenter.php'; ?>
  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
  <link rel="stylesheet" type="text/css" href="../assets/datatables.min.css"/>
  <script type="text/javascript" src="../assets/datatables.min.js"></script>
- <link rel="stylesheet" type="text/css" href="https://hullseals.space/trainings/assets/trainerCentercss.css" />
+ <link rel="stylesheet" type="text/css" href="https://hullseals.space/assets/css/Centercss.css" />
  <script>
  $(document).ready(function() {
  $('#PaperworkList').DataTable({
@@ -34,7 +34,7 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'training_records'
 </head>
 <body>
     <div id="home">
-      <?php include '../assets/menuCode.php';?>
+      <?php include '../../assets/includes/menuCode.php';?>
       <section class="introduction container">
     <article id="intro3">
       <h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
@@ -93,6 +93,6 @@ WHERE ca.dispatch IS FALSE AND ca.support IS FALSE");
     <div class="clearfix"></div>
 </section>
 </div>
-<?php include '../assets/footer.php'; ?>
+<?php include '../../assets/includes/footer.php'; ?>
 </body>
 </html>

@@ -21,13 +21,13 @@ $stmt2->close();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <?php include '../assets/headerCenter.php'; ?>
+  <?php include '../../assets/includes/headerCenter.php'; ?>
     <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
     <title>Seal Basic Training | The Hull Seals</title>
 </head>
 <body>
     <div id="home">
-      <?php include '../assets/menuCode.php';?>
+      <?php include '../../assets/includes/menuCode.php';?>
         <section class="introduction container">
 	    <article id="intro3">
         <h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
@@ -107,6 +107,6 @@ $stmt2->close();
             <div class="clearfix"></div>
         </section>
     </div>
-    <?php include '../assets/footer.php'; ?>
+    <?php include '../../assets/includes/footer.php'; ?>
 </body>
 </html>

@@ -14,13 +14,13 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['po
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <?php include '../assets/headerCenter.php'; ?>
+  <?php include '../../assets/includes/headerCenter.php'; ?>
     <title>Lesson Scheduling | The Hull Seals</title>
     <meta content="Lesson Scheduling System" name="description">
 </head>
 <body>
     <div id="home">
-      <?php include '../assets/menuCode.php';?>
+      <?php include '../../assets/includes/menuCode.php';?>
         <section class="introduction container">
 	    <article id="intro3">
         <h1>Edit Availability</h1>
@@ -31,6 +31,6 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['po
             <div class="clearfix"></div>
         </section>
     </div>
-    <?php include '../assets/footer.php'; ?>
+    <?php include '../../assets/includes/footer.php'; ?>
 </body>
 </html>

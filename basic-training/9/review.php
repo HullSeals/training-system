@@ -14,20 +14,20 @@ if($_SESSION['conclusion'] != "true"){
    header("Location: .");
 }
 $moduleID=9;
-require '../../assets/ipinfo.php';
+require '../../../assets/includes/ipinfo.php';
 require '../../assets/nextSetter.php';
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <?php include '../../assets/headerCenter.php'; ?>
+  <?php include '../../../assets/includes/headerCenter.php'; ?>
     <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
     <title>Conclusion: Basic Training | The Hull Seals</title>
 </head>
 <body>
     <div id="home">
-      <?php include '../../assets/menuCode.php';?>
+      <?php include '../../../assets/includes/menuCode.php';?>
         <section class="introduction container">
 	    <article id="intro3">
         <h2>Congrats, CMDR!</h2>
@@ -49,6 +49,6 @@ require '../../assets/nextSetter.php';
             <div class="clearfix"></div>
         </section>
     </div>
-    <?php include '../../assets/footer.php'; ?>
+    <?php include '../../../assets/includes/footer.php'; ?>
   </body>
 </html>
