@@ -115,8 +115,8 @@ GROUP BY user_id;");
 $stmtStaffCheck->bind_param("i", $beingManaged);
 $stmtStaffCheck->execute();
 $resultStaffCheck = $stmtStaffCheck->get_result();
-$extractArray = $resultStaffCheck->fetch_row()[0];
-if ($extractArray!=0) {
+$extractArray = $resultStaffCheck->fetch_row()[0]?? null;
+if (isset($extractArray)) {
   header("Location: view-trainer.php?cne=$beingManaged");
 }
 $stmtStaffCheck->close();
