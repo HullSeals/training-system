@@ -54,7 +54,6 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['po
           $stmt = $mysqli->prepare("SELECT s.seal_ID AS ID, seal_name, SUM(CASE WHEN progress = 3 THEN 1 ELSE 0 END) AS completed
           FROM sealsudb.staff AS s
           JOIN training.module_progression AS m ON m.seal_ID = s.seal_ID
-          WHERE s.primary_act = TRUE
           GROUP BY s.seal_ID;");
           $stmt->execute();
           $result = $stmt->get_result();
