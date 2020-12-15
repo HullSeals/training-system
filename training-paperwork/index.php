@@ -176,7 +176,7 @@ if (isset($_GET['send']))
           <input aria-label="other_seals" class="form-control" id="other_seals" name="other_seals" placeholder="Other Seals on the Case? (If None, Leave Blank)" type="text" value="<?= $data['other_seals'] ?? '' ?>">
         </div>
         <div class="input-group mb-3">
-          <textarea aria-label="Notes (optional)" class="form-control" name="notes" placeholder="Notes (optional)" rows="4"><?= $data['notes'] ?? '' ?>
+          <textarea aria-label="Notes (required)" class="form-control" name="notes" required placeholder="Notes (required)" rows="4"><?= $data['notes'] ?? '' ?>
 </textarea>
         </div><button class="btn btn-primary" type="submit">Submit</button>
       </form>
