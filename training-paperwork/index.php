@@ -69,6 +69,10 @@ if (isset($_GET['send']))
     {
         $validationErrors[] = 'invalid IP Address';
     }
+    if ($data['dispatched'] = 1 && !isset($data['dispatcher']))
+    {
+      $validationErrors[] = 'Please include the Dispatcher!';
+    }
     if (!count($validationErrors))
     {
         $stmt = $mysqli->prepare('CALL spTempCreateHSCaseCleaner(?,?,?,?,?,?,?,?,?,?,@caseID)');
@@ -176,7 +180,11 @@ if (isset($_GET['send']))
           <input aria-label="other_seals" class="form-control" id="other_seals" name="other_seals" placeholder="Other Seals on the Case? (If None, Leave Blank)" type="text" value="<?= $data['other_seals'] ?? '' ?>">
         </div>
         <div class="input-group mb-3">
-          <textarea aria-label="Notes (required)" class="form-control" name="notes" required placeholder="Notes (required)" rows="4"><?= $data['notes'] ?? '' ?>
+          <textarea aria-label="Notes (Required)" minlength="10" class="form-control" name="notes" placeholder="Notes (Required).
+          Suggested notes include:
+          - Distance Traveled
+          - Unique or Unusual details about the repair
+          - Number of Limpets used, Client Ship Type, or other details." rows="5"><?= $data['notes'] ?? '' ?>
 </textarea>
         </div><button class="btn btn-primary" type="submit">Submit</button>
       </form>
