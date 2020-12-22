@@ -25,6 +25,64 @@ while ($trainingType = $res2->fetch_assoc())
 {
     $trainingList[$trainingType['training_ID']] = $trainingType['training_description'];
 }
+$validationErrors = [];
+$lore = [];
+if (isset($_GET['cancel'])) {
+    foreach ($_REQUEST as $key => $value) {
+        $lore[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
+    }
+    if (!count($validationErrors)) {
+        $stmt = $mysqli->prepare('CALL spRemAlias(?,?)');
+        $stmt->bind_param('is',$lore['numberedt'], $lgd_ip);
+        $stmt->execute();
+        foreach ($stmt->error_list as $error) {
+            $validationErrors[] = 'DB: ' . $error['error'];
+        }
+        $stmt->close();
+        header("Location: .");
+  }
+}
+if (isset($_GET['edit'])) {
+    foreach ($_REQUEST as $key => $value) {
+        $lore[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
+    }
+    if (!count($validationErrors)) {
+        $stmt = $mysqli->prepare('CALL spRemAlias(?,?)');
+        $stmt->bind_param('is',$lore['numberedt'], $lgd_ip);
+        $stmt->execute();
+        foreach ($stmt->error_list as $error) {
+            $validationErrors[] = 'DB: ' . $error['error'];
+        }
+        $stmt->close();
+        header("Location: .");
+  }
+}
+if (isset($_GET['new'])) {
+    foreach ($_REQUEST as $key => $value) {
+        $lore[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
+    }
+    if (!count($validationErrors)) {
+        //$stmt = $mysqli->prepare('CALL spRemAlias(?,?)');
+        //$stmt->bind_param('is',$lore['numberedt'], $lgd_ip);
+        //$stmt->execute();
+        //foreach ($stmt->error_list as $error) {
+            //$validationErrors[] = 'DB: ' . $error['error'];
+        //}
+        echo $lore['type'];
+        echo "<br>";
+        echo $lore['platform'];
+        echo "<br>";
+        echo "days";
+        echo "<br>";
+        echo "times";
+        echo "<br>";
+        echo $lore['numLessions'];
+        echo "<br>";
+        //$stmt->close();
+        //header("Location: .");
+  }
+}
+
 ?>
 <!DOCTYPE html>
   <html lang="en">
@@ -80,7 +138,7 @@ WHERE seal_ID = ?;");
 				            $field2name = $row["training_description"];
 				            $field3name = $row["platform_name"];
                     $field4name = $row["sch_max"];
-                    $field6name = $row["times"];
+                    $field6name = $row["times[]"];
                     $field7name = $row["days"];
               echo '<tr>
                 <td>'.$field2name.'</td>
@@ -154,9 +212,14 @@ WHERE seal_ID = ?;");
                                        Choose...
                                  </option>
                                  <?php
-                                    foreach ($trainingList as $ttypeId => $ttypeName) {
-                                          echo '<option value="' . $ttypeId . '"' . ($trainingType['type'] == $ttypeName ? ' checked' : '') . '>' . $ttypeName . '</option>';
-                                    }
+                                  //if(hasPerm([2],$user->data()->id)){
+                                    //foreach ($trainingList as $ttypeId => $ttypeName) {
+                                      //    echo '<option value="' . $ttypeId . '"' . ($trainingType['type'] == $ttypeName ? ' checked' : '') . '>' . $ttypeName . '</option>';
+                                    //}
+                                  //}
+                                  //else {
+                                    echo "<option value = 1 checked>Seal Basic Training</option>";
+                                  //}
                                   ?>
                             </select>
                         </div>
@@ -176,38 +239,38 @@ WHERE seal_ID = ?;");
                             </select>
                         </div>
                         <em>What days of the week are you available for Training?</em><br>
-                        <input type="checkbox" id="day1" name="day1" value="1">
+                        <input type="checkbox" id="day1" name="days" value="1">
                         <label for="day1"> Monday</label><br>
-                        <input type="checkbox" id="day2" name="day2" value="2">
-                        <label for="day1"> Tuesday</label><br>
-                        <input type="checkbox" id="day3" name="day3" value="3">
-                        <label for="day1"> Wednesday</label><br>
-                        <input type="checkbox" id="day4" name="day4" value="4">
-                        <label for="day1"> Thursday</label><br>
-                        <input type="checkbox" id="day5" name="day5" value="5">
-                        <label for="day1"> Friday</label><br>
-                        <input type="checkbox" id="day6" name="day6" value="6">
-                        <label for="day1"> Saturday</label><br>
-                        <input type="checkbox" id="day7" name="day7" value="7">
-                        <label for="day1"> Sunday</label><br>
+                        <input type="checkbox" id="day2" name="days" value="2">
+                        <label for="day2"> Tuesday</label><br>
+                        <input type="checkbox" id="day3" name="days" value="3">
+                        <label for="day3"> Wednesday</label><br>
+                        <input type="checkbox" id="day4" name="days" value="4">
+                        <label for="day4"> Thursday</label><br>
+                        <input type="checkbox" id="day5" name="days" value="5">
+                        <label for="day5"> Friday</label><br>
+                        <input type="checkbox" id="day6" name="days" value="6">
+                        <label for="day6"> Saturday</label><br>
+                        <input type="checkbox" id="day7" name="days" value="7">
+                        <label for="day7"> Sunday</label><br>
                         <em>What time blocks are you available for Training?</em> (All Times UTC)<br>
-                        <input type="checkbox" id="time1" name="time1" value="1">
+                        <input type="checkbox" id="time1" name="times" value="1">
                         <label for="time1"> 00:00-03:59</label><br>
-                        <input type="checkbox" id="time2" name="time2" value="2">
-                        <label for="time1"> 04:00-07:59</label><br>
-                        <input type="checkbox" id="time3" name="time3" value="3">
-                        <label for="time1"> 08:00-11:59</label><br>
-                        <input type="checkbox" id="time4" name="time4" value="4">
-                        <label for="time1"> 12:00-15:59</label><br>
-                        <input type="checkbox" id="time5" name="time5" value="5">
-                        <label for="time1"> 16:00-19:59</label><br>
-                        <input type="checkbox" id="time6" name="time6" value="6">
-                        <label for="time1"> 20:00-23:59</label><br>
+                        <input type="checkbox" id="time2" name="times" value="2">
+                        <label for="time2"> 04:00-07:59</label><br>
+                        <input type="checkbox" id="time3" name="times" value="3">
+                        <label for="time3"> 08:00-11:59</label><br>
+                        <input type="checkbox" id="time4" name="times" value="4">
+                        <label for="time4"> 12:00-15:59</label><br>
+                        <input type="checkbox" id="time5" name="times" value="5">
+                        <label for="time5"> 16:00-19:59</label><br>
+                        <input type="checkbox" id="time6" name="times" value="6">
+                        <label for="time6"> 20:00-23:59</label><br>
                       <div class="input-group mb-3">
 		                      <div class="input-group-prepend">
 			                         <span class="input-group-text">Max Number of Lessions per Week</span>
 		                      </div>
-                          <input type="number" id = "numLessions" min="1" max="4">
+                          <input type="number" name= "numLessions" min="1" max="4">
 	                    </div>
                     <div class="modal-footer">
                       <button class="btn btn-primary" type="submit">Submit</button><button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
