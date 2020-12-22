@@ -46,13 +46,12 @@ while ($trainingType = $res2->fetch_assoc())
             You will receive an email when your drills are scheduled!
           </p>
           <?php
-            $stmt = $mysqli->prepare("SELECT sr.sch_ID, platform_name, training_description, sch_max, loc_description,
+            $stmt = $mysqli->prepare("SELECT sr.sch_ID, platform_name, training_description, sch_max,
 GROUP_CONCAT(distinct tt.dt_desc ORDER BY tt.dt_ID ASC  SEPARATOR ', ') AS 'times',
 GROUP_CONCAT(distinct td.dt_desc ORDER BY td.dt_ID ASC SEPARATOR ', ') AS 'days'
 FROM training.schedule_requests as sr
 INNER JOIN lookups.platform_lu ON seal_PLT = platform_id
 INNER JOIN lookups.training_lu ON sch_type = training_id
-INNER JOIN lookups.traininglocation_lu ON seal_LOC = loc_ID
 INNER JOIN training.sch_times as st ON st.sch_ID = sr.sch_ID
 INNER JOIN training.sch_days as sd ON sd.sch_ID = sr.sch_ID
 INNER JOIN training.ttime_lu as tt ON tt.dt_ID = times_block
@@ -71,7 +70,6 @@ WHERE seal_ID = ?;");
               <tr>
                 <td>Type</td>
                 <td>Platform</td>
-                <td>Location</td>
                 <td>Time Blocks</td>
                 <td>Days of the Week</td>
                 <td>Max Lessions per Week</td>
@@ -82,13 +80,11 @@ WHERE seal_ID = ?;");
 				            $field2name = $row["training_description"];
 				            $field3name = $row["platform_name"];
                     $field4name = $row["sch_max"];
-                    $field5name = $row["loc_description"];
                     $field6name = $row["times"];
                     $field7name = $row["days"];
               echo '<tr>
                 <td>'.$field2name.'</td>
                 <td>'.$field3name.'</td>
-                <td>'.$field5name.'</td>
                 <td>'.$field6name.'</td>
                 <td>'.$field7name.'</td>
                 <td>'.$field4name.'</td>
@@ -149,11 +145,6 @@ WHERE seal_ID = ?;");
                 </div>
                 <div class="modal-body" style="color:black;">
                   <form action="?new" method="post">
-                    <em>Where would you like to be Trained?</em><br>
-                        <input type="radio" id="bubble" name="location" value="1">
-                        <label for="bubble">Request Training in the Bubble</label><br>
-                        <input type="radio" id="colonia" name="location" value="2">
-                        <label for="colonia">Request Training in Colonia</label>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                  <span class="input-group-text">Type of Training?</span>
