@@ -4,6 +4,14 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once '../users/init.php';  //make sure this path is correct!
 if (!securePage($_SERVER['PHP_SELF'])){die();}
+
+if (hasPerm([4,7,8,9,10],$user->data()->id)){
+header("Location: ./dashboard");
+die();
+}
+else {
+  header("Location: https://hullseals.space/error-pages/401.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,17 +32,37 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
 	    <article id="intro3">
         <h1>Welcome To The Hull Seals Training Portal</h1>
         <p>To continue, please select your course below.</p>
-        <div class="btn-group btn-group-lg d-flex mx-auto" role="group" style="max-width:85%;text-align: center;">
-        <a href="basic-training" class="btn btn-primary">Basic Seal Training</a>
-        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Coming Soon!">Dispatcher Training</button>
-        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Coming Soon!">Code Black Training</button>
-        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Coming Soon!">Kingfisher Training</button>
-        <?php
-        if (hasPerm([4,7,8,9,10],$user->data()->id)){
-        echo '<a href="dashboard" type="button" class="btn btn-info">Trainer Dashboard</a>';
-        }
-        ?>
-      </div>
+        <ul class="nav nav-pills nav-fill">
+          <li class="nav-item">
+            <a class="nav-link active" href="basic-training">Basic Seal Training</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Dispatcher Training</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item disabled">
+            <a class="nav-link disabled" href="#" >Code Black Training</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item disabled">
+            <a class="nav-link disabled" href="#">Kingfisher Training</a>
+          </li>
+          <?php
+          if (hasPerm([4,7,8,9,10],$user->data()->id)){
+          echo '<li class="nav-item disabled">
+            <a class="nav-link active" href="dashboard">Trainer Dashboard</a>
+          </li>';
+
+          }
+          ?>
+        </ul>
       </article>
             <div class="clearfix"></div>
         </section>

@@ -20,20 +20,35 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
         <h1>Welcome, Trainer</h1>
         <p>Please choose your option.</p>
         <br>
-        <h3>Trainer Resources</h3>
-      <div class="btn-group" style="display:flex;" role="group">
-        <a href="manage.php" class="btn btn-lg btn-primary" style="max-width: 33%;">Manage Seals</a>
-        <button type="button" class="btn btn-secondary disabled" style="max-width: 33%;">          </button>
-        <a href="paperwork-list.php" class="btn btn-lg btn-primary" style="max-width: 33%;">Paperwork Review</a>
-      </div>
-      <br>
-      <br>
-      <h3>Links for Pups</h3>
-      <div class="btn-group" style="display:flex;" role="group">
-        <a href="../basic-training" class="btn btn-lg btn-primary" style="max-width: 33%;">Basic Training</a>
-        <button type="button" class="btn btn-secondary disabled" style="max-width: 33%;">          </button>
-        <a href="../training-paperwork" class="btn btn-lg btn-primary" style="max-width: 33%;">Drill Paperwork</a>
-      </div>
+        <ul class="nav nav-pills nav-fill">
+          <li class="nav-item">
+            <a class="nav-link active" href="manage.php">Manage Seals</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item disabled">
+            <a class="nav-link active" href="paperwork-list.php">Drill Paperwork Review</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Drill Scheduling Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item disabled">
+            <a class="nav-link active" href="../training-paperwork" >Drill Paperwork Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item disabled">
+            <a class="nav-link disabled" href="#">Drill Signup Form</a>
+          </li>
+        </ul>
       </article>
             <div class="clearfix"></div>
         </section>
