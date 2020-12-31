@@ -58,8 +58,17 @@ if (isset($_GET['edit'])) {
   }
 }
 if (isset($_GET['new'])) {
+  $daysboxes = $_POST['days'];
+  $daysimploded=implode(',',$daysboxes);
+  $timesboxes = $_POST['times'];
+  $timesimploded=implode(',',$timesboxes);
     foreach ($_REQUEST as $key => $value) {
+      if ($key == 'days' || $key == 'times') {
+        // code...
+      }
+      else {
         $lore[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
+      }
     }
     if (!count($validationErrors)) {
         //$stmt = $mysqli->prepare('CALL spRemAlias(?,?)');
@@ -72,9 +81,9 @@ if (isset($_GET['new'])) {
         echo "<br>";
         echo $lore['platform'];
         echo "<br>";
-        echo "days";
+        echo $daysimploded;
         echo "<br>";
-        echo "times";
+        echo $timesimploded;
         echo "<br>";
         echo $lore['numLessions'];
         echo "<br>";
@@ -138,7 +147,7 @@ WHERE seal_ID = ?;");
 				            $field2name = $row["training_description"];
 				            $field3name = $row["platform_name"];
                     $field4name = $row["sch_max"];
-                    $field6name = $row["times[]"];
+                    $field6name = $row["times"];
                     $field7name = $row["days"];
               echo '<tr>
                 <td>'.$field2name.'</td>
@@ -239,32 +248,32 @@ WHERE seal_ID = ?;");
                             </select>
                         </div>
                         <em>What days of the week are you available for Training?</em><br>
-                        <input type="checkbox" id="day1" name="days" value="1">
+                        <input type="checkbox" id="day1" name="days[]" value="1">
                         <label for="day1"> Monday</label><br>
-                        <input type="checkbox" id="day2" name="days" value="2">
+                        <input type="checkbox" id="day2" name="days[]" value="2">
                         <label for="day2"> Tuesday</label><br>
-                        <input type="checkbox" id="day3" name="days" value="3">
+                        <input type="checkbox" id="day3" name="days[]" value="3">
                         <label for="day3"> Wednesday</label><br>
-                        <input type="checkbox" id="day4" name="days" value="4">
+                        <input type="checkbox" id="day4" name="days[]" value="4">
                         <label for="day4"> Thursday</label><br>
-                        <input type="checkbox" id="day5" name="days" value="5">
+                        <input type="checkbox" id="day5" name="days[]" value="5">
                         <label for="day5"> Friday</label><br>
-                        <input type="checkbox" id="day6" name="days" value="6">
+                        <input type="checkbox" id="day6" name="days[]" value="6">
                         <label for="day6"> Saturday</label><br>
-                        <input type="checkbox" id="day7" name="days" value="7">
+                        <input type="checkbox" id="day7" name="days[]" value="7">
                         <label for="day7"> Sunday</label><br>
                         <em>What time blocks are you available for Training?</em> (All Times UTC)<br>
-                        <input type="checkbox" id="time1" name="times" value="1">
+                        <input type="checkbox" id="time1" name="times[]" value="1">
                         <label for="time1"> 00:00-03:59</label><br>
-                        <input type="checkbox" id="time2" name="times" value="2">
+                        <input type="checkbox" id="time2" name="times[]" value="2">
                         <label for="time2"> 04:00-07:59</label><br>
-                        <input type="checkbox" id="time3" name="times" value="3">
+                        <input type="checkbox" id="time3" name="times[]" value="3">
                         <label for="time3"> 08:00-11:59</label><br>
-                        <input type="checkbox" id="time4" name="times" value="4">
+                        <input type="checkbox" id="time4" name="times[]" value="4">
                         <label for="time4"> 12:00-15:59</label><br>
-                        <input type="checkbox" id="time5" name="times" value="5">
+                        <input type="checkbox" id="time5" name="times[]" value="5">
                         <label for="time5"> 16:00-19:59</label><br>
-                        <input type="checkbox" id="time6" name="times" value="6">
+                        <input type="checkbox" id="time6" name="times[]" value="6">
                         <label for="time6"> 20:00-23:59</label><br>
                       <div class="input-group mb-3">
 		                      <div class="input-group-prepend">
