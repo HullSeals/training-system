@@ -58,12 +58,34 @@ if (isset($_GET['new'])) {
       }
     }
     if (!count($validationErrors)) {
-        //$stmt = $mysqli->prepare('CALL spRemAlias(?,?)');
-        //$stmt->bind_param('is',$lore['numberedt'], $lgd_ip);
+        //$stmt = $mysqli->prepare('CALL spCreateTrainingReq(?,?,?,?,?)');
+        //$stmt->bind_param('iiiis', $user->data()->id, $lore['type'], $lore['platform'], $lore['numLessions'], $lgd_ip);
         //$stmt->execute();
         //foreach ($stmt->error_list as $error) {
             //$validationErrors[] = 'DB: ' . $error['error'];
         //}
+        //$result = mysqli_stmt_get_result($stmt);
+        //while ($row = mysqli_fetch_array($result, MYSQLI_NUM))
+        //{
+        //    foreach ($row as $r)
+        //    {
+        //        $extractArray = $r;
+        //    }
+        //}
+        //$stmt->close();
+        //foreach ($daysexploded as $dayEX) {
+        //    $stmt2 = $mysqli->prepare('CALL spCreateTrainingDay(?,?)');
+        //    $stmt2->bind_param('ii', $extractArray, $dayEX);
+        //    $stmt2->execute();
+        //    $stmt2->close();
+        //}
+        //foreach ($timesexploded as $timeEX) {
+        //    $stmt3 = $mysqli->prepare('CALL spCreateTrainingTime(?,?)');
+        //    $stmt3->bind_param('ii', $extractArray, $timeEX);
+        //    $stmt3->execute();
+        //    $stmt3->close();
+        //}
+        //header("Location: .");
         echo $user->data()->id;
         echo " User <br>";
         echo $lore['type'];
@@ -82,8 +104,6 @@ if (isset($_GET['new'])) {
         echo " times <br>";
         echo $lore['numLessions'];
         echo " number lessions <br>";
-        //$stmt->close();
-        //header("Location: .");
   }
 }
 
