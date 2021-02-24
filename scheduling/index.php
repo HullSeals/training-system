@@ -42,21 +42,6 @@ if (isset($_GET['cancel'])) {
         header("Location: .");
   }
 }
-if (isset($_GET['edit'])) {
-    foreach ($_REQUEST as $key => $value) {
-        $lore[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
-    }
-    if (!count($validationErrors)) {
-        $stmt = $mysqli->prepare('CALL spRemAlias(?,?)');
-        $stmt->bind_param('is',$lore['numberedt'], $lgd_ip);
-        $stmt->execute();
-        foreach ($stmt->error_list as $error) {
-            $validationErrors[] = 'DB: ' . $error['error'];
-        }
-        $stmt->close();
-        header("Location: .");
-  }
-}
 if (isset($_GET['new'])) {
   $daysboxes = $_POST['days'];
   $daysimploded=implode(',',$daysboxes);
