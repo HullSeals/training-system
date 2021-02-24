@@ -12,7 +12,7 @@ require '../../assets/includes/ipinfo.php';
 
 $db = include '../assets/db.php';
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-$mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'training_records', $db['port']);
+$mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'training', $db['port']);
 $platformList = [];
 $res = $mysqli->query('SELECT * FROM lookups.platform_lu ORDER BY platform_id');
 while ($burgerking = $res->fetch_assoc())
@@ -27,18 +27,20 @@ while ($trainingType = $res2->fetch_assoc())
 }
 $validationErrors = [];
 $lore = [];
+
 if (isset($_GET['cancel'])) {
     foreach ($_REQUEST as $key => $value) {
         $lore[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
     }
     if (!count($validationErrors)) {
-        $stmt = $mysqli->prepare('CALL spRemAlias(?,?)');
-        $stmt->bind_param('is',$lore['numberedt'], $lgd_ip);
-        $stmt->execute();
-        foreach ($stmt->error_list as $error) {
+      $thenumersix = '6';
+        $stmt4 = $mysqli->prepare('CALL spUpdateTrainingReq(?,?)');
+        $stmt4->bind_param('ii', $lore['numberedt'], $thenumersix);
+        $stmt4->execute();
+        foreach ($stmt4->error_list as $error) {
             $validationErrors[] = 'DB: ' . $error['error'];
         }
-        $stmt->close();
+        $stmt4->close();
         header("Location: .");
   }
 }
@@ -58,52 +60,34 @@ if (isset($_GET['new'])) {
       }
     }
     if (!count($validationErrors)) {
-        //$stmt = $mysqli->prepare('CALL spCreateTrainingReq(?,?,?,?,?)');
-        //$stmt->bind_param('iiiis', $user->data()->id, $lore['type'], $lore['platform'], $lore['numLessions'], $lgd_ip);
-        //$stmt->execute();
-        //foreach ($stmt->error_list as $error) {
-            //$validationErrors[] = 'DB: ' . $error['error'];
-        //}
-        //$result = mysqli_stmt_get_result($stmt);
-        //while ($row = mysqli_fetch_array($result, MYSQLI_NUM))
-        //{
-        //    foreach ($row as $r)
-        //    {
-        //        $extractArray = $r;
-        //    }
-        //}
-        //$stmt->close();
-        //foreach ($daysexploded as $dayEX) {
-        //    $stmt2 = $mysqli->prepare('CALL spCreateTrainingDay(?,?)');
-        //    $stmt2->bind_param('ii', $extractArray, $dayEX);
-        //    $stmt2->execute();
-        //    $stmt2->close();
-        //}
-        //foreach ($timesexploded as $timeEX) {
-        //    $stmt3 = $mysqli->prepare('CALL spCreateTrainingTime(?,?)');
-        //    $stmt3->bind_param('ii', $extractArray, $timeEX);
-        //    $stmt3->execute();
-        //    $stmt3->close();
-        //}
-        //header("Location: .");
-        echo $user->data()->id;
-        echo " User <br>";
-        echo $lore['type'];
-        echo " Type <br>";
-        echo $lore['platform'];
-        echo " platform <br>";
+        $stmt = $mysqli->prepare('CALL spCreateTrainingReq(?,?,?,?,?,@schID)');
+        $stmt->bind_param('iiiis', $user->data()->id, $lore['type'], $lore['platform'], $lore['numLessions'], $lgd_ip);
+        $stmt->execute();
+        foreach ($stmt->error_list as $error) {
+            $validationErrors[] = 'DB: ' . $error['error'];
+        }
+        $result = mysqli_stmt_get_result($stmt);
+        while ($row = mysqli_fetch_array($result, MYSQLI_NUM))
+        {
+            foreach ($row as $r)
+            {
+                $extractArray = $r;
+            }
+        }
+        $stmt->close();
         foreach ($daysexploded as $dayEX) {
-          echo $dayEX;
-          echo " Day <br>";
+            $stmt2 = $mysqli->prepare('CALL spCreateTrainingDay(?,?)');
+            $stmt2->bind_param('ii', $extractArray, $dayEX);
+            $stmt2->execute();
+            $stmt2->close();
         }
         foreach ($timesexploded as $timeEX) {
-          echo $timeEX;
-          echo " time <br>";
+            $stmt3 = $mysqli->prepare('CALL spCreateTrainingTime(?,?)');
+            $stmt3->bind_param('ii', $extractArray, $timeEX);
+            $stmt3->execute();
+            $stmt3->close();
         }
-        echo $timesimploded;
-        echo " times <br>";
-        echo $lore['numLessions'];
-        echo " number lessions <br>";
+        header("Location: .");
   }
 }
 
@@ -128,17 +112,18 @@ if (isset($_GET['new'])) {
             You will receive an email when your drills are scheduled!
           </p>
           <?php
-            $stmt = $mysqli->prepare("SELECT sr.sch_ID, platform_name, training_description, sch_max,
-GROUP_CONCAT(distinct tt.dt_desc ORDER BY tt.dt_ID ASC  SEPARATOR ', ') AS 'times',
-GROUP_CONCAT(distinct td.dt_desc ORDER BY td.dt_ID ASC SEPARATOR ', ') AS 'days'
-FROM training.schedule_requests as sr
+            $stmt = $mysqli->prepare("SELECT sr.sch_ID, platform_name, training_description, sch_max, sch_status,
+GROUP_CONCAT(DISTINCT tt.dt_desc ORDER BY tt.dt_ID ASC SEPARATOR ', ') AS 'times',
+GROUP_CONCAT(DISTINCT td.dt_desc ORDER BY td.dt_ID ASC SEPARATOR ', ') AS 'days'
+FROM training.schedule_requests AS sr
 INNER JOIN lookups.platform_lu ON seal_PLT = platform_id
 INNER JOIN lookups.training_lu ON sch_type = training_id
-INNER JOIN training.sch_times as st ON st.sch_ID = sr.sch_ID
-INNER JOIN training.sch_days as sd ON sd.sch_ID = sr.sch_ID
-INNER JOIN training.ttime_lu as tt ON tt.dt_ID = times_block
-INNER JOIN training.tdate_lu as td ON td.dt_ID = day_block
-WHERE seal_ID = ?;");
+INNER JOIN training.sch_times AS st ON st.sch_ID = sr.sch_ID
+INNER JOIN training.sch_days AS sd ON sd.sch_ID = sr.sch_ID
+INNER JOIN training.ttime_lu AS tt ON tt.dt_ID = times_block
+INNER JOIN training.tdate_lu AS td ON td.dt_ID = day_block
+WHERE seal_ID = ? AND sch_status NOT IN (5,6)
+GROUP BY sr.sch_ID;");
 				    $stmt->bind_param("i", $user->data()->id);
 				    $stmt->execute();
             $result = $stmt->get_result();
@@ -192,12 +177,12 @@ WHERE seal_ID = ?;");
             }
             }
             echo '</table>';
-            //if($norows === 1) {
+            if($norows === 1) {
               echo '<button class="btn btn-success btn-lg active" data-target="#moNew" data-toggle="modal" type="button">New Training Request</button>';
-            //} TODO: remove these comments before live.
-            //else {
+            }
+            else {
               echo '<p> You may only have one training request at a time.</p>';
-            //}
+            }
             $result->free();
           ?>
           <div aria-hidden="true" class="modal fade" id="moNew" tabindex="-1">
