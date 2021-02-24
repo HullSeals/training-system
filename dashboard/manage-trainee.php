@@ -54,18 +54,6 @@ $stmtAlias->execute();
 $resultAlias = $stmtAlias->get_result();
 $stmtAlias->close();
 
-//Module Progression - Basic Training
-$mysqliBTP = new mysqli($db['server'], $db['user'], $db['pass'], 'training', $db['port']);
-$stmtBTP = $mysqliBTP->prepare("SELECT module_name, progress_name, progressID
-FROM training.module_progression As mp
-JOIN training.modules_lu AS ml ON ml.moduleID = mp.module_ID
-JOIN training.progression_lu AS pl ON pl.progressID = mp.progress
-WHERE seal_ID = ?");
-$stmtBTP->bind_param("i", $beingManaged);
-$stmtBTP->execute();
-$resultBTP = $stmtBTP->get_result();
-$stmtBTP->close();
-
 //Awful, awful badness. TODO. Fix.
 $perm1=0;
 $perm2=0;
@@ -175,32 +163,6 @@ $stmtStaffCheck->close();
         ?>
       </tbody>
       </table></div>
-        <br>
-        <h3>Basic Training Module Progression</h3>
-        <br>
-        <div class="table-responsive-md">
-        <table class="table table-dark table-striped table-bordered table-hover">
-          <thead>
-          <tr>
-              <th>Module</th>
-              <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-          while ($rowBTP = $resultBTP->fetch_assoc()) {
-            $field1nameBTP = $rowBTP["progress_name"];
-            $field2nameBTP = $rowBTP["module_name"];
-            echo '<tr>
-              <td>'.$field2nameBTP.'</td>
-              <td>'.$field1nameBTP.'</td>
-            </tr>';
-          }
-            $resultBTP->free();
-            ?>
-          </tbody>
-        </table>
-      </div>
         <br>
         <h3>Permission Management</h3>
         <br>

@@ -45,25 +45,21 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['po
           <thead>
           <tr>
               <th>Primary Name</th>
-              <th>BT Modules Completed</th>
               <th>Options</th>
           </tr>
         </thead>
         <tbody>
           <?php
-          $stmt = $mysqli->prepare("SELECT s.seal_ID AS ID, seal_name, SUM(CASE WHEN progress = 3 THEN 1 ELSE 0 END) AS completed
+          $stmt = $mysqli->prepare("SELECT s.seal_ID AS ID, seal_name
           FROM sealsudb.staff AS s
-          JOIN training.module_progression AS m ON m.seal_ID = s.seal_ID
           GROUP BY s.seal_ID;");
           $stmt->execute();
           $result = $stmt->get_result();
           while ($row = $result->fetch_assoc()) {
             $field2name = $row["seal_name"];
-            $field3name = $row["completed"];
             $field4name = $row["ID"];
             echo '<tr>
               <td>'.$field2name.'</td>
-              <td>'.$field3name.'</td>
               <td><a href="manage-trainee.php?cne='.$field4name.'" class="btn btn-warning active">Manage CMDR</a></td>
             </tr>';
           }
