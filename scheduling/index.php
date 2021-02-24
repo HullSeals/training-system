@@ -60,8 +60,10 @@ if (isset($_GET['edit'])) {
 if (isset($_GET['new'])) {
   $daysboxes = $_POST['days'];
   $daysimploded=implode(',',$daysboxes);
+  $daysexploded = explode(',', $daysimploded);
   $timesboxes = $_POST['times'];
   $timesimploded=implode(',',$timesboxes);
+  $timesexploded = explode(',', $timesimploded);
     foreach ($_REQUEST as $key => $value) {
       if ($key == 'days' || $key == 'times') {
         // code...
@@ -77,16 +79,24 @@ if (isset($_GET['new'])) {
         //foreach ($stmt->error_list as $error) {
             //$validationErrors[] = 'DB: ' . $error['error'];
         //}
+        echo $user->data()->id;
+        echo " User <br>";
         echo $lore['type'];
-        echo "<br>";
+        echo " Type <br>";
         echo $lore['platform'];
-        echo "<br>";
-        echo $daysimploded;
-        echo "<br>";
+        echo " platform <br>";
+        foreach ($daysexploded as $dayEX) {
+          echo $dayEX;
+          echo " Day <br>";
+        }
+        foreach ($timesexploded as $timeEX) {
+          echo $timeEX;
+          echo " time <br>";
+        }
         echo $timesimploded;
-        echo "<br>";
+        echo " times <br>";
         echo $lore['numLessions'];
-        echo "<br>";
+        echo " number lessions <br>";
         //$stmt->close();
         //header("Location: .");
   }
@@ -155,7 +165,6 @@ WHERE seal_ID = ?;");
                 <td>'.$field6name.'</td>
                 <td>'.$field7name.'</td>
                 <td>'.$field4name.'</td>
-                <td><button type="button" class="btn btn-warning active" data-toggle="modal" data-target="#moE'.$field1name.'">Edit</button></td>
 				        <td><button type="button" class="btn btn-danger active" data-toggle="modal" data-target="#mo'.$field1name.'">Delete</button></td>';
               echo '
               <div aria-hidden="true" class="modal fade" id="mo'.$field1name.'" tabindex="-1">
@@ -175,25 +184,7 @@ WHERE seal_ID = ?;");
 			             </div>
 		            </div>
 	            </div>';
-
-              echo '
-              <div aria-hidden="true" class="modal fade" id="moE'.$field1name.'" tabindex="-1">
-            		<div class="modal-dialog modal-dialog-centered">
-            			<div class="modal-content">
-            				<div class="modal-header">
-            					<h5 class="modal-title" id="exampleModalLabel" style="color:black;">Edit Scheduling Request</h5><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-            				</div>
-            				<div class="modal-body" style="color:black;">
-            					<form action="?edit" method="post">
-
-            						<div class="modal-footer">
-            							<button class="btn btn-primary" type="submit">Submit</button><button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-            						</div>
-            					</form>
-            				</div>
-            			</div>
-            		</div>
-            	</div>';              }
+            }
             }
             echo '</table>';
             //if($norows === 1) {
