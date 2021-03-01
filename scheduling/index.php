@@ -139,8 +139,9 @@ GROUP BY sr.sch_ID;");
                 <td>Platform</td>
                 <td>Time Blocks</td>
                 <td>Days of the Week</td>
-                <td>Max Lessions per Week</td>
-                <td colspan="2">Options</td>
+                <td>Max/Week</td>
+                <td>Next Scheduled Lession</td>
+                <td>Options</td>
               </tr>';
               while ($row = $result->fetch_assoc()) {
 				            $field1name = $row['sch_ID'];
@@ -155,6 +156,7 @@ GROUP BY sr.sch_ID;");
                 <td>'.$field6name.'</td>
                 <td>'.$field7name.'</td>
                 <td>'.$field4name.'</td>
+                <td>Date and Time Here</td>
 				        <td><button type="button" class="btn btn-danger active" data-toggle="modal" data-target="#mo'.$field1name.'">Delete</button></td>';
               echo '
               <div aria-hidden="true" class="modal fade" id="mo'.$field1name.'" tabindex="-1">
