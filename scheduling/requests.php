@@ -1,6 +1,7 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+$email2 = include 'email.php';
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -128,12 +129,12 @@ Training Platform: " . $emplatform . "\r\n
 Trainer: " . $emtrainer . "\r\n
 Your lesson will be held in #drill-chat in the IRC. We look forward to seeing you there!<br>If you have any questions, please feel free to reach out to the training staff.\r\n
 The Hull Seals";
-$sender = '';
-$senderName = '';
-$usernameSmtp = '';
-$passwordSmtp = '';
-$host = '';
-$port = ;
+$sender = $email2['sender'];
+$senderName = $email2['senderName'];
+$usernameSmtp = $email2['usernameSmtp'];
+$passwordSmtp = $email2['passwordSmtp'];
+$host = $email2['host'];
+$port = $email2['port'];
 $emailMaster = include 'vendor/autoload.php';
 
 $mail = new PHPMailer(true);
