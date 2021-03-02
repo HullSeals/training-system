@@ -26,7 +26,7 @@ $hasPW = 1;
 
 $stmt2 = $mysqli->prepare('SELECT count(ID)
 FROM sealsudb.staff
-WHERE seal_ID = ?
+WHERE seal_ID = ? AND del_flag = 0
 GROUP BY seal_ID');
 $stmt2->bind_param("i", $user->data()->id);
 $stmt2->execute();
@@ -149,10 +149,6 @@ if (isset($_GET['new'])) {
             You will receive an email when your drills are scheduled!
           </p>
           <?php
-          $hasNick = 1;
-          $hasPW = 1;
-          echo $hasNick;
-          echo $hasPW;
           if ($hasNick == 1) {
             echo '<h4> You cannot submit a Training Request without a registered <a href="https://hullseals.space/cmdr-management/">CMDR/Paperwork name</a>. Please fill that out before continuing!</h4>';
           }
