@@ -150,13 +150,21 @@ if (isset($_GET['new'])) {
           </p>
           <?php
           if ($hasNick == 1) {
-            echo '<h4> You cannot submit a Training Request without a registered <a href="https://hullseals.space/cmdr-management/">CMDR/Paperwork name</a>. Please fill that out before continuing!</h4>';
+            echo '<h4> You cannot submit a Training Request without a registered <a class="btn btn-secondary" target="_blank" href="https://hullseals.space/cmdr-management/">CMDR/Paperwork name</a>. Please fill that out before continuing!</h4>';
           }
           elseif ($hasPW === 1) {
-            echo '<h4> You cannot submit a Training Request without a registered <a href="https://hullseals.space/cmdr-management/irc-names">IRC name</a>. Please fill that out before continuing!</h4>';
+            echo '<h4> You cannot submit a Training Request without a registered <a class="btn btn-secondary" target="_blank" href="https://hullseals.space/cmdr-management/irc-names">IRC name</a>. Please fill that out before continuing!</h4>';
           }
           else {
-            $stmt = $mysqli->prepare("SELECT sr.sch_ID, platform_name, training_description, sch_max, sch_status, CONCAT(sch_nextdate, ',', sch_nexttime) AS sch_next, sch_nextwith,
+            $stmt = $mysqli->prepare("
+            WITH sealsCTI
+AS
+(
+    SELECT MIN(ID), seal_ID, seal_name
+    FROM sealsudb.staff
+    GROUP BY seal_ID
+)
+SELECT sr.sch_ID, platform_name, training_description, sch_max, sch_status, CONCAT(sch_nextdate, ', ', sch_nexttime) AS sch_next, ss2.seal_name AS trainer,
 GROUP_CONCAT(DISTINCT tt.dt_desc ORDER BY tt.dt_ID ASC SEPARATOR ', ') AS 'times',
 GROUP_CONCAT(DISTINCT td.dt_desc ORDER BY td.dt_ID ASC SEPARATOR ', ') AS 'days'
 FROM training.schedule_requests AS sr
@@ -166,7 +174,8 @@ INNER JOIN training.sch_times AS st ON st.sch_ID = sr.sch_ID
 INNER JOIN training.sch_days AS sd ON sd.sch_ID = sr.sch_ID
 INNER JOIN training.ttime_lu AS tt ON tt.dt_ID = times_block
 INNER JOIN training.tdate_lu AS td ON td.dt_ID = day_block
-WHERE seal_ID = ? AND sch_status NOT IN (5,6)
+LEFT JOIN sealsCTI AS ss2 ON ss2.seal_ID = sr.sch_nextwith
+WHERE sr.seal_ID = ? AND sch_status NOT IN (5,6)
 GROUP BY sr.sch_ID;");
 				    $stmt->bind_param("i", $user->data()->id);
 				    $stmt->execute();
@@ -201,11 +210,11 @@ GROUP BY sr.sch_ID;");
                     else {
                       $field9name = $row["sch_next"];
                     }
-                    if ($row["sch_nextwith"] == NULL) {
+                    if ($row["trainer"] == NULL) {
                       $field10name = "Not Assigned Yet";
                     }
                     else {
-                      $field10name = $row["sch_next"];
+                      $field10name = $row["trainer"];
                     }              echo '<tr>
                 <td>'.$field2name.'</td>
                 <td>'.$field3name.'</td>
