@@ -115,7 +115,7 @@ $htmlMsg = "<h1>Greetings, CMDR ". $emname ."!</h1><p>This email is to inform yo
     <li>Training Platform: " . $emplatform . "</li>
     <li>Trainer: CMDR " . $emtrainer . "</li>
   </ul>
-  <p>Your lesson will be held in #drill-chat in the IRC. We look forward to seeing you there!<br><br>If you have any questions, please feel free to reach out to the training staff. <br><br>
+  <p>Your lesson will be held in #drill-chat in the IRC. We look forward to seeing you there!<br><br>If you have any questions, please feel free to reach out to the training staff. We encourage you review our <a href='https://hullse.al/SOP'>Standard Operating Procedures</a> before your drill.</p><p>Assistance on connecting to IRC can be found <a href='https://hullseals.space/knowledge/books/irc/'>here</a>. Please be in IRC 5 minutes before your scheduled drill. <br><br>
   The Hull Seals</p>
 ";
 $message = "Greetings, CMDR " . $emname . "!
@@ -127,7 +127,7 @@ Training Date: " . $emdate . "\r\n
 Training Time: " . $emtime . " UTC\r\n
 Training Platform: " . $emplatform . "\r\n
 Trainer: " . $emtrainer . "\r\n
-Your lesson will be held in #drill-chat in the IRC. We look forward to seeing you there!<br>If you have any questions, please feel free to reach out to the training staff.\r\n
+Your lesson will be held in #drill-chat in the IRC. We look forward to seeing you there!<br><br>If you have any questions, please feel free to reach out to the training staff. We encourage you review our <a href='https://hullse.al/SOP'>Standard Operating Procedures</a> before your drill.</p><p>Assistance on connecting to IRC can be found <a href='https://hullseals.space/knowledge/books/irc/'>here</a>. Please be in IRC 5 minutes before your scheduled drill.\r\n
 The Hull Seals";
 $sender = $email2['sender'];
 $senderName = $email2['senderName'];
