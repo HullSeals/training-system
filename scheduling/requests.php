@@ -20,6 +20,21 @@ while ($statusType = $res3->fetch_assoc())
 {
     $statusList[$statusType['st_ID']] = $statusType['st_desc'];
 }
+$trainerList = [];
+$res4 = $mysqli->query('WITH sealsCTI
+AS
+(
+    SELECT MIN(ID), seal_ID, seal_name
+    FROM sealsudb.staff
+    GROUP BY seal_ID
+)
+SELECT seal_name, seal_ID FROM sealsCTI
+INNER JOIN auth.user_permission_matches AS aup ON aup.user_ID = sealsCTI.seal_ID
+WHERE aup.permission_ID = 4;');
+while ($trainerType = $res4->fetch_assoc())
+{
+    $trainerList[$trainerType['seal_ID']] = $trainerType['seal_name'];
+}
 
 ?>
 <!DOCTYPE html>
@@ -68,7 +83,7 @@ AS
     FROM sealsudb.staff
     GROUP BY seal_ID
 )
-SELECT sr.sch_ID, platform_name, training_description, sch_max, st_desc, seal_name,
+SELECT sr.sch_ID, platform_name, training_description, sch_max, st_desc, seal_name, CONCAT(sch_nextdate, ',', sch_nexttime) AS sch_next, sch_nextwith,
 GROUP_CONCAT(DISTINCT tt.dt_desc ORDER BY tt.dt_ID ASC SEPARATOR ', ') AS 'times',
 GROUP_CONCAT(DISTINCT td.dt_desc ORDER BY td.dt_ID ASC SEPARATOR ', ') AS 'days'
 FROM training.schedule_requests AS sr
@@ -95,11 +110,12 @@ GROUP BY sr.sch_ID;");
                 <td>CMDR</td>
                 <td>Platform</td>
                 <td>Type</td>
-                <td>Time Blocks</td>
-                <td>Days of the Week</td>
-                <td>Max Lessions per Week</td>
+                <td>Blocks</td>
+                <td>Days</td>
+                <td>Max / Week</td>
                 <td>Status</td>
                 <td>Next Scheduled</td>
+                <td>With</td>
                 <td>Options</td>
               </tr>';
               while ($row = $result->fetch_assoc()) {
@@ -116,7 +132,18 @@ GROUP BY sr.sch_ID;");
                     $field6name = $row["sch_max"];
                     $field7name = $row["sch_ID"];
                     $field8name = $row["st_desc"];
-                    $field8name = $row["st_desc"];
+                    if ($row["sch_next"] == NULL) {
+                      $field9name = "No Drill Scheduled";
+                    }
+                    else {
+                      $field9name = $row["sch_next"];
+                    }
+                    if ($row["sch_nextwith"] == NULL) {
+                      $field10name = "No Drill Scheduled";
+                    }
+                    else {
+                      $field10name = $row["sch_next"];
+                    }
               echo '<tr>
               <td>'.$field1name.'</td>
               <td>'.$field2name.'</td>
@@ -125,7 +152,8 @@ GROUP BY sr.sch_ID;");
               <td>'.$field5name.'</td>
               <td>'.$field6name.'</td>
               <td>'.$field8name.'</td>
-              <td>Date and Time Here</td>
+              <td>'.$field9name.'</td>
+              <td>'.$field10name.'</td>
 				      <td><button type="button" class="btn btn-warning active" data-toggle="modal" data-target="#mo'.$field7name.'">Options</button></td>';
               echo '
               <div aria-hidden="true" class="modal fade" id="mo'.$field7name.'" tabindex="-1">
@@ -142,6 +170,17 @@ GROUP BY sr.sch_ID;");
                               <label for="time'.$field7name.'">Next Drill Time: </label>
                               <input type="time" id="time'.$field7name.'" name="time'.$field7name.'">
                               <input name="numberedt" required="" type="hidden" value="'.$field7name.'">
+                              &nbsp;
+                              <label>Choose Trainer: </label>
+                              <select name="tname" required="">
+                                   <option disabled selected value="1">
+                                         Choose...
+                                   </option>';
+                                      foreach ($trainerList as $trainerId => $trainerName) {
+                                            echo '<option value="' . $trainerId . '"' . ($trainerType['status'] == $trainerId ? ' checked' : '') . '>' . $trainerName . '</option>';
+                                      }
+                              echo '</select>
+
                                 <br>
                               <button class="btn btn-primary" type="submit">Update Drill Time</button>
                             </form>
@@ -150,10 +189,10 @@ GROUP BY sr.sch_ID;");
                               <input name="numberedt" required="" type="hidden" value="'.$field7name.'">
                               <label>Update Training Status: </label>
                               <select name="tstatus" required="">
-                                   <option disabled selected value="4">
+                                   <option disabled selected value="1">
                                          Choose...
                                    </option>';
-                                      foreach ($statusList as $statisId => $statusName) {
+                                      foreach ($statusList as $statusId => $statusName) {
                                             echo '<option value="' . $statusId . '"' . ($statusType['status'] == $statusId ? ' checked' : '') . '>' . $statusName . '</option>';
                                       }
                               echo '</select>

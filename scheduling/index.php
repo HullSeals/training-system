@@ -19,6 +19,40 @@ while ($burgerking = $res->fetch_assoc())
 {
     $platformList[$burgerking['platform_id']] = $burgerking['platform_name'];
 }
+
+$stmt2 = $mysqli->prepare('SELECT count(ID)
+FROM sealsudb.staff
+where seal_ID = ?
+GROUP BY seal_ID;');
+$stmt2->bind_param("i", $user->data()->id);
+$stmt2->execute();
+$gotMilk = $stmt2->get_result();
+while ($row = $gotMilk->fetch_assoc()) {
+  if ($row['count(ID)'] == 0) {
+    $noMilk = 1;
+  }
+  else {
+    $noMilk = 0;
+  }
+}
+
+$stmt3 = $mysqli->prepare('SELECT count(nick)
+FROM ircDB.anope_db_NickAlias
+INNER JOIN ircDB.anope_db_NickCore AS nc ON nc.display = nc
+WHERE nc = ?
+GROUP BY nc;');
+$stmt3->bind_param("s", $user->data()->username);
+$stmt3->execute();
+$gotCheese = $stmt3->get_result();
+while ($row = $gotCheese->fetch_assoc()) {
+  if ($row['count(nick)'] == 0) {
+    $noCheese = 1;
+  }
+  else {
+    $noCheese = 0;
+  }
+}
+
 $typeList = [];
 $res2 = $mysqli->query('SELECT * FROM lookups.training_lu ORDER BY training_ID');
 while ($trainingType = $res2->fetch_assoc())
@@ -112,7 +146,8 @@ if (isset($_GET['new'])) {
             You will receive an email when your drills are scheduled!
           </p>
           <?php
-            $stmt = $mysqli->prepare("SELECT sr.sch_ID, platform_name, training_description, sch_max, sch_status,
+          if ($noMilk == 0 && $noCheese == 0) {
+            $stmt = $mysqli->prepare("SELECT sr.sch_ID, platform_name, training_description, sch_max, sch_status, CONCAT(sch_nextdate, ',', sch_nexttime) AS sch_next, sch_nextwith,
 GROUP_CONCAT(DISTINCT tt.dt_desc ORDER BY tt.dt_ID ASC SEPARATOR ', ') AS 'times',
 GROUP_CONCAT(DISTINCT td.dt_desc ORDER BY td.dt_ID ASC SEPARATOR ', ') AS 'days'
 FROM training.schedule_requests AS sr
@@ -138,9 +173,10 @@ GROUP BY sr.sch_ID;");
                 <td>Type</td>
                 <td>Platform</td>
                 <td>Time Blocks</td>
-                <td>Days of the Week</td>
+                <td>Days Avail.</td>
                 <td>Max/Week</td>
-                <td>Next Scheduled Lession</td>
+                <td>Next Lession</td>
+                <td>Next Trainer</td>
                 <td>Options</td>
               </tr>';
               while ($row = $result->fetch_assoc()) {
@@ -150,13 +186,25 @@ GROUP BY sr.sch_ID;");
                     $field4name = $row["sch_max"];
                     $field6name = $row["times"];
                     $field7name = $row["days"];
-              echo '<tr>
+                    if ($row["sch_next"] == NULL) {
+                      $field9name = "Not Scheduled Yet";
+                    }
+                    else {
+                      $field9name = $row["sch_next"];
+                    }
+                    if ($row["sch_nextwith"] == NULL) {
+                      $field10name = "Not Assigned Yet";
+                    }
+                    else {
+                      $field10name = $row["sch_next"];
+                    }              echo '<tr>
                 <td>'.$field2name.'</td>
                 <td>'.$field3name.'</td>
                 <td>'.$field6name.'</td>
                 <td>'.$field7name.'</td>
                 <td>'.$field4name.'</td>
-                <td>Date and Time Here</td>
+                <td>'.$field9name.'</td>
+                <td>'.$field10name.'</td>
 				        <td><button type="button" class="btn btn-danger active" data-toggle="modal" data-target="#mo'.$field1name.'">Delete</button></td>';
               echo '
               <div aria-hidden="true" class="modal fade" id="mo'.$field1name.'" tabindex="-1">
@@ -186,6 +234,10 @@ GROUP BY sr.sch_ID;");
               echo '<p> You may only have one training request at a time.</p>';
             }
             $result->free();
+          }
+          elseif ($noMilk == 1 || $noCheese == 1) {
+            echo '<h4> You cannot submit a Training Request without an IRC name AND a CMDR/Paperwork name. Please fill those out before continuing!</h4>';
+          }
           ?>
           <div aria-hidden="true" class="modal fade" id="moNew" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
