@@ -20,19 +20,23 @@ while ($burgerking = $res->fetch_assoc())
     $platformList[$burgerking['platform_id']] = $burgerking['platform_name'];
 }
 
+//declare variables for IRC name and PPWK name, set to FAIL until proven otherwise.
+$hasNick = 1;
+$hasPW = 1;
+
 $stmt2 = $mysqli->prepare('SELECT count(ID)
 FROM sealsudb.staff
-where seal_ID = ?
-GROUP BY seal_ID;');
+WHERE seal_ID = ?
+GROUP BY seal_ID');
 $stmt2->bind_param("i", $user->data()->id);
 $stmt2->execute();
 $gotMilk = $stmt2->get_result();
 while ($row = $gotMilk->fetch_assoc()) {
-  if ($row['count(ID)'] == 0) {
-    $noMilk = 1;
+  if ($row['count(ID)'] === 0) {
+    $hasPW = 1;
   }
   else {
-    $noMilk = 0;
+    $hasPW = 0;
   }
 }
 
@@ -40,16 +44,16 @@ $stmt3 = $mysqli->prepare('SELECT count(nick)
 FROM ircDB.anope_db_NickAlias
 INNER JOIN ircDB.anope_db_NickCore AS nc ON nc.display = nc
 WHERE nc = ?
-GROUP BY nc;');
+GROUP BY nc');
 $stmt3->bind_param("s", $user->data()->username);
 $stmt3->execute();
 $gotCheese = $stmt3->get_result();
 while ($row = $gotCheese->fetch_assoc()) {
-  if ($row['count(nick)'] == 0) {
-    $noCheese = 1;
+  if ($row['count(nick)'] === 0) {
+    $hasNick = 1;
   }
   else {
-    $noCheese = 0;
+    $hasNick = 0;
   }
 }
 
@@ -124,7 +128,6 @@ if (isset($_GET['new'])) {
         header("Location: .");
   }
 }
-
 ?>
 <!DOCTYPE html>
   <html lang="en">
@@ -146,7 +149,17 @@ if (isset($_GET['new'])) {
             You will receive an email when your drills are scheduled!
           </p>
           <?php
-          if ($noMilk == 0 && $noCheese == 0) {
+          $hasNick = 1;
+          $hasPW = 1;
+          echo $hasNick;
+          echo $hasPW;
+          if ($hasNick == 1) {
+            echo '<h4> You cannot submit a Training Request without a registered <a href="https://hullseals.space/cmdr-management/">CMDR/Paperwork name</a>. Please fill that out before continuing!</h4>';
+          }
+          elseif ($hasPW === 1) {
+            echo '<h4> You cannot submit a Training Request without a registered <a href="https://hullseals.space/cmdr-management/irc-names">IRC name</a>. Please fill that out before continuing!</h4>';
+          }
+          else {
             $stmt = $mysqli->prepare("SELECT sr.sch_ID, platform_name, training_description, sch_max, sch_status, CONCAT(sch_nextdate, ',', sch_nexttime) AS sch_next, sch_nextwith,
 GROUP_CONCAT(DISTINCT tt.dt_desc ORDER BY tt.dt_ID ASC SEPARATOR ', ') AS 'times',
 GROUP_CONCAT(DISTINCT td.dt_desc ORDER BY td.dt_ID ASC SEPARATOR ', ') AS 'days'
@@ -234,9 +247,6 @@ GROUP BY sr.sch_ID;");
               echo '<p> You may only have one training request at a time.</p>';
             }
             $result->free();
-          }
-          elseif ($noMilk == 1 || $noCheese == 1) {
-            echo '<h4> You cannot submit a Training Request without an IRC name AND a CMDR/Paperwork name. Please fill those out before continuing!</h4>';
           }
           ?>
           <div aria-hidden="true" class="modal fade" id="moNew" tabindex="-1">
