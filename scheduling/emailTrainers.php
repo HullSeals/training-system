@@ -28,7 +28,7 @@ AS
 SELECT email FROM sealsCTI
 INNER JOIN auth.user_permission_matches AS aup ON aup.user_ID = sealsCTI.seal_ID
 LEFT JOIN ircDB.anope_db_NickCore as nc2 on nc2.id = seal_ID
-WHERE aup.permission_ID = 18');
+WHERE aup.permission_ID = 4');
 $stmt9->execute();
 $result9 = $stmt9->get_result();
 while ($row9 = $result9->fetch_assoc()) {
