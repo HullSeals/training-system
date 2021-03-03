@@ -164,7 +164,7 @@ AS
     FROM sealsudb.staff
     GROUP BY seal_ID
 )
-SELECT sr.sch_ID, platform_name, training_description, sch_max, sch_status, CONCAT(sch_nextdate, ', ', sch_nexttime) AS sch_next, ss2.seal_name AS trainer,
+SELECT sr.sch_ID, platform_name, training_description, sch_max, sch_status, CONCAT(sch_nextdate, ', ', sch_nexttime) AS sch_next, ss2.seal_name AS trainer, sch_confirmed,
 GROUP_CONCAT(DISTINCT tt.dt_desc ORDER BY tt.dt_ID ASC SEPARATOR ', ') AS 'times',
 GROUP_CONCAT(DISTINCT td.dt_desc ORDER BY td.dt_ID ASC SEPARATOR ', ') AS 'days'
 FROM training.schedule_requests AS sr
@@ -195,6 +195,7 @@ GROUP BY sr.sch_ID;");
                 <td>Max/Week</td>
                 <td>Next Lession</td>
                 <td>Next Trainer</td>
+                <td>Confirmed?</td>
                 <td>Options</td>
               </tr>';
               while ($row = $result->fetch_assoc()) {
@@ -215,7 +216,14 @@ GROUP BY sr.sch_ID;");
                     }
                     else {
                       $field10name = $row["trainer"];
-                    }              echo '<tr>
+                    }
+                    if ($row["sch_confirmed"] == 0 ) {
+                      $field11name = "No";
+                    }
+                    else {
+                      $field11name = "Yes";
+                    }
+                echo '<tr>
                 <td>'.$field2name.'</td>
                 <td>'.$field3name.'</td>
                 <td>'.$field6name.'</td>
@@ -223,6 +231,7 @@ GROUP BY sr.sch_ID;");
                 <td>'.$field4name.'</td>
                 <td>'.$field9name.'</td>
                 <td>'.$field10name.'</td>
+                <td>'.$field11name.'</td>
 				        <td><button type="button" class="btn btn-danger active" data-toggle="modal" data-target="#mo'.$field1name.'">Delete</button></td>';
               echo '
               <div aria-hidden="true" class="modal fade" id="mo'.$field1name.'" tabindex="-1">

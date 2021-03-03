@@ -1,8 +1,4 @@
 <?php
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-$email2 = include 'email.php';
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -79,91 +75,7 @@ if (isset($_GET['sendEmail'])) {
         $lore[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
     }
     if (!count($validationErrors)) {
-      $stmt5 = $mysqli->prepare('WITH sealsCTI
-AS
-(
-    SELECT MIN(ID), seal_ID, seal_name
-    FROM sealsudb.staff
-    GROUP BY seal_ID
-)
-SELECT platform_name, training_description, ss.seal_name, sch_nextdate, sch_nexttime, ss2.seal_name AS trainer, email
-FROM training.schedule_requests AS sr
-INNER JOIN lookups.platform_lu ON seal_PLT = platform_id
-INNER JOIN lookups.training_lu ON sch_type = training_id
-INNER JOIN sealsCTI AS ss ON ss.seal_ID = sr.seal_ID
-LEFT JOIN sealsCTI AS ss2 ON ss2.seal_ID = sr.sch_nextwith
-INNER JOIN ircDB.anope_db_NickCore as nc on nc.id = sr.seal_ID
-WHERE sch_status = ?');
-$stmt5->bind_param('i', $lore['numberedt2']);
-$stmt5->execute();
-$result2 = $stmt5->get_result();
-while ($row2 = $result2->fetch_assoc()) {
-
-  $emplatform = $row2['platform_name'];
-  $emdesc = $row2['training_description'];
-  $emname =  $row2['seal_name'];
-  $emdate = $row2['sch_nextdate'];
-  $emtime = $row2['sch_nexttime'];
-  $emtrainer = $row2['trainer'];
-  $ememail = $row2['email'];
-}
-$htmlMsg = "<h1>Greetings, CMDR ". $emname ."!</h1><p>This email is to inform you that your next training with the Hull Seals has been scheduled! Here are the details:</p>
-  <ul>
-    <li>Training Type: " . $emdesc . "</li>
-    <li>Training Date: " . $emdate . "</li>
-    <li>Training Time: " . $emtime . " UTC</li>
-    <li>Training Platform: " . $emplatform . "</li>
-    <li>Trainer: CMDR " . $emtrainer . "</li>
-  </ul>
-  <p>Your lesson will be held in #drill-chat in the IRC. We look forward to seeing you there!<br><br>If you have any questions, please feel free to reach out to the training staff. <br><br>
-  The Hull Seals</p>
-";
-$message = "Greetings, CMDR " . $emname . "!
-
-This email is to inform you that your next training with the Hull Seals has been scheduled! Here are the details:
-
-Training Type: " . $emdesc . "\r\n
-Training Date: " . $emdate . "\r\n
-Training Time: " . $emtime . " UTC\r\n
-Training Platform: " . $emplatform . "\r\n
-Trainer: " . $emtrainer . "\r\n
-Your lesson will be held in #drill-chat in the IRC. We look forward to seeing you there!<br>If you have any questions, please feel free to reach out to the training staff.\r\n
-The Hull Seals";
-$sender = $email2['sender'];
-$senderName = $email2['senderName'];
-$usernameSmtp = $email2['usernameSmtp'];
-$passwordSmtp = $email2['passwordSmtp'];
-$host = $email2['host'];
-$port = $email2['port'];
-$emailMaster = include 'vendor/autoload.php';
-
-$mail = new PHPMailer(true);
-try {
-    // Specify the SMTP settings.
-    $mail->isSMTP();
-    $mail->setFrom($sender, $senderName);
-    $mail->Username   = $usernameSmtp;
-    $mail->Password   = $passwordSmtp;
-    $mail->Host       = $host;
-    $mail->Port       = $port;
-    $mail->SMTPAuth   = true;
-    $mail->SMTPSecure = 'tls';
-
-    // Specify the message recipients.
-    $mail->addAddress($ememail);
-    // You can also add CC, BCC, and additional To recipients here.
-
-    // Specify the content of the message.
-    $mail->isHTML(true);
-    $mail->Subject    = "Hull Seals Training Notification";
-    $mail->Body          = $htmlMsg;
-    $mail->AltBody       = $message;
-    $mail->Send();
-} catch (phpmailerException $e) {
-    echo "An error occurred. {$e->errorMessage()}", PHP_EOL; //Catch errors from PHPMailer.
-} catch (Exception $e) {
-    echo "Email not sent. {$mail->ErrorInfo}", PHP_EOL; //Catch errors from Amazon SES.
-}
+      require_once 'trainingEmail.php';
 }
 header("Location: ./requests.php");
 
@@ -215,7 +127,7 @@ AS
     FROM sealsudb.staff
     GROUP BY seal_ID
 )
-SELECT sr.sch_ID, platform_name, training_description, sch_max, st_desc, ss.seal_name, CONCAT(sch_nextdate, ', ', sch_nexttime) AS sch_next, ss2.seal_name AS trainer,
+SELECT sr.sch_ID, platform_name, training_description, sch_max, st_desc, ss.seal_name, CONCAT(sch_nextdate, ', ', sch_nexttime) AS sch_next, ss2.seal_name AS trainer, sch_confirmed,
 GROUP_CONCAT(DISTINCT tt.dt_desc ORDER BY tt.dt_ID ASC SEPARATOR ', ') AS 'times',
 GROUP_CONCAT(DISTINCT td.dt_desc ORDER BY td.dt_ID ASC SEPARATOR ', ') AS 'days'
 FROM training.schedule_requests AS sr
@@ -249,6 +161,7 @@ GROUP BY sr.sch_ID");
                 <td>Status</td>
                 <td>Next Scheduled</td>
                 <td>With</td>
+                <td>Confirmed</td>
                 <td>Options</td>
               </tr>';
               while ($row = $result->fetch_assoc()) {
@@ -277,6 +190,12 @@ GROUP BY sr.sch_ID");
                     else {
                       $field10name = $row["trainer"];
                     }
+                    if ($row["sch_confirmed"] == 0 ) {
+                      $field11name = "No";
+                    }
+                    else {
+                      $field11name = "Yes";
+                    }
               echo '<tr>
               <td>'.$field1name.'</td>
               <td>'.$field2name.'</td>
@@ -287,6 +206,7 @@ GROUP BY sr.sch_ID");
               <td>'.$field8name.'</td>
               <td>'.$field9name.'</td>
               <td>'.$field10name.'</td>
+              <td>'.$field11name.'</td>
 				      <td><button type="button" class="btn btn-warning active" data-toggle="modal" data-target="#mo'.$field7name.'">Options</button></td>';
               echo '
               <div aria-hidden="true" class="modal fade" id="mo'.$field7name.'" tabindex="-1">
@@ -298,14 +218,14 @@ GROUP BY sr.sch_ID");
 				               <div class="modal-body" style="color:black;">
 					                  <form action="?setTraining" method="post">
                               <label for="date'.$field7name.'">Next Drill Date: </label>
-                              <input type="date" id="date'.$field7name.'" name="date">
+                              <input type="date" id="date'.$field7name.'" name="date" required>
                                 &nbsp;
                               <label for="time'.$field7name.'">Next Drill Time: </label>
-                              <input type="time" id="time'.$field7name.'" name="time">
+                              <input type="time" id="time'.$field7name.'" name="time" required>
                               <input name="numberedt" required="" type="hidden" value="'.$field7name.'">
                               &nbsp;
                               <label>Choose Trainer: </label>
-                              <select name="tname" required="">
+                              <select name="tname" required>
                                    <option disabled selected value="1">
                                          Choose...
                                    </option>';
@@ -347,6 +267,28 @@ GROUP BY sr.sch_ID");
             echo '</table>';
             $result->free();
           ?>
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#emailTrainersMod" style="float:right;">
+  Email All Trainers?
+</button><br>
+          <div class="modal fade" id="emailTrainersMod" tabindex="-1" aria-labelledby="emailTrainersMod" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="color:black;" id="emailTrainersMod">Email All Trainers?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="color:black;">
+        Do you want to notify all trainers of a new schedule?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <a href="emailTrainers.php" class="btn btn-success">Confirm</a>
+      </div>
+    </div>
+  </div>
+</div>
         </article>
         <div class="clearfix"></div>
       </section>
