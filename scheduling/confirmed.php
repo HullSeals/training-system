@@ -24,9 +24,9 @@ $stmt2->close();
 $seal_ID = $row2['seal_ID'];
 $sch_ID = $row2['sch_ID'];
 }
-if ($user->data()->id == $beingManaged) {
+if ($user->data()->id == $seal_ID) {
   $stmt = $mysqli->prepare('call spTrainConfirm(?)');
-  $stmt->bind_param('i', $beingManaged);
+  $stmt->bind_param('i', $sch_ID);
   $stmt->execute();
   $stmt->close();
   require_once 'trainerEmail.php';

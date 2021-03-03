@@ -31,8 +31,8 @@ $emtime = $row2['sch_nexttime'];
 $emtrainer = $row2['trainer'];
 $ememail = $row2['email'];
 }
-$theLink = "<a href='https://hullseals.space/trainings/scheduling/confirmed.php?cne='. $emnumber .'>";
-$rawLink = "https://hullseals.space/trainings/scheduling/confirmed.php?cne='. $emnumber .'";
+$theLink = "<a href='https://hullseals.space/trainings/scheduling/confirmed.php?cne=";
+$rawLink = "https://hullseals.space/trainings/scheduling/confirmed.php?cne=";
 $htmlMsg = "<h1>Greetings, CMDR ". $emname ."!</h1><p>This email is to inform you that your next training with the Hull Seals has been scheduled OR modified! Here are the details:</p>
 <ul>
 <li>Training Type: " . $emdesc . "</li>
@@ -42,7 +42,7 @@ $htmlMsg = "<h1>Greetings, CMDR ". $emname ."!</h1><p>This email is to inform yo
 <li>Trainer: CMDR " . $emtrainer . "</li>
 </ul>
 <p>Your lesson will be held in #drill-chat in the IRC. We look forward to seeing you there! Before your lesson, it is strongly encouraged you review the <a href='https://hullse.al/SOP'>Hull Seals SOPs</a>.<br><br>If you have any questions, please feel free to reach out to the training staff. <br><br>
-" . $theLink . "Click Here to Confirm your Training!</a><br><br> If you are UNABLE to attend this training, do NOT click the link and instead email HSR Unknown at unknownwolfdev@gmail.com<br><br>
+" . $theLink . $emnumber ."'>Click Here to Confirm your Training!</a><br><br> If you are UNABLE to attend this training, do NOT click the link and instead email HSR Unknown at unknownwolfdev@gmail.com<br><br>
 The Hull Seals</p>";
 $message = "Greetings, CMDR " . $emname . "!
 
@@ -55,7 +55,7 @@ Training Platform: " . $emplatform . "\r\n
 Trainer: " . $emtrainer . "\r\n
 Your lesson will be held in #drill-chat in the IRC. We look forward to seeing you there! Before your lesson, it is strongly encouraged you review the Hull Seals SOPs, available at https://hullse.al/SOP.\r\n
 If you have any questions, please feel free to reach out to the training staff.\r\n
-" . $theLink . " Remember to confirm your Training with this link.\r\n
+" . $theLink . $emnumber ." Remember to confirm your Training with this link.\r\n
 If you are UNABLE to attend this training, do NOT click the link and instead email HSR Unknown at unknownwolfdev@gmail.com\r\n
 The Hull Seals";
 $sender = $email2['sender'];

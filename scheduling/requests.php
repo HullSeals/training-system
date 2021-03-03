@@ -152,17 +152,17 @@ GROUP BY sr.sch_ID");
             echo '<em>All Active Training Requests:</em>
             <table class="table table-dark table-striped table-bordered table-hover table-responsive-md">
               <tr>
-                <td>CMDR</td>
-                <td>Platform</td>
-                <td>Type</td>
-                <td>Blocks</td>
-                <td>Days</td>
-                <td>Max / Week</td>
-                <td>Status</td>
-                <td>Next Scheduled</td>
-                <td>With</td>
-                <td>Confirmed</td>
-                <td>Options</td>
+                <th>CMDR</th>
+                <th>Platform</th>
+                <th>Type</th>
+                <th>Blocks</th>
+                <th>Days</th>
+                <th>Max / Week</th>
+                <th>Status</th>
+                <th>Next Scheduled</th>
+                <th>With</th>
+                <th>Confirmed</th>
+                <th>Options</th>
               </tr>';
               while ($row = $result->fetch_assoc()) {
                 if (!isset($row['seal_name'])) {
@@ -294,11 +294,11 @@ else {
 echo '<em>All Active Trainer Availabilities:</em>
 <table class="table table-dark table-striped table-bordered table-hover table-responsive-md">
   <tr>
-    <td>CMDR</td>
-    <td>Platform</td>
-    <td>Blocks</td>
-    <td>Days</td>
-    <td>Max / Week</td>
+    <th>CMDR</th>
+    <th>Platform</th>
+    <th>Blocks</th>
+    <th>Days</th>
+    <th>Max / Week</th>
   </tr>';
   while ($row = $result7->fetch_assoc()) {
     if (!isset($row['seal_name'])) {
