@@ -264,9 +264,69 @@ GROUP BY sr.sch_ID");
 	            </div>';
             }
             }
-            echo '</table>';
+            echo '</table><hr>';
+            $stmt7 = $mysqli->prepare("WITH sealsCTI
+AS
+(
+SELECT MIN(ID), seal_ID, seal_name
+FROM sealsudb.staff
+GROUP BY seal_ID
+)
+SELECT sr.sch_ID, platform_name, sch_max, seal_name,
+GROUP_CONCAT(DISTINCT tt.dt_desc ORDER BY tt.dt_ID ASC SEPARATOR ', ') AS 'times',
+GROUP_CONCAT(DISTINCT td.dt_desc ORDER BY td.dt_ID ASC SEPARATOR ', ') AS 'days'
+FROM training.tra_avail AS sr
+INNER JOIN lookups.platform_lu ON seal_PLT = platform_id
+INNER JOIN training.tra_times AS st ON st.sch_ID = sr.sch_ID
+INNER JOIN training.tra_days AS sd ON sd.sch_ID = sr.sch_ID
+INNER JOIN training.ttime_lu AS tt ON tt.dt_ID = times_block
+INNER JOIN training.tdate_lu AS td ON td.dt_ID = day_block
+INNER JOIN sealsCTI AS ss ON ss.seal_ID = sr.seal_ID
+WHERE sch_status NOT IN (5,6)
+GROUP BY sr.sch_ID");
+$stmt7->execute();
+$result7 = $stmt7->get_result();
+if($result7->num_rows === 0) {
+  echo '<em>No Active Trainer Availabilities</em>';
+  }
+else {
+  $norows = 0;
+echo '<em>All Active Trainer Availabilities:</em>
+<table class="table table-dark table-striped table-bordered table-hover table-responsive-md">
+  <tr>
+    <td>CMDR</td>
+    <td>Platform</td>
+    <td>Blocks</td>
+    <td>Days</td>
+    <td>Max / Week</td>
+  </tr>';
+  while ($row = $result7->fetch_assoc()) {
+    if (!isset($row['seal_name'])) {
+      $field1name = "ERROR!";
+    }
+    else {
+      $field1name = $row['seal_name'];
+    }
+        $field2name = $row["platform_name"];
+        $field4name = $row["times"];
+        $field5name = $row["days"];
+        $field6name = $row["sch_max"];
+        $field7name = $row["sch_ID"];
+  echo '<tr>
+  <td>'.$field1name.'</td>
+  <td>'.$field2name.'</td>
+  <td>'.$field4name.'</td>
+  <td>'.$field5name.'</td>
+  <td>'.$field6name.'</td>';
+}
+}
+echo '</table>';
             $result->free();
+            $result7->free();
           ?>
+          <hr>
+          <a href="trainerAvailable.php" class="btn btn-primary" style="float: left;">Submit Trainer Availabilty</a>
+
           <button type="button" class="btn btn-success" data-toggle="modal" data-target="#emailTrainersMod" style="float:right;">
   Email All Trainers?
 </button><br>
@@ -289,6 +349,8 @@ GROUP BY sr.sch_ID");
     </div>
   </div>
 </div>
+<hr><a href=".." class="btn btn-small btn-danger" style="float: right;">Go Back</a><br>
+
         </article>
         <div class="clearfix"></div>
       </section>

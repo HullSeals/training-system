@@ -299,6 +299,7 @@ GROUP BY sr.sch_ID;");
               </div>
             </div>
           </div>
+          <hr><a href="requests.php" class="btn btn-small btn-danger" style="float: right;">Go Back</a><br>
         </article>
         <div class="clearfix"></div>
       </section>

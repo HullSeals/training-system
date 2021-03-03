@@ -34,7 +34,7 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
             <a class="nav-link" href="#"></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled" href="#">Drill Scheduling Dashboard</a>
+            <a class="nav-link active" href="../scheduling/requests.php">Drill Scheduling Dashboard</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#"></a>
@@ -46,7 +46,7 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
             <a class="nav-link" href="#"></a>
           </li>
           <li class="nav-item disabled">
-            <a class="nav-link disabled" href="#">Drill Signup Form</a>
+            <a class="nav-link active" href="../scheduling/index.php">Drill Signup Form</a>
           </li>
         </ul>
       </article>
