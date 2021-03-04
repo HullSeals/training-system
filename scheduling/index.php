@@ -146,7 +146,7 @@ if (isset($_GET['new'])) {
             Welcome, CMDR. You can request to be scheduled for Seal trainings here.<br>
             Remember, you may be asked to serve as a stand-in client for another pup. All training is held on the Hull Seals IRC server in the #drill-channel.
             <br><br>
-            You will receive an email when your drills are scheduled!
+            <a href="https://time.is/UTC" target="_blank">Click Here</a> for a UTC conversion guide. You will receive an email when your drills are scheduled!
           </p>
           <?php
           if ($hasNick == 1) {
