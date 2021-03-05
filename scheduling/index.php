@@ -61,6 +61,9 @@ $typeList = [];
 $res2 = $mysqli->query('SELECT * FROM lookups.training_lu ORDER BY training_ID');
 while ($trainingType = $res2->fetch_assoc())
 {
+  if ($trainingType['training_description'] == 'Seal') {
+    continue;
+  }
     $trainingList[$trainingType['training_ID']] = $trainingType['training_description'];
 }
 $validationErrors = [];
@@ -280,14 +283,14 @@ GROUP BY sr.sch_ID;");
                                        Choose...
                                  </option>
                                  <?php
-                                  //if(hasPerm([2],$user->data()->id)){
-                                    //foreach ($trainingList as $ttypeId => $ttypeName) {
-                                      //    echo '<option value="' . $ttypeId . '"' . ($trainingType['type'] == $ttypeName ? ' checked' : '') . '>' . $ttypeName . '</option>';
-                                    //}
-                                  //}
-                                  //else {
+                                  if(hasPerm([2],$user->data()->id)){
+                                    foreach ($trainingList as $ttypeId => $ttypeName) {
+                                          echo '<option value="' . $ttypeId . '"' . ($trainingType['type'] == $ttypeName ? ' checked' : '') . '>' . $ttypeName . '</option>';
+                                    }
+                                  }
+                                  else {
                                     echo "<option value = 1 checked>Seal Basic Training</option>";
-                                  //}
+                                  }
                                   ?>
                             </select>
                         </div>
