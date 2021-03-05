@@ -153,7 +153,7 @@ GROUP BY sr.sch_ID");
             <table class="table table-dark table-striped table-bordered table-hover table-responsive-md">
               <tr>
                 <th>CMDR</th>
-                <th>Platform</th>
+                <th>Plt</th>
                 <th>Type</th>
                 <th>Blocks</th>
                 <th>Days</th>
@@ -161,7 +161,7 @@ GROUP BY sr.sch_ID");
                 <th>Status</th>
                 <th>Next Scheduled</th>
                 <th>With</th>
-                <th>Confirmed</th>
+                <th>Conf?</th>
                 <th>Options</th>
               </tr>';
               while ($row = $result->fetch_assoc()) {
@@ -179,13 +179,13 @@ GROUP BY sr.sch_ID");
                     $field7name = $row["sch_ID"];
                     $field8name = $row["st_desc"];
                     if ($row["sch_next"] == NULL) {
-                      $field9name = "No Drill Scheduled";
+                      $field9name = "Not Scheduled";
                     }
                     else {
                       $field9name = $row["sch_next"];
                     }
                     if ($row["trainer"] == NULL) {
-                      $field10name = "No Drill Scheduled";
+                      $field10name = "Not Scheduled";
                     }
                     else {
                       $field10name = $row["trainer"];

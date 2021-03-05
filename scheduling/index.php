@@ -278,7 +278,7 @@ GROUP BY sr.sch_ID;");
                             <div class="input-group-prepend">
                                  <span class="input-group-text">Type of Training?</span>
                             </div>
-                            <select class="custom-select" id="inputGroupSelect01" name="type" required="">
+                            <select class="custom-select" id="inputGroupSelect01" name="type" required>
                                  <option disabled selected value="4">
                                        Choose...
                                  </option>
@@ -298,7 +298,7 @@ GROUP BY sr.sch_ID;");
                             <div class="input-group-prepend">
                                  <span class="input-group-text">Platform</span>
                             </div>
-                            <select class="custom-select" id="inputGroupSelect01" name="platform" required="">
+                            <select class="custom-select" id="inputGroupSelect01" name="platform" required>
                                  <option disabled selected value="4">
                                        Choose...
                                  </option>
@@ -341,7 +341,7 @@ GROUP BY sr.sch_ID;");
 		                      <div class="input-group-prepend">
 			                         <span class="input-group-text">Max Number of Lessions per Week</span>
 		                      </div>
-                          <input type="number" name= "numLessions" min="1" max="4">
+                          <input type="number" name= "numLessions" min="1" max="4" required>
 	                    </div>
                     <div class="modal-footer">
                       <button class="btn btn-primary" type="submit">Submit</button><button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>

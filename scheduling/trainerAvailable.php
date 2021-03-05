@@ -225,12 +225,8 @@ GROUP BY sr.sch_ID;");
             }
             }
             echo '</table>';
-            if($norows === 1) {
+
               echo '<button class="btn btn-success btn-lg active" data-target="#moNew" data-toggle="modal" type="button">New Training Availability</button>';
-            }
-            else {
-              echo '<p> You may only have one training request at a time.</p>';
-            }
             $result->free();
           }
           ?>
@@ -289,7 +285,7 @@ GROUP BY sr.sch_ID;");
 		                      <div class="input-group-prepend">
 			                         <span class="input-group-text">Max Number of Lessions per Week</span>
 		                      </div>
-                          <input type="number" name= "numLessions" min="1" max="4">
+                          <input type="number" name= "numLessions" min="1" max="7" required>
 	                    </div>
                     <div class="modal-footer">
                       <button class="btn btn-primary" type="submit">Submit</button><button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
