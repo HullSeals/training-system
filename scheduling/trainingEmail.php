@@ -17,7 +17,7 @@ INNER JOIN lookups.training_lu ON sch_type = training_id
 INNER JOIN sealsCTI AS ss ON ss.seal_ID = sr.seal_ID
 LEFT JOIN sealsCTI AS ss2 ON ss2.seal_ID = sr.sch_nextwith
 INNER JOIN ircDB.anope_db_NickCore as nc on nc.id = sr.seal_ID
-WHERE sch_status = ?');
+WHERE sch_ID = ?');
 $stmt5->bind_param('i', $lore['numberedt2']);
 $stmt5->execute();
 $result2 = $stmt5->get_result();
