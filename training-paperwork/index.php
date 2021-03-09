@@ -74,7 +74,7 @@ if (isset($_GET['send']))
     {
         $validationErrors[] = 'invalid IP Address';
     }
-    if ($data['dispatched'] == 0 && (!isset($data['dispatcher']) || empty($data['dispatcher'])))    {
+    if ($data['dispatched'] == 0 && (!isset($data['dispatcher']) || empty($data['dispatcher'])))
     {
       $validationErrors[] = 'Please include the Dispatcher!';
     }
