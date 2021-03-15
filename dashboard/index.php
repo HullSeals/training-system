@@ -20,35 +20,12 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
         <h1>Welcome, Trainer</h1>
         <p>Please choose your option.</p>
         <br>
-        <ul class="nav nav-pills nav-fill">
-          <li class="nav-item">
-            <a class="nav-link active" href="manage.php">Manage Seals</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#"></a>
-          </li>
-          <li class="nav-item disabled">
-            <a class="nav-link active" href="paperwork-list.php">Drill Paperwork Review</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#"></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="../scheduling/requests.php">Drill Scheduling Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#"></a>
-          </li>
-          <li class="nav-item disabled">
-            <a class="nav-link active" href="../training-paperwork" >Drill Paperwork Link</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#"></a>
-          </li>
-          <li class="nav-item disabled">
-            <a class="nav-link active" href="../scheduling/index.php">Drill Signup Form</a>
-          </li>
-        </ul>
+        <ul class="list-group list-group-horizontal-sm">
+        <a href="manage.php" class="list-group-item list-group-item-action">Manage Seals</a>
+        <a href="paperwork-list.php" class="list-group-item list-group-item-action">Drill Paperwork Review</a>
+        <a href="../training-paperwork" class="list-group-item list-group-item-action">Drill Paperwork</a>
+        <a href="../scheduling/requests.php" class="list-group-item list-group-item-action">Drill Management Dashboard</a>
+        <a href="../scheduling/index.php" class="list-group-item list-group-item-action">Drill Signup Form</a>
       </article>
             <div class="clearfix"></div>
         </section>
