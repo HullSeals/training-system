@@ -78,7 +78,18 @@ if (isset($_GET['sendEmail'])) {
       require_once 'trainingEmail.php';
 }
 header("Location: ./requests.php");
-
+}
+if (isset($_GET['cancel'])) {
+    foreach ($_REQUEST as $key => $value) {
+        $lore[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
+    }
+    $thenumber6 = '6';
+    $stmt4 = $mysqli->prepare('CALL spTrainUpdate(?,?)');
+    $stmt4->bind_param('ii', $lore['numberedt3'], $thenumber6);
+    $stmt4->execute();
+    require_once 'cancelEmail.php';
+    $stmt4->close();
+    header("Location: ./requests.php");
 }
 ?>
 <!DOCTYPE html>
@@ -253,6 +264,10 @@ GROUP BY sr.sch_ID");
                             </form>
 				               </div>
 				               <div class="modal-footer">
+                       <form action="?cancel" method = "post">
+                          <input name="numberedt3" required="" type="hidden" value="'.$field7name.'">
+                          <button class="btn btn-danger" type="submit">Cancel Scheduling Request</button>
+                        </form>
                        <form action="?sendEmail" method="post">
                           <input name="numberedt2" required="" type="hidden" value="'.$field7name.'">
                           <button class="btn btn-warning" type="submit">Send Scheduling Email</button>
