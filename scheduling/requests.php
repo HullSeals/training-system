@@ -16,7 +16,7 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'training', $db['p
 
 $statusList = [];
 $res3 = $mysqli->query('SELECT * FROM tstatus_lu ORDER BY st_ID');
-while ($statusType = $res3->fetch_assoc())
+while ($statusType = $res3->fetch_assoc()[0]?? null)
 {
     $statusList[$statusType['st_ID']] = $statusType['st_desc'];
 }
@@ -31,7 +31,7 @@ AS
 SELECT seal_name, seal_ID FROM sealsCTI
 INNER JOIN auth.user_permission_matches AS aup ON aup.user_ID = sealsCTI.seal_ID
 WHERE aup.permission_ID = 4');
-while ($trainerType = $res4->fetch_assoc())
+while ($trainerType = $res4->fetch_assoc()[0]?? null)
 {
     $trainerList[$trainerType['seal_ID']] = $trainerType['seal_name'];
 }
