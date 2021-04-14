@@ -13,6 +13,8 @@ if (!isset($_GET['cne'])) {
 //Who are we working with?
 $beingManaged = $_GET['cne'];
 $beingManaged = intval($beingManaged);
+$thenumber1 = "1";
+$thenumber2 = "2";
 
 //SQL for the first part
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -69,6 +71,44 @@ if (isset($_GET['rem']))
 }
   $stmt4 = $mysqli2->prepare('CALL spRemPerm(?,?,?)');
   $stmt4->bind_param('iii', $beingManaged, $user->data()->id, $data['perm']);
+  $stmt4->execute();
+  $stmt4->close();
+  header("Location: manage-trainer.php?cne=$beingManaged");
+}
+
+//Promote
+if (isset($_GET['promote']))
+{
+  foreach ($_REQUEST as $key => $value)
+{
+    $data[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
+}
+  $stmt3 = $mysqli2->prepare('CALL spAddPerm(?,?,?)');
+  $stmt3->bind_param('iii', $beingManaged, $user->data()->id, $thenumber2);
+  $stmt3->execute();
+  $stmt3->close();
+
+  $stmt4 = $mysqli2->prepare('CALL spRemPerm(?,?,?)');
+  $stmt4->bind_param('iii', $beingManaged, $user->data()->id, $thenumber1);
+  $stmt4->execute();
+  $stmt4->close();
+  header("Location: manage-trainer.php?cne=$beingManaged");
+}
+
+//Demote
+if (isset($_GET['demote']))
+{
+  foreach ($_REQUEST as $key => $value)
+{
+    $data[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
+}
+  $stmt3 = $mysqli2->prepare('CALL spAddPerm(?,?,?)');
+  $stmt3->bind_param('iii', $beingManaged, $user->data()->id, $thenumber1);
+  $stmt3->execute();
+  $stmt3->close();
+
+  $stmt4 = $mysqli2->prepare('CALL spRemPerm(?,?,?)');
+  $stmt4->bind_param('iii', $beingManaged, $user->data()->id, $thenumber2);
   $stmt4->execute();
   $stmt4->close();
   header("Location: manage-trainer.php?cne=$beingManaged");
