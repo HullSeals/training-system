@@ -13,23 +13,13 @@ if (!isset($_GET['cne'])) {
 //Who are we working with?
 $beingManaged = $_GET['cne'];
 $beingManaged = intval($beingManaged);
+$thenumber1 = "1";
+$thenumber2 = "2";
 
 //SQL for the first part
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $db = include '../assets/db.php';
 $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'auth', $db['port']);
-
-//Existing Perms
-$stmt = $mysqli->prepare("SELECT u.name AS name, permission_id
-FROM permissions AS u
-JOIN user_permission_matches AS s ON s.permission_id = u.ID
-WHERE user_id = ?
-AND permission_id IN (1,2,3,5,6,16,17)
-ORDER BY permission_id ASC;");
-$stmt->bind_param("i", $beingManaged);
-$stmt->execute();
-$result = $stmt->get_result();
-$stmt->close();
 
 //Case History
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -54,14 +44,6 @@ $stmtAlias->execute();
 $resultAlias = $stmtAlias->get_result();
 $stmtAlias->close();
 
-//Awful, awful badness. TODO. Fix.
-$perm1=0;
-$perm2=0;
-$perm3=0;
-$perm6=0;
-$perm16=0;
-$perm17=0;
-
 //Perm Mod SQL
 $mysqli2 = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['port']);
 $data=[];
@@ -74,7 +56,7 @@ if (isset($_GET['add']))
     $data[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
 }
   $stmt3 = $mysqli2->prepare('CALL spAddPerm(?,?,?)');
-  $stmt3->bind_param('iii', $beingManaged, $user->data()->id, $data['permAdded']);
+  $stmt3->bind_param('iii', $beingManaged, $user->data()->id, $data['perm']);
   $stmt3->execute();
   $stmt3->close();
   header("Location: manage-trainer.php?cne=$beingManaged");
@@ -88,26 +70,49 @@ if (isset($_GET['rem']))
     $data[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
 }
   $stmt4 = $mysqli2->prepare('CALL spRemPerm(?,?,?)');
-  $stmt4->bind_param('iii', $beingManaged, $user->data()->id, $data['permRemoved']);
+  $stmt4->bind_param('iii', $beingManaged, $user->data()->id, $data['perm']);
   $stmt4->execute();
   $stmt4->close();
   header("Location: manage-trainer.php?cne=$beingManaged");
 }
 
-//Redir if Staff/trainer
-$extractArray=0;
-$stmtStaffCheck = $mysqli->prepare("SELECT MAX(permission_id) AS staff
-FROM auth.user_permission_matches
-WHERE permission_id IN (4, 7, 8, 9, 10) AND user_id = ?
-GROUP BY user_id;");
-$stmtStaffCheck->bind_param("i", $beingManaged);
-$stmtStaffCheck->execute();
-$resultStaffCheck = $stmtStaffCheck->get_result();
-$extractArray = $resultStaffCheck->fetch_row()[0]?? null;
-if (isset($extractArray)) {
-  header("Location: view-trainer.php?cne=$beingManaged");
+//Promote
+if (isset($_GET['promote']))
+{
+  foreach ($_REQUEST as $key => $value)
+{
+    $data[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
 }
-$stmtStaffCheck->close();
+  $stmt3 = $mysqli2->prepare('CALL spAddPerm(?,?,?)');
+  $stmt3->bind_param('iii', $beingManaged, $user->data()->id, $thenumber2);
+  $stmt3->execute();
+  $stmt3->close();
+
+  $stmt4 = $mysqli2->prepare('CALL spRemPerm(?,?,?)');
+  $stmt4->bind_param('iii', $beingManaged, $user->data()->id, $thenumber1);
+  $stmt4->execute();
+  $stmt4->close();
+  header("Location: manage-trainer.php?cne=$beingManaged");
+}
+
+//Demote
+if (isset($_GET['demote']))
+{
+  foreach ($_REQUEST as $key => $value)
+{
+    $data[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
+}
+  $stmt3 = $mysqli2->prepare('CALL spAddPerm(?,?,?)');
+  $stmt3->bind_param('iii', $beingManaged, $user->data()->id, $thenumber1);
+  $stmt3->execute();
+  $stmt3->close();
+
+  $stmt4 = $mysqli2->prepare('CALL spRemPerm(?,?,?)');
+  $stmt4->bind_param('iii', $beingManaged, $user->data()->id, $thenumber2);
+  $stmt4->execute();
+  $stmt4->close();
+  header("Location: manage-trainer.php?cne=$beingManaged");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -166,119 +171,129 @@ $stmtStaffCheck->close();
         <br>
         <h3>Permission Management</h3>
         <br>
+        <?php
+          if (hasPerm([1],$beingManaged)) { ?>
+            <div class="table-responsive-md">
+            <table border="5" cellspacing="2" cellpadding="2" class="table table-dark table-striped table-bordered table-hover" id="pup">
+              <thead>
+              <tr>
+                  <th> <font face="Arial">Core Level</font> </th>
+                  <th> <font face="Arial">Modify To</font> </th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Pup</td>
+                  <td><form method="post" action="?promote&cne=<?php echo $beingManaged; ?>">
+            <button type="submit" class="btn btn-secondary" id="promote" name="promote">Seal</button>
+          </form></td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+          <?php }
+          elseif (hasperm([2],$beingManaged)) { ?>
+            <div class="table-responsive-md">
+            <table border="5" cellspacing="2" cellpadding="2" class="table table-dark table-striped table-bordered table-hover" id="seal">
+              <thead>
+              <tr>
+                  <th> <font face="Arial">Core Level</font> </th>
+                  <th> <font face="Arial">Modify To</font> </th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Seal</td>
+                  <td><form method="post" action="?demote&cne=<?php echo $beingManaged; ?>">
+            <button type="submit" class="btn btn-secondary" id="promote" name="promote">Pup</button>
+          </form></td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+        <?php  } ?>
         <div class="table-responsive-md">
-        <table class="table table-hover table-dark table-bordered table-striped" id="remPerms">
+        <table border="5" cellspacing="2" cellpadding="2" class="table table-dark table-striped table-bordered table-hover" id="secondaries">
           <thead>
           <tr>
-            <th>Existing Permissions</th>
-            <th>Remove Permission?</th>
+              <th> <font face="Arial">Optional Qualifications</font> </th>
+              <th> <font face="Arial">Action</font> </th>
           </tr>
-        </thead>
-        <tbody>
-        <?php
-          while ($row = $result->fetch_assoc()) {
-            $field1name = $row["name"];
-            $field2name = $row["permission_id"];
-            if ($row["permission_id"]==1) {
-              $perm1 = 1;
-            }
-            if ($row["permission_id"]==2) {
-              $perm2 = 1;
-            }
-            if ($row["permission_id"]==3) {
-              $perm3 = 1;
-            }
-            if ($row["permission_id"]==6) {
-              $perm6 = 1;
-            }
-            if ($row["permission_id"]==16) {
-              $perm16 = 1;
-            }
-            if ($row["permission_id"]==17) {
-              $perm17 = 1;
-            }
-            echo '<tr>
-            <td>'.$field1name.'</td>
-            <td><form method="post" action="?rem&cne='.$beingManaged.'">
-  		      <input type="hidden" name="permRemoved" value="'.$field2name.'">
-            <button type="submit" class="btn btn-secondary" id="remove" name="remove">Remove</button>
-          </form></td>
-            </tr>';
-          }
-          $result->free();
-        ?>
-      </tbody>
-      </table></div>
-      <br>
-      <div class="table-responsive-md">
-      <table class="table table-hover table-dark table-bordered table-striped" id="addPerms">
-        <thead>
-        <tr>
-          <th>Unassigned Permissions</th>
-          <th>Add Permission?</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-        if ($perm1==0) {
-          echo '<tr>
-          <td>Pup</td>
-          <td><form method="post" action="?add&cne='.$beingManaged.'">
-		      <input type="hidden" name="permAdded" value="1">
-          <button type="submit" class="btn btn-secondary" id="add" name="add">Add</button>
-        </form></td>
-          </tr>';
+          </thead>
+          <tbody>
+            <tr>
+              <td>KingFisher</td>
+              <td><form method="post" action="?<?php if (hasPerm([3],$beingManaged)) {
+                echo "rem";
+              }
+              else {
+                echo "add";
+              } ?>&cne=<?php echo $beingManaged; ?>">
+              <input type="hidden" name="perm" value="3">
+        <button type="submit" class="btn btn-secondary" id="kingfishersub" name="kingfishersub"><?php if (hasPerm([3],$beingManaged)) {
+          echo "Remove";
         }
-        if ($perm2==0) {
-          echo '<tr>
-          <td>Seal</td>
-          <td><form method="post" action="?add&cne='.$beingManaged.'">
-		      <input type="hidden" name="permAdded" value="2">
-          <button type="submit" class="btn btn-secondary" id="add" name="add">Add</button>
-        </form></td>
-          </tr>';
+        else {
+          echo "Add";
+        } ?></button>
+      </form></td>
+            </tr>
+            <tr>
+              <td>Dispatcher</td>
+              <td><form method="post" action="?<?php if (hasPerm([6],$beingManaged)) {
+                echo "rem";
+              }
+              else {
+                echo "add";
+              } ?>&cne=<?php echo $beingManaged; ?>">
+              <input type="hidden" name="perm" value="3">
+        <button type="submit" class="btn btn-secondary" id="dispatchsub" name="dispatchsub"><?php if (hasPerm([6],$beingManaged)) {
+          echo "Remove";
         }
-        if ($perm3==0) {
-          echo '<tr>
-          <td>Kingfisher</td>
-          <td><form method="post" action="?add&cne='.$beingManaged.'">
-		      <input type="hidden" name="permAdded" value="3">
-          <button type="submit" class="btn btn-secondary" id="add" name="add">Add</button>
-        </form></td>
-          </tr>';
+        else {
+          echo "Add";
+        } ?></button>
+      </form></td>
+            </tr>
+            <tr>
+              <td>Walrus</td>
+              <td><form method="post" action="?<?php if (hasPerm([16],$beingManaged)) {
+                echo "rem";
+              }
+              else {
+                echo "add";
+              } ?>&cne=<?php echo $beingManaged; ?>">
+              <input type="hidden" name="perm" value="3">
+        <button type="submit" class="btn btn-secondary" id="walrussub" name="walrussub"><?php if (hasPerm([16],$beingManaged)) {
+          echo "Remove";
         }
-        if ($perm6==0) {
-          echo '<tr>
-          <td>Dispatcher</td>
-          <td><form method="post" action="?add&cne='.$beingManaged.'">
-		      <input type="hidden" name="permAdded" value="6">
-          <button type="submit" class="btn btn-secondary" id="add" name="add">Add</button>
-        </form></td>
-          </tr>';
+        else {
+          echo "Add";
+        } ?></button>
+      </form></td>
+            </tr>
+            <tr>
+              <td>ChemSeal</td>
+              <td><form method="post" action="?<?php if (hasPerm([17],$beingManaged)) {
+                echo "rem";
+              }
+              else {
+                echo "add";
+              } ?>&cne=<?php echo $beingManaged; ?>">
+              <input type="hidden" name="perm" value="3">
+        <button type="submit" class="btn btn-secondary" id="cssub" name="cssub"><?php if (hasPerm([17],$beingManaged)) {
+          echo "Remove";
         }
-        if ($perm16==0) {
-          echo '<tr>
-          <td>Walrus</td>
-          <td><form method="post" action="?add&cne='.$beingManaged.'">
-		      <input type="hidden" name="permAdded" value="16">
-          <button type="submit" class="btn btn-secondary" id="add" name="add">Add</button>
-        </form></td>
-          </tr>';
-        }
-        if ($perm17==0) {
-          echo '<tr>
-          <td>ChemSeal</td>
-          <td><form method="post" action="?add&cne='.$beingManaged.'">
-		      <input type="hidden" name="permAdded" value="17">
-          <button type="submit" class="btn btn-secondary" id="add" name="add">Add</button>
-        </form></td>
-          </tr>';
-        }
-        ?>
-    </tbody>
-    </table></div>
+        else {
+          echo "Add";
+        } ?></button>
+      </form></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
     <br>
-    <h3>Cases Assigned</h3>
+    <h3>Cases Assigned1</h3>
     <br>
     <div class="table-responsive-md">
     <table border="5" cellspacing="2" cellpadding="2" class="table table-dark table-striped table-bordered table-hover" id="LookupList">
