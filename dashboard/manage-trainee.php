@@ -10,6 +10,14 @@ if (!isset($_GET['cne'])) {
   Redirect::to('index.php');
 }
 
+//Authenticaton Info
+$auth = require 'auth.php';
+$secret = $auth['auth'];
+$key = $auth['key'];
+$url = $auth['url'];
+$auth = hash_hmac('sha256', $key, $secret);
+
+
 //Who are we working with?
 $beingManaged = $_GET['cne'];
 $beingManaged = intval($beingManaged);
@@ -20,6 +28,17 @@ $thenumber2 = "2";
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $db = include '../assets/db.php';
 $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'auth', $db['port']);
+
+//IRC SQL
+$mysqlirc = new mysqli($db['server'], $db['user'], $db['pass'], 'records', $db['port']);
+$stmtirc = $mysqlirc->prepare("SELECT nick FROM ircDB.anope_db_NickAlias WHERE nc = ? LIMIT 1;");
+$stmtirc->bind_param("s", echousername($beingManaged));
+$stmtirc->execute();
+$resultirc = $stmtirc->get_result();
+$stmtirc->close();
+if (!isset($resultirc) || $resultirc == NULL) {
+  $resultirc = "Null3";
+}
 
 //Case History
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -92,6 +111,22 @@ if (isset($_GET['promote']))
   $stmt4->bind_param('iii', $beingManaged, $user->data()->id, $thenumber1);
   $stmt4->execute();
   $stmt4->close();
+  $data = [
+  		"rank" => "seal",
+  		"subject" => $resultirc,
+  		];
+  $postdata = json_encode($data);
+  $ch = curl_init($url);
+  curl_setopt($ch, CURLOPT_POST, 1);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+      'Content-Type: application/json',
+  	'hmac: '. $auth
+  ));
+  $result = curl_exec($ch);
+  curl_close($ch);
   header("Location: manage-trainer.php?cne=$beingManaged");
 }
 
@@ -111,6 +146,22 @@ if (isset($_GET['demote']))
   $stmt4->bind_param('iii', $beingManaged, $user->data()->id, $thenumber2);
   $stmt4->execute();
   $stmt4->close();
+  $data = [
+  		"rank" => "pup",
+  		"subject" => $resultirc,
+  		];
+  $postdata = json_encode($data);
+  $ch = curl_init($url);
+  curl_setopt($ch, CURLOPT_POST, 1);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+      'Content-Type: application/json',
+  	'hmac: '. $auth
+  ));
+  $result = curl_exec($ch);
+  curl_close($ch);
   header("Location: manage-trainer.php?cne=$beingManaged");
 }
 ?>
@@ -248,40 +299,6 @@ if (isset($_GET['demote']))
               } ?>&cne=<?php echo $beingManaged; ?>">
               <input type="hidden" name="perm" value="3">
         <button type="submit" class="btn btn-secondary" id="dispatchsub" name="dispatchsub"><?php if (hasPerm([6],$beingManaged)) {
-          echo "Remove";
-        }
-        else {
-          echo "Add";
-        } ?></button>
-      </form></td>
-            </tr>
-            <tr>
-              <td>Walrus</td>
-              <td><form method="post" action="?<?php if (hasPerm([16],$beingManaged)) {
-                echo "rem";
-              }
-              else {
-                echo "add";
-              } ?>&cne=<?php echo $beingManaged; ?>">
-              <input type="hidden" name="perm" value="3">
-        <button type="submit" class="btn btn-secondary" id="walrussub" name="walrussub"><?php if (hasPerm([16],$beingManaged)) {
-          echo "Remove";
-        }
-        else {
-          echo "Add";
-        } ?></button>
-      </form></td>
-            </tr>
-            <tr>
-              <td>ChemSeal</td>
-              <td><form method="post" action="?<?php if (hasPerm([17],$beingManaged)) {
-                echo "rem";
-              }
-              else {
-                echo "add";
-              } ?>&cne=<?php echo $beingManaged; ?>">
-              <input type="hidden" name="perm" value="3">
-        <button type="submit" class="btn btn-secondary" id="cssub" name="cssub"><?php if (hasPerm([17],$beingManaged)) {
           echo "Remove";
         }
         else {
