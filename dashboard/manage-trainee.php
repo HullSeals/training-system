@@ -297,7 +297,7 @@ if (isset($_GET['demote']))
               else {
                 echo "add";
               } ?>&cne=<?php echo $beingManaged; ?>">
-              <input type="hidden" name="perm" value="3">
+              <input type="hidden" name="perm" value="6">
         <button type="submit" class="btn btn-secondary" id="dispatchsub" name="dispatchsub"><?php if (hasPerm([6],$beingManaged)) {
           echo "Remove";
         }
@@ -310,7 +310,7 @@ if (isset($_GET['demote']))
         </table>
         </div>
     <br>
-    <h3>Cases Assigned1</h3>
+    <h3>Cases Assigned</h3>
     <br>
     <div class="table-responsive-md">
     <table border="5" cellspacing="2" cellpadding="2" class="table table-dark table-striped table-bordered table-hover" id="LookupList">
