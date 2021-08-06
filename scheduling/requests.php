@@ -364,7 +364,7 @@ echo '</table>';
     </div>
   </div>
 </div>
-<hr><a href=".." class="btn btn-small btn-danger" style="float: right;">Go Back</a><br>
+<hr><a href="https://www.youtube.com/watch?v=M5Vpws-76mQ" target="_blank"  class="btn btn-small btn-secondary">Training System Refresher Video</a><a href=".." class="btn btn-small btn-danger" style="float: right;">Go Back</a><br>
 
         </article>
         <div class="clearfix"></div>
