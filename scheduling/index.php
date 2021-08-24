@@ -86,6 +86,19 @@ if (isset($_GET['cancel'])) {
   }
 }
 if (isset($_GET['new'])) {
+  if (!isset($_POST['days'])) {
+    echo "No Days Set. Please try again!";
+  }
+  elseif (!isset($_POST['times'])) {
+    echo "No Times Set. Please try again!";
+  }
+  elseif (!isset($_POST['type']) || $_POST['type'] == "Choose...") {
+    echo "No Type Set. Please try again!";
+  }
+  elseif (!isset($_POST['platform']) || $_POST['platform'] == "Choose...") {
+    echo "No Platform Set. Please try again!";
+  }
+  else {
   $daysboxes = $_POST['days'];
   $daysimploded=implode(',',$daysboxes);
   $daysexploded = explode(',', $daysimploded);
@@ -130,6 +143,7 @@ if (isset($_GET['new'])) {
         }
         header("Location: .");
   }
+}
 }
 ?>
 <!DOCTYPE html>
