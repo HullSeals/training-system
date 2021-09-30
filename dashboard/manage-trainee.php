@@ -43,11 +43,11 @@ if (!isset($resultirc) || $resultirc == NULL) {
 //Case History
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $mysqli5 = new mysqli($db['server'], $db['user'], $db['pass'], 'records', $db['port']);
-$stmt5 = $mysqli5->prepare("SELECT c.*, ca.dispatch
+$stmt5 = $mysqli5->prepare("SELECT DISTINCT c.*, ca.dispatch
   FROM cases AS c
   INNER JOIN case_assigned AS ca ON ca.case_ID = c.case_ID
   INNER JOIN sealsudb.staff AS ss ON seal_ID = ca.seal_kf_id
-  WHERE id = ?");
+  WHERE seal_id = ?");
   $stmt5->bind_param("i", $beingManaged);
 $stmt5->execute();
 $result5 = $stmt5->get_result();
