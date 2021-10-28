@@ -210,7 +210,7 @@ GROUP BY sr.sch_ID;");
                 <td>Time Blocks</td>
                 <td>Days Avail.</td>
                 <td>Max/Week</td>
-                <td>Next Lession</td>
+                <td>Next Lesson</td>
                 <td>Next Trainer</td>
                 <td>Confirmed?</td>
                 <td>Options</td>
