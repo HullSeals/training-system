@@ -74,10 +74,13 @@ if (isset($_GET['sendEmail'])) {
     foreach ($_REQUEST as $key => $value) {
         $lore[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
     }
+    if ($lore['sch_next'] == "Not Scheduled") {
+        $validationErrors[] = 'Time and date not set!';
+    }
     if (!count($validationErrors)) {
       require_once 'trainingEmail.php';
+      header("Location: ./requests.php");
 }
-header("Location: ./requests.php");
 }
 if (isset($_GET['cancel'])) {
     foreach ($_REQUEST as $key => $value) {
@@ -127,6 +130,7 @@ if (isset($_GET['cancel'])) {
       <section class="introduction container">
         <article id="intro3">
           <h1>All Requested Drills</h1>
+          <?php if (count($validationErrors)) {foreach ($validationErrors as $error) {echo '<div class="alert alert-danger">' . $error . '</div>';}echo '<br>';}?>
           <p>
             Welcome, Trainer. Here are all current Seal training requests:
           </p>
@@ -270,6 +274,7 @@ GROUP BY sr.sch_ID");
                         </form>
                        <form action="?sendEmail" method="post">
                           <input name="numberedt2" required="" type="hidden" value="'.$field7name.'">
+                          <input name="sch_next" required="" type="hidden" value ="'.$field9name.'">
                           <button class="btn btn-warning" type="submit">Send Scheduling Email</button>
                         </form>
                         <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>

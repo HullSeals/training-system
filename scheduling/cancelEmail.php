@@ -10,12 +10,9 @@ SELECT MIN(ID), seal_ID, seal_name
 FROM sealsudb.staff
 GROUP BY seal_ID
 )
-SELECT platform_name, training_description, ss.seal_name, sch_nextdate, sch_nexttime, ss2.seal_name AS trainer, email, sch_ID
+SELECT ss.seal_name, email
 FROM training.schedule_requests AS sr
-INNER JOIN lookups.platform_lu ON seal_PLT = platform_id
-INNER JOIN lookups.training_lu ON sch_type = training_id
 INNER JOIN sealsCTI AS ss ON ss.seal_ID = sr.seal_ID
-LEFT JOIN sealsCTI AS ss2 ON ss2.seal_ID = sr.sch_nextwith
 INNER JOIN ircDB.anope_db_NickCore as nc on nc.id = sr.seal_ID
 WHERE sch_ID = ?');
 $stmt5->bind_param('i', $lore['numberedt3']);
