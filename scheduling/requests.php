@@ -3,12 +3,40 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+//Declare Title, Content, Author
+$pgAuthor = "";
+$pgContent = "";
+$useIP = 0; //1 if Yes, 0 if No.
+
+//If you have any custom scripts, CSS, etc, you MUST declare them here.
+//They will be inserted at the bottom of the <head> section.
+$customContent = '<style>
+  .separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.separator::before,
+.separator::after {
+  content: \'\';
+  flex: 1;
+  border-bottom: 1px solid #000;
+}
+
+.separator:not(:empty)::before {
+  margin-right: .25em;
+}
+
+.separator:not(:empty)::after {
+  margin-left: .25em;
+}
+</style>';
+
 //UserSpice Required
 require_once '../../users/init.php';  //make sure this path is correct!
+require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
 if (!securePage($_SERVER['PHP_SELF'])){die();}
-
-//IP Tracking Stuff
-require '../../assets/includes/ipinfo.php';
 
 $db = include '../assets/db.php';
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -52,7 +80,7 @@ if (isset($_GET['setTraining'])) {
             $validationErrors[] = 'DB: ' . $error['error'];
         }
         $stmt4->close();
-        header("Location: ./requests.php");
+        header("Location: ./requests.php?msg=Training Date Set Successfully");
   }
 }
 if (isset($_GET['setStatus'])) {
@@ -67,7 +95,7 @@ if (isset($_GET['setStatus'])) {
             $validationErrors[] = 'DB: ' . $error['error'];
         }
         $stmt4->close();
-        header("Location: ./requests.php");
+        header("Location: ./requests.php?msg=Status Set Successfully");
   }
 }
 if (isset($_GET['sendEmail'])) {
@@ -79,7 +107,7 @@ if (isset($_GET['sendEmail'])) {
     }
     if (!count($validationErrors)) {
       require_once 'trainingEmail.php';
-      header("Location: ./requests.php");
+      header("Location: ./requests.php?msg=Email Sent Successfully");
 }
 }
 if (isset($_GET['cancel'])) {
@@ -92,43 +120,9 @@ if (isset($_GET['cancel'])) {
     $stmt4->execute();
     require_once 'cancelEmail.php';
     $stmt4->close();
-    header("Location: ./requests.php");
+    header("Location: ./requests.php?msg=Training Request Successfully Canceled");
 }
 ?>
-<!DOCTYPE html>
-  <html lang="en">
-  <head>
-      <meta content="Requested Trainings" name="description">
-      <title>Requested Trainings | The Hull Seals</title>
-      <?php include '../../assets/includes/headerCenter.php'; ?>
-      <style>
-      .separator {
-  display: flex;
-  align-items: center;
-  text-align: center;
-}
-
-.separator::before,
-.separator::after {
-  content: '';
-  flex: 1;
-  border-bottom: 1px solid #000;
-}
-
-.separator:not(:empty)::before {
-  margin-right: .25em;
-}
-
-.separator:not(:empty)::after {
-  margin-left: .25em;
-}
-</style>
-  </head>
-  <body>
-    <div id="home">
-      <?php include '../../assets/includes/menuCode.php';?>
-      <section class="introduction container">
-        <article id="intro3">
           <h1>All Requested Drills</h1>
           <?php if (count($validationErrors)) {foreach ($validationErrors as $error) {echo '<div class="alert alert-danger">' . $error . '</div>';}echo '<br>';}?>
           <p>
@@ -370,11 +364,4 @@ echo '</table>';
   </div>
 </div>
 <hr><a href="https://www.youtube.com/watch?v=M5Vpws-76mQ" target="_blank"  class="btn btn-small btn-secondary">Training System Refresher Video</a><a href=".." class="btn btn-small btn-danger" style="float: right;">Go Back</a><br>
-
-        </article>
-        <div class="clearfix"></div>
-      </section>
-    </div>
-    <?php include '../../assets/includes/footer.php'; ?>
-  </body>
-</html>
+<?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>

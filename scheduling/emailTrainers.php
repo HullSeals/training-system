@@ -7,12 +7,25 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+//Declare Title, Content, Author
+$pgAuthor = "";
+$pgContent = "";
+$useIP = 1; //1 if Yes, 0 if No.
+
+$customContent = '<style>
+      .center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+}
+</style>
+';
+
 //UserSpice Required
 require_once '../../users/init.php';  //make sure this path is correct!
+require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
 if (!securePage($_SERVER['PHP_SELF'])){die();}
-
-//IP Tracking Stuff
-require '../../assets/includes/ipinfo.php';
 
 $db = include '../assets/db.php';
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -70,40 +83,15 @@ $mail->Subject    = "Hull Seals Training Notification";
 $mail->Body          = $htmlMsg;
 $mail->AltBody       = $message;
 $mail->Send();
+$valmsg = "Email Sent Successfully";
 } catch (phpmailerException $e) {
-echo "An error occurred. {$e->errorMessage()}", PHP_EOL; //Catch errors from PHPMailer.
+$valmsg = "An error occurred. {$e->errorMessage()}"; //Catch errors from PHPMailer.
 } catch (Exception $e) {
-echo "Email not sent. {$mail->ErrorInfo}", PHP_EOL; //Catch errors from Amazon SES.
+$valmsg = "Email not sent. {$mail->ErrorInfo}"; //Catch errors from Amazon SES.
 }
 }
-header("Location: ./requests.php");
+header("Location: ./requests.php?msg=$valmsg");
 ?>
-<!DOCTYPE html>
-  <html lang="en">
-  <head>
-      <meta content="Requested Trainings" name="description">
-      <title>Requested Trainings | The Hull Seals</title>
-      <?php include '../../assets/includes/headerCenter.php'; ?>
-      <style>
-      .center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 20%;
-}
-</style>
-  </head>
-  <body>
-    <div id="home">
-      <?php include '../../assets/includes/menuCode.php';?>
-      <section class="introduction container">
-        <article id="intro3">
           <h1>Emailing Trainers... Please Wait</h1>
 <img src="EDLoader1.svg" alt="Processing..." class="center">
-        </article>
-        <div class="clearfix"></div>
-      </section>
-    </div>
-    <?php include '../../assets/includes/footer.php'; ?>
-  </body>
-</html>
+<?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>

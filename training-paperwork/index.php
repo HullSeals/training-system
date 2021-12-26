@@ -3,12 +3,24 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+//Declare Title, Content, Author
+$pgAuthor = "";
+$pgContent = "";
+$useIP = 1;
+
+$customContent = '<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/css/bootstrap-tokenfield.min.css">
+ <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script>
+ <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.js"></script>
+ <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/css/bootstrap-tokenfield.min.css">
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+ <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+ <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js" integrity="sha384-Q9RsZ4GMzjlu4FFkJw4No9Hvvm958HqHmXI9nqo5Np2dA/uOVBvKVxAvlBQrDhk4" crossorigin="anonymous"></script>';
+
 //UserSpice Required
 require_once '../../users/init.php';  //make sure this path is correct!
+require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
 if (!securePage($_SERVER['PHP_SELF'])){die();}
-
-//IP Tracking Stuff
-require '../../assets/includes/ipinfo.php';
 
 $db = include '../assets/db.php';
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -119,28 +131,7 @@ if (isset($_GET['send']))
     }
 }
  ?>
- <!DOCTYPE html>
- <html lang="en">
- <head>
-   <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
- 	<title>Drill Paperwork | The Hull Seals</title>
-  <meta content="David Sangrey" name="author">
-  <?php include '../../assets/includes/headerCenter.php'; ?>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/css/bootstrap-tokenfield.min.css">
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/css/bootstrap-tokenfield.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js" integrity="sha384-Q9RsZ4GMzjlu4FFkJw4No9Hvvm958HqHmXI9nqo5Np2dA/uOVBvKVxAvlBQrDhk4" crossorigin="anonymous"></script>
-</head>
-<body>
-    <div id="home">
-      <?php include '../../assets/includes/menuCode.php';?>
-      <section class="introduction container">
-    <article id="intro3">
-      <h1 style="text-align: center;">DRILL - DRILL - DRILL</h1>
+       <h1 style="text-align: center;">DRILL - DRILL - DRILL</h1>
       <h5>Complete for Drill Cases Only. Do NOT complete for Seal repairs.</h5>
       <hr>
       <?php if (count($validationErrors)) {foreach ($validationErrors as $error) {echo '<div class="alert alert-danger">' . $error . '</div>';}echo '<br>';}?>
@@ -193,13 +184,7 @@ if (isset($_GET['send']))
 </textarea>
         </div><button class="btn btn-primary" type="submit">Submit</button>
       </form>
-    </article>
-    <div class="clearfix"></div>
-</section>
-</div>
-<?php include '../../assets/includes/footer.php'; ?>
-</body>
-</html>
+      <?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>
 <script type="text/javascript">
 $('#other_seals').tokenfield({autocomplete: {source: function (request, response) {jQuery.get("fetch.php", {query: request.term}, function (data) {data = $.parseJSON(data);response(data);});},delay: 100},});
 </script>

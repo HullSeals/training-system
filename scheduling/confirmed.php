@@ -2,7 +2,15 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+//Declare Title, Content, Author
+$pgAuthor = "";
+$pgContent = "";
+$useIP = 0; //1 if Yes, 0 if No.
+
+//UserSpice Required
 require_once '../../users/init.php';  //make sure this path is correct!
+require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 if (!isset($_GET['cne'])) {
   Redirect::to('index.php');
@@ -35,27 +43,7 @@ else {
   header("Location: https://hullseals.space/error-pages/401.php");
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <?php include '../../assets/includes/headerCenter.php'; ?>
-    <title>Lesson Confirmed | The Hull Seals</title>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-</head>
-<body>
-    <div id="home">
-      <?php include '../../assets/includes/menuCode.php';?>
-        <section class="introduction container">
-	    <article id="intro3">
         <h1>Lesson Confirmed.</h1>
         <p>Thank you, CMDR. We look forward to seeing you soon!</p>
         <p>You may now close the tab.</p>
-          </li>
-        </ul>
-      </article>
-            <div class="clearfix"></div>
-        </section>
-    </div>
-    <?php include '../../assets/includes/footer.php'; ?>
-</body>
-</html>
+<?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>

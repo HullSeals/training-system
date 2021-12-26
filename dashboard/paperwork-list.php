@@ -3,40 +3,31 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+//Declare Title, Content, Author
+$pgAuthor = "";
+$pgContent = "";
+$useIP = 0; //1 if Yes, 0 if No.
+
+$preContent = '<link rel="stylesheet" type="text/css" href="../assets/datatables.min.css"/>
+    <script type="text/javascript" src="../assets/datatables.min.js"></script>';
+
+$customContent = ' <script>
+ $(document).ready(function() {
+ $(\'#PaperworkList\').DataTable({
+   "order": [[ 0, \'desc\' ]]
+ });
+} );</script>';
+
 //UserSpice Required
 require_once '../../users/init.php';  //make sure this path is correct!
+require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 
 $db = include '../assets/db.php';
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'training_records', $db['port']);
 
-//Get All Drill Paperwork
-
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
- <title>Drill Paperwork List | The Hull Seals</title>
- <meta content="David Sangrey" name="author">
- <?php include '../../assets/includes/headerCenter.php'; ?>
- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
- <link rel="stylesheet" type="text/css" href="../assets/datatables.min.css"/>
- <script type="text/javascript" src="../assets/datatables.min.js"></script>
- <link rel="stylesheet" type="text/css" href="https://hullseals.space/assets/css/Centercss.css" />
- <script>
- $(document).ready(function() {
- $('#PaperworkList').DataTable({
-   "order": [[ 0, 'desc' ]]
- });
-} );</script>
-</head>
-<body>
-    <div id="home">
-      <?php include '../../assets/includes/menuCode.php';?>
-      <section class="introduction container">
-    <article id="intro3">
       <h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
       <p><a href="." class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
       <br>
@@ -89,10 +80,4 @@ WHERE ca.dispatch IS FALSE AND ca.support IS FALSE");
         ?>
       </tbody>
       </table>
-    </article>
-    <div class="clearfix"></div>
-</section>
-</div>
-<?php include '../../assets/includes/footer.php'; ?>
-</body>
-</html>
+<?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>

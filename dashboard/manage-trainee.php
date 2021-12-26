@@ -3,8 +3,23 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+//Declare Title, Content, Author
+$pgAuthor = "";
+$pgContent = "";
+$useIP = 0; //1 if Yes, 0 if No.
+
+//If you have any custom scripts, CSS, etc, you MUST declare them here.
+//They will be inserted at the bottom of the <head> section.
+$customContent = '<script type="text/javascript" src="../assets/datatables.min.js"></script>
+    <script>
+    	$(document).ready(function() {
+    	$(\'#LookupList\').DataTable();
+  		} );
+  	</script>';
+
 //UserSpice Required
 require_once '../../users/init.php';  //make sure this path is correct!
+require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
 if (!securePage($_SERVER['PHP_SELF'])){die();}
 if (!isset($_GET['cne'])) {
   Redirect::to('index.php');
@@ -12,11 +27,9 @@ if (!isset($_GET['cne'])) {
 
 //Authenticaton Info
 $auth = require 'auth.php';
-$secret = $auth['auth'];
 $key = $auth['key'];
+$constant = $auth['constant'];
 $url = $auth['url'];
-$auth = hash_hmac('sha256', $key, $secret);
-
 
 //Who are we working with?
 $beingManaged = $_GET['cne'];
@@ -29,10 +42,12 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $db = include '../assets/db.php';
 $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'auth', $db['port']);
 
+$beingManagedName = echousername($beingManaged);
+
 //IRC SQL
 $mysqlirc = new mysqli($db['server'], $db['user'], $db['pass'], 'records', $db['port']);
 $stmtirc = $mysqlirc->prepare("SELECT nick FROM ircDB.anope_db_NickAlias WHERE nc = ? LIMIT 1;");
-$stmtirc->bind_param("s", echousername($beingManaged));
+$stmtirc->bind_param("s", $beingManagedName);
 $stmtirc->execute();
 $resultirc = $stmtirc->get_result();
 $stmtirc->close();
@@ -116,14 +131,18 @@ if (isset($_GET['promote']))
   		"subject" => $resultirc,
   		];
   $postdata = json_encode($data);
+  $hmacdata = preg_replace("/\s+/", "", $postdata);
+  $auth = hash_hmac('sha256', $hmacdata, $key);
+  $keyCheck = hash_hmac('sha256', $constant, $key);
   $ch = curl_init($url);
   curl_setopt($ch, CURLOPT_POST, 1);
   curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
   curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-      'Content-Type: application/json',
-  	'hmac: '. $auth
+  'Content-Type: application/json',
+  'hmac: '. $auth,
+  'keyCheck: '. $keyCheck
   ));
   $result = curl_exec($ch);
   curl_close($ch);
@@ -151,39 +170,24 @@ if (isset($_GET['demote']))
   		"subject" => $resultirc,
   		];
   $postdata = json_encode($data);
+  $hmacdata = preg_replace("/\s+/", "", $postdata);
+  $auth = hash_hmac('sha256', $hmacdata, $key);
+  $keyCheck = hash_hmac('sha256', $constant, $key);
   $ch = curl_init($url);
   curl_setopt($ch, CURLOPT_POST, 1);
   curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
   curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-      'Content-Type: application/json',
-  	'hmac: '. $auth
+  'Content-Type: application/json',
+  'hmac: '. $auth,
+  'keyCheck: '. $keyCheck
   ));
   $result = curl_exec($ch);
   curl_close($ch);
   header("Location: manage-trainer.php?cne=$beingManaged");
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <link rel="stylesheet" type="text/css" href="../assets/datatables.min.css"/>
-  <?php include '../../assets/includes/headerCenter.php'; ?>
-    <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
-    <title>Manage Trainee | The Hull Seals</title>
-    <script type="text/javascript" src="../assets/datatables.min.js"></script>
-    <script>
-    	$(document).ready(function() {
-    	$('#LookupList').DataTable();
-  		} );
-  	</script>
-</head>
-<body>
-    <div id="home">
-      <?php include '../../assets/includes/menuCode.php';?>
-        <section class="introduction container">
-	    <article id="intro3">
         <h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
         <p>You are managing user: <em><?php echo echousername($beingManaged);?></em> <a href="manage.php" class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
         <br>
@@ -353,10 +357,4 @@ if (isset($_GET['demote']))
 ?>
       <br>
       <p><a href="manage.php" class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
-      </article>
-            <div class="clearfix"></div>
-        </section>
-    </div>
-    <?php include '../../assets/includes/footer.php'; ?>
-</body>
-</html>
+<?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>

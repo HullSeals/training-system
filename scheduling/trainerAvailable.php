@@ -3,12 +3,15 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+//Declare Title, Content, Author
+$pgAuthor = "";
+$pgContent = "";
+$useIP = 1; //1 if Yes, 0 if No.
+
 //UserSpice Required
 require_once '../../users/init.php';  //make sure this path is correct!
+require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
 if (!securePage($_SERVER['PHP_SELF'])){die();}
-
-//IP Tracking Stuff
-require '../../assets/includes/ipinfo.php';
 
 $db = include '../assets/db.php';
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -129,18 +132,6 @@ if (isset($_GET['new'])) {
   }
 }
 ?>
-<!DOCTYPE html>
-  <html lang="en">
-  <head>
-      <meta content="Trainer Availiability Form" name="description">
-      <title>Trainer Availability Form | The Hull Seals</title>
-      <?php include '../../assets/includes/headerCenter.php'; ?>
-  </head>
-  <body>
-    <div id="home">
-      <?php include '../../assets/includes/menuCode.php';?>
-      <section class="introduction container">
-        <article id="intro3">
           <h1>Trainer Availability</h1>
           <p>
             Welcome, Trainer. You can submit your availability for Seal trainings here.<br>
@@ -296,10 +287,4 @@ GROUP BY sr.sch_ID;");
             </div>
           </div>
           <hr><a href="requests.php" class="btn btn-small btn-danger" style="float: right;">Go Back</a><br>
-        </article>
-        <div class="clearfix"></div>
-      </section>
-    </div>
-    <?php include '../../assets/includes/footer.php'; ?>
-  </body>
-</html>
+<?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>
