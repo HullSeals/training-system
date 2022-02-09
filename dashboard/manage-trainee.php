@@ -27,7 +27,7 @@ if (!isset($_GET['cne'])) {
 
 //Authenticaton Info
 $auth = require 'auth.php';
-$key = $auth['key'];
+$hmackey = $auth['key'];
 $constant = $auth['constant'];
 $url = $auth['url'];
 
@@ -49,12 +49,14 @@ $mysqlirc = new mysqli($db['server'], $db['user'], $db['pass'], 'records', $db['
 $stmtirc = $mysqlirc->prepare("SELECT nick FROM ircDB.anope_db_NickAlias WHERE nc = ? LIMIT 1;");
 $stmtirc->bind_param("s", $beingManagedName);
 $stmtirc->execute();
-$resultirc = $stmtirc->get_result();
+$resultirc1 = $stmtirc->get_result();
+while ($row = $resultirc1->fetch_assoc()) {
+    $resultirc = $row['nick'];
+}
 $stmtirc->close();
 if (!isset($resultirc) || $resultirc == NULL) {
   $resultirc = "Null3";
 }
-
 //Case History
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $mysqli5 = new mysqli($db['server'], $db['user'], $db['pass'], 'records', $db['port']);
@@ -132,8 +134,8 @@ if (isset($_GET['promote']))
   		];
   $postdata = json_encode($data);
   $hmacdata = preg_replace("/\s+/", "", $postdata);
-  $auth = hash_hmac('sha256', $hmacdata, $key);
-  $keyCheck = hash_hmac('sha256', $constant, $key);
+  $auth = hash_hmac('sha256', $hmacdata, $hmackey);
+  $keyCheck = hash_hmac('sha256', $constant, $hmackey);
   $ch = curl_init($url);
   curl_setopt($ch, CURLOPT_POST, 1);
   curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
@@ -171,8 +173,8 @@ if (isset($_GET['demote']))
   		];
   $postdata = json_encode($data);
   $hmacdata = preg_replace("/\s+/", "", $postdata);
-  $auth = hash_hmac('sha256', $hmacdata, $key);
-  $keyCheck = hash_hmac('sha256', $constant, $key);
+  $auth = hash_hmac('sha256', $hmacdata, $hmackey);
+  $keyCheck = hash_hmac('sha256', $constant, $hmackey);
   $ch = curl_init($url);
   curl_setopt($ch, CURLOPT_POST, 1);
   curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
