@@ -46,9 +46,9 @@ while ($row = $gotMilk->fetch_assoc()) {
 $stmt3 = $mysqli->prepare('SELECT count(nick)
 FROM ircDB.anope_db_NickAlias
 INNER JOIN ircDB.anope_db_NickCore AS nc ON nc.display = nc
-WHERE nc = ?
+WHERE nc.id = ?
 GROUP BY nc');
-$stmt3->bind_param("s", $user->data()->username);
+$stmt3->bind_param("i", $user->data()->id);
 $stmt3->execute();
 $gotCheese = $stmt3->get_result();
 while ($row = $gotCheese->fetch_assoc()) {
@@ -157,7 +157,7 @@ if (isset($_GET['new'])) {
             <a href="https://time.is/UTC" target="_blank">Click Here</a> for a UTC conversion guide. You will receive an email when your drills are scheduled!
           </p>
           <?php
-          if ($hasNick == 1) {
+          if ($hasNick === 1) {
             echo '<h4> You cannot submit a Training Request without a registered <a class="btn btn-secondary" target="_blank" href="https://hullseals.space/cmdr-management/">CMDR/Paperwork name</a>. Please fill that out before continuing!</h4>';
           }
           elseif ($hasPW === 1) {
