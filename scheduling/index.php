@@ -67,6 +67,9 @@ while ($trainingType = $res2->fetch_assoc())
   if ($trainingType['training_description'] == 'Seal') {
     continue;
   }
+  if ($trainingType['training_description'] == 'Accelerated Otter Pipeline') {
+    continue;
+  }
     $trainingList[$trainingType['training_ID']] = $trainingType['training_description'];
 }
 $validationErrors = [];
@@ -295,6 +298,7 @@ GROUP BY sr.sch_ID;");
                                   }
                                   else {
                                     echo "<option value = 1 checked>Seal Basic Training</option>";
+                                    echo "<option value = 6 checked>Accelerated Otter Pipeline</option>";
                                   }
                                   ?>
                             </select>
