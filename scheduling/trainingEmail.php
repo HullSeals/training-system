@@ -10,13 +10,14 @@ SELECT MIN(ID), seal_ID, seal_name
 FROM sealsudb.staff
 GROUP BY seal_ID
 )
-SELECT platform_name, training_description, ss.seal_name, sch_nextdate, sch_nexttime, ss2.seal_name AS trainer, email, sch_ID
+SELECT platform_name, training_description, ss.seal_name, sch_nextdate, sch_nexttime, ss2.seal_name AS trainer, nc.email, nc2.email as tmail, sch_ID
 FROM training.schedule_requests AS sr
 INNER JOIN lookups.platform_lu ON seal_PLT = platform_id
 INNER JOIN lookups.training_lu ON sch_type = training_id
 INNER JOIN sealsCTI AS ss ON ss.seal_ID = sr.seal_ID
 LEFT JOIN sealsCTI AS ss2 ON ss2.seal_ID = sr.sch_nextwith
 INNER JOIN ircDB.anope_db_NickCore as nc on nc.id = sr.seal_ID
+INNER JOIN ircDB.anope_db_NickCore as nc2 on nc2.id = ss2.seal_ID
 WHERE sch_ID = ?');
 $stmt5->bind_param('i', $lore['numberedt2']);
 $stmt5->execute();
@@ -30,7 +31,10 @@ $emdate = $row2['sch_nextdate'];
 $emtime = $row2['sch_nexttime'];
 $emtrainer = $row2['trainer'];
 $ememail = $row2['email'];
+$tmail = $row2['tmail'];
+
 }
+
 $theLink = "<a href='https://hullseals.space/trainings/scheduling/confirmed.php?cne=";
 $rawLink = "https://hullseals.space/trainings/scheduling/confirmed.php?cne=";
 $htmlMsg = "<h1>Greetings, CMDR ". $emname ."!</h1><p>This email is to inform you that your next training with the Hull Seals has been scheduled OR modified! Here are the details:</p>
@@ -79,9 +83,10 @@ $mail->SMTPAuth   = true;
 $mail->SMTPSecure = 'tls';
 
 // Specify the message recipients.
-$mail->addAddress($ememail);
+$mail->addAddress("scheduling@hullseals.space");
 // You can also add CC, BCC, and additional To recipients here.
-
+$mail->addBcc($ememail);
+$mail->addBcc($tmail);
 // Specify the content of the message.
 $mail->isHTML(true);
 $mail->Subject    = "Hull Seals Training Notification";
