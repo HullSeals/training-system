@@ -4,9 +4,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 //Declare Title, Content, Author
-$pgAuthor = "";
-$pgContent = "";
-$useIP = 1;
+$pgAuthor = "David Sangrey";
+$pgContent = "File Drill Paperwork";
+$useIP = 1; //1 if Yes, 0 if No.
 
 $customContent = '<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/css/bootstrap-tokenfield.min.css">
  <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script>
@@ -29,8 +29,8 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'training_records', $db['port']);
 $platformList = [];
 $res = $mysqli->query('SELECT * FROM lookups.platform_lu ORDER BY platform_id');
-while ($burgerking = $res->fetch_assoc()) {
-  $platformList[$burgerking['platform_id']] = $burgerking['platform_name'];
+while ($platformInfo = $res->fetch_assoc()) {
+  $platformList[$platformInfo['platform_id']] = $platformInfo['platform_name'];
 }
 
 $statusList = [];
@@ -42,25 +42,36 @@ while ($casestat2 = $res->fetch_assoc()) {
   if ($casestat2['status_name'] == 'On Hold') {
     continue;
   }
+  if ($casestat2['status_name'] == 'Delete Case') {
+    continue;
+  }
 
   $statusList[$casestat2['status_id']] = $casestat2['status_name'];
 }
 
-$validationErrors = [];
+$stmt3 = $mysqli->prepare("SELECT COUNT(seal_name) AS num_cmdrs FROM sealsudb.staff WHERE seal_ID = ? AND del_flag != True");
+$stmt3->bind_param("i", $user->data()->id);
+$stmt3->execute();
+$resultnum = $stmt3->get_result();
+$resultnum = $resultnum->fetch_assoc();
+
+$validationErrors = 0;
 $data = [];
 if (isset($_GET['send'])) {
   foreach ($_REQUEST as $key => $value) {
     $data[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
   }
   if (strlen($data['client_nm']) > 45) {
-    $validationErrors[] = 'commander name too long';
+    sessionValMessages("CMDR name too long. Please try again.");
+    $validationErrors += 1;
   }
   if (strlen($data['curr_sys']) > 100) {
-    $validationErrors[] = 'system too long';
+    sessionValMessages("System name too long. Please try again.");
+    $validationErrors += 1;
   }
-  $data['hull'] = (int)$data['hull'];
   if ($data['hull'] > 100 || $data['hull'] < 1) {
-    $validationErrors[] = 'invalid hull';
+    sessionValMessages("Error! Invalid hull set! Please try again.");
+    $validationErrors += 1;
   }
   $data['cb'] = isset($data['cb']);
   if (isset($data['dispatched'])) {
@@ -69,24 +80,25 @@ if (isset($_GET['send'])) {
     $data['dispatched'] = 0;
   }
   if (!isset($platformList[$data['platypus']])) {
-    $validationErrors[] = 'invalid platform';
+    sessionValMessages("Error! No platform set! Please try again.");
+    $validationErrors += 1;
   }
   if (!isset($statusList[$data['case_stat']])) {
-    $validationErrors[] = 'invalid status';
+    sessionValMessages("Error! No case status set! Please try again.");
+    $validationErrors += 1;
   }
   if (!isset($lgd_ip)) {
-    $validationErrors[] = 'invalid IP Address';
+    sessionValMessages("Error! Unable to log IP Address! Please contact the Cyberseals.");
+    $validationErrors += 1;
   }
   if ($data['dispatched'] == 0 && (!isset($data['dispatcher']) || empty($data['dispatcher']))) {
-    $validationErrors[] = 'Please include the Dispatcher!';
+    sessionValMessages("Please set the Dispatchers and try again.");
+    $validationErrors += 1;
   }
-  if (!count($validationErrors)) {
+  if ($validationErrors == 0) {
     $stmt = $mysqli->prepare('CALL spTempCreateHSCaseCleaner(?,?,?,?,?,?,?,?,?,?,@caseID)');
     $stmt->bind_param('ssiiiiisis', $data['client_nm'], $data['curr_sys'], $data['hull'], $data['cb'], $data['platypus'], $data['case_stat'], $data['dispatched'], $data['notes'], $user->data()->id, $lgd_ip);
     $stmt->execute();
-    foreach ($stmt->error_list as $error) {
-      $validationErrors[] = 'DB: ' . $error['error'];
-    }
     $result = mysqli_stmt_get_result($stmt);
     while ($row = mysqli_fetch_array($result, MYSQLI_NUM)) {
       foreach ($row as $r) {
@@ -118,65 +130,66 @@ if (isset($_GET['send'])) {
 <h1 style="text-align: center;">DRILL - DRILL - DRILL</h1>
 <h5>Complete for Drill Cases Only. Do NOT complete for Seal repairs.</h5>
 <hr>
-<?php if (count($validationErrors)) {
-  foreach ($validationErrors as $error) {
-    echo '<div class="alert alert-danger">' . $error . '</div>';
-  }
-  echo '<br>';
-} ?>
-<form action="?send" method="post">
-  <div class="input-group mb-3">
-    <p>Your ID has been logged as <?php echo echousername($user->data()->id); ?>. This will be entered as the Lead Seal.</p>
-    <p>Do not enter yourself as either a Dispatcher or another Seal.</p>
+<?php
+if ($resultnum['num_cmdrs'] === 0) { ?>
+  <div class="alert alert-danger" role="alert">
+    <h2> You cannot file paperwork without a valid CMDR registered.</h2><a href="https://hullseals.space/cmdr-management/" class="alert-link" target="_blank">Click Here</a> to set one, then refresh the page.
   </div>
-  <div class="input-group mb-3">
-    <input aria-label="Client Name" class="form-control" name="client_nm" placeholder="Client Name" required="" type="text" value="<?= $data['client_nm'] ?? '' ?>">
-  </div>
-  <div class="input-group mb-3">
-    <input aria-label="System" class="form-control" name="curr_sys" placeholder="System" required="" type="text" value="<?= $data['curr_sys'] ?? '' ?>">
-  </div>
-  <div class="input-group mb-3">
-    <input aria-label="Starting Hull %" class="form-control" max="100" min="1" name="hull" placeholder="Starting Hull %" required="" type="number" value="<?= $data['hull'] ?? '' ?>">
-  </div>
-  <div class="input-group mb-3">
-    <label class="input-group-text text-primary"><input aria-label="Canopy Breached?" name="cb" type="checkbox" value="1" data-toggle="toggle" data-on="Canopy Breached" data-off="Canopy Not Breached" data-onstyle="danger" data-offstyle="success"> </label>
-  </div>
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text">Platform</span>
-    </div><select class="custom-select" id="inputGroupSelect01" name="platypus" required="">
-      <?php foreach ($platformList as $platformId => $platformName) {
-        echo '<option value="' . $platformId . '"' . ($burgerking['platypus'] == $platformId ? ' checked' : '') . '>' . $platformName . '</option>';
-      } ?>
-    </select>
-  </div>
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text">Was the Case Successful?</span>
-    </div><select class="custom-select" id="inputGroupSelect01" name="case_stat" required="">
-      <?php foreach ($statusList as $statusId => $statusName) {
-        echo '<option value="' . $statusId . '"' . ($casestat2['case_stat'] == $statusId ? ' checked' : '') . '>' . $statusName . '</option>';
-      } ?>
-    </select>
-  </div>
-  <div class="input-group mb-3">
-    <label class="input-group-text text-primary" id="dispatched"><input aria-label="Self Dispatched?" name="dispatched" type="checkbox" value="1" data-toggle="toggle" data-on="Self-Dispatched" data-off="Dispatched Case" data-onstyle="danger" data-offstyle="success"></label>
-  </div>
-  <div class="input-group mb-3">
-    <input aria-label="Who was Dispatching?" class="form-control" id="dispatcher" name="dispatcher" placeholder="Who was Dispatching? (If None, Leave Blank)" type="text" value="<?= $data['dispatcher'] ?? '' ?>">
-  </div>
-  <div class="input-group mb-3">
-    <input aria-label="other_seals" class="form-control" id="other_seals" name="other_seals" placeholder="Other Seals on the Case? (If None, Leave Blank)" type="text" value="<?= $data['other_seals'] ?? '' ?>">
-  </div>
-  <div class="input-group mb-3">
-    <textarea aria-label="Notes (Required)" minlength="10" class="form-control" name="notes" placeholder="Notes (Required).
+<?php } else { ?>
+  <form action="?send" method="post">
+    <div class="input-group mb-3">
+      <p>Your ID has been logged as <?= echousername($user->data()->id); ?>. You will be entered as the Lead Seal.</p>
+      <p>Do not enter yourself as either a Dispatcher or another Seal.</p>
+    </div>
+    <div class="input-group mb-3">
+      <input class="form-control" name="client_nm" pattern="[\x20-\x7A]+" minlength="3" placeholder="Client Name" title="The Client name in standard characters" required type="text" value="<?= $data['client_nm'] ?? '' ?>">
+    </div>
+    <div class="input-group mb-3">
+      <input class="form-control" name="curr_sys" pattern="[\x20-\x7A]+" minlength="3" placeholder="System" title="The System name in standard characters" required type="text" value="<?= $data['curr_sys'] ?? '' ?>">
+    </div>
+    <div class="input-group mb-3">
+      <input class="form-control" max="100" min="0" pattern="[0-9]" name="hull" placeholder="Starting Hull %" required type="number" value="<?= $data['hull'] ?? '' ?>">
+    </div>
+    <div class="input-group mb-3">
+      <label class="input-group-text text-primary"><input name="cb" type="checkbox" value="1" data-toggle="toggle" data-on="Canopy Breached" data-off="Canopy Not Breached" data-onstyle="danger" data-offstyle="success"> </label>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Platform</span>
+      </div><select class="custom-select" id="inputGroupSelect01" name="platypus" required>
+        <?php foreach ($platformList as $platformId => $platformName) {
+          echo '<option value="' . $platformId . '">' . $platformName . '</option>';
+        } ?>
+      </select>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Was the Case Successful?</span>
+      </div><select class="custom-select" id="inputGroupSelect01" name="case_stat" required>
+        <?php foreach ($statusList as $statusId => $statusName) {
+          echo '<option value="' . $statusId . '">' . $statusName . '</option>';
+        } ?>
+      </select>
+    </div>
+    <div class="input-group mb-3">
+      <label class="input-group-text text-primary"><input name="dispatched" type="checkbox" value="1" data-toggle="toggle" data-on="Self-Dispatched" data-off="Dispatched Case" data-onstyle="danger" data-offstyle="success"></label>
+    </div>
+    <div class="input-group mb-3">
+      <input class="form-control" id="dispatcher" name="dispatcher" placeholder="Who was Dispatching? (If None, Leave Blank)" type="text" value="<?= $data['dispatcher'] ?? '' ?>">
+    </div>
+    <div class="input-group mb-3">
+      <input class="form-control" id="other_seals" name="other_seals" placeholder="Other Seals on the Case? (If None, Leave Blank)" type="text" value="<?= $data['other_seals'] ?? '' ?>">
+    </div>
+    <div class="input-group mb-3">
+      <textarea required minlength="10" pattern="[\x20-\x7F]+" class="form-control" name="notes" placeholder="Notes (Required).
           Suggested notes include:
           - Distance Traveled
           - Unique or Unusual details about the repair
           - Number of Limpets used, Client Ship Type, or other details." rows="5"><?= $data['notes'] ?? '' ?>
 </textarea>
-  </div><button class="btn btn-primary" type="submit">Submit</button>
-</form>
+    </div><button class="btn btn-primary" type="submit">Submit</button>
+  </form>
+<?php } ?>
 <?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>
 <script type="text/javascript">
   $('#other_seals').tokenfield({

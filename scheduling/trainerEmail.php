@@ -4,7 +4,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 $email2 = include 'email.php';
-
 $stmt5 = $mysqli->prepare('WITH sealsCTI
 AS
 (
@@ -60,7 +59,6 @@ $passwordSmtp = $email2['passwordSmtp'];
 $host = $email2['host'];
 $port = $email2['port'];
 $emailMaster = include 'vendor/autoload.php';
-
 $mail = new PHPMailer(true);
 try {
     // Specify the SMTP settings.
@@ -75,8 +73,6 @@ try {
 
     // Specify the message recipients.
     $mail->addAddress($ememail);
-    // You can also add CC, BCC, and additional To recipients here.
-
     // Specify the content of the message.
     $mail->isHTML(true);
     $mail->Subject    = "Hull Seals Trainer Notification";

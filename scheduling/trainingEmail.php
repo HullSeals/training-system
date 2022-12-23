@@ -4,7 +4,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 $email2 = include 'email.php';
-
 $stmt5 = $mysqli->prepare('WITH sealsCTI
 AS
 (
@@ -35,7 +34,6 @@ while ($row2 = $result2->fetch_assoc()) {
     $ememail = $row2['email'];
     $tmail = $row2['tmail'];
 }
-
 $theLink = "<a href='https://hullseals.space/trainings/scheduling/confirmed.php?cne=";
 $rawLink = "https://hullseals.space/trainings/scheduling/confirmed.php?cne=";
 $htmlMsg = "<h1>Greetings, CMDR " . $emname . "!</h1><p>This email is to inform you that your next training with the Hull Seals has been scheduled OR modified! Here are the details:</p>
@@ -70,7 +68,6 @@ $passwordSmtp = $email2['passwordSmtp'];
 $host = $email2['host'];
 $port = $email2['port'];
 $emailMaster = include 'vendor/autoload.php';
-
 $mail = new PHPMailer(true);
 try {
     // Specify the SMTP settings.

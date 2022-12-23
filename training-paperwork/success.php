@@ -4,8 +4,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 //Declare Title, Content, Author
-$pgAuthor = "";
-$pgContent = "";
+$pgAuthor = "David Sangrey";
+$pgContent = "Drill Paperwork Complete";
 $useIP = 0;
 //UserSpice Required
 require_once '../../users/init.php';  //make sure this path is correct!
