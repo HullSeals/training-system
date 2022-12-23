@@ -16,4 +16,3 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], "sealsudb", $db['p
 	     $json[] = $row['seal_name'];
 	}
 	echo json_encode($json);
-?>

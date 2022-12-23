@@ -10,8 +10,10 @@ $useIP = 0; //1 if Yes, 0 if No.
 
 //UserSpice Required
 require_once '../../users/init.php';  //make sure this path is correct!
-require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
-if (!securePage($_SERVER['PHP_SELF'])){die();}
+require_once $abs_us_root . $us_url_root . 'users/includes/template/prep.php';
+if (!securePage($_SERVER['PHP_SELF'])) {
+  die();
+}
 if (!isset($_GET['cne'])) {
   Redirect::to('index.php');
 }
@@ -27,10 +29,10 @@ $stmt2->bind_param('i', $beingManaged);
 $stmt2->execute();
 $result2 = $stmt2->get_result();
 while ($row2 = $result2->fetch_assoc()) {
-$stmt2->close();
+  $stmt2->close();
 
-$seal_ID = $row2['seal_ID'];
-$sch_ID = $row2['sch_ID'];
+  $seal_ID = $row2['seal_ID'];
+  $sch_ID = $row2['sch_ID'];
 }
 if ($user->data()->id == $seal_ID) {
   $stmt = $mysqli->prepare('call spTrainConfirm(?)');
@@ -38,12 +40,11 @@ if ($user->data()->id == $seal_ID) {
   $stmt->execute();
   $stmt->close();
   require_once 'trainerEmail.php';
-}
-else {
+} else {
   header("Location: https://hullseals.space/error-pages/401.php");
 }
 ?>
-        <h1>Lesson Confirmed.</h1>
-        <p>Thank you, CMDR. We look forward to seeing you soon!</p>
-        <p>You may now close the tab.</p>
+<h1>Lesson Confirmed.</h1>
+<p>Thank you, CMDR. We look forward to seeing you soon!</p>
+<p>You may now close the tab.</p>
 <?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>

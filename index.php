@@ -12,4 +12,3 @@ die();
 else {
   header("Location: https://hullseals.space/trainings/scheduling/index.php");
 }
-?>

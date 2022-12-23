@@ -29,11 +29,11 @@ $emtrainer = $row2['trainer'];
 $ememail = $row2['email'];
 }
 $htmlMsg = "<h1>Greetings, CMDR ". $emname ."!</h1><p>This email is to inform you that your training request with The Hull Seals has been cancelled.</p>
-<p>The most common reason for this is missing multiple lessons that you have scheduled and confirmed. In order to continue your training, you will need to submit a new training availability request. If you have any questions, please contact HSR Unknown at unknownwolfdev@gmail.com<br><br>
+<p>The most common reason for this is missing multiple lessons that you have scheduled and confirmed. In order to continue your training, you will need to submit a new training availability request. If you have any questions, please contact Hack-Wizard at hack-wizard@is-a-furry.org<br><br>
 The Hull Seals</p>";
 $message = "Greetings, CMDR " . $emname . "!
 
-This email is to inform you that your training request with The Hull Seals has been cancelled. The most common reason for this is missing multiple lessons that you have scheduled and confirmed. In order to continue your training, you will need to submit a new training availability request. If you have any questions, please contact HSR Unknown at unknownwolfdev@gmail.com\r\n
+This email is to inform you that your training request with The Hull Seals has been cancelled. The most common reason for this is missing multiple lessons that you have scheduled and confirmed. In order to continue your training, you will need to submit a new training availability request. If you have any questions, please contact Hack-Wizard at hack-wizard@is-a-furry.org\r\n
 The Hull Seals";
 $sender = $email2['sender'];
 $senderName = $email2['senderName'];
@@ -70,4 +70,3 @@ echo "An error occurred. {$e->errorMessage()}", PHP_EOL; //Catch errors from PHP
 } catch (Exception $e) {
 echo "Email not sent. {$mail->ErrorInfo}", PHP_EOL; //Catch errors from Amazon SES.
 }
-?>

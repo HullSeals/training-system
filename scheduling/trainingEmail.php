@@ -1,6 +1,8 @@
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+
 $email2 = include 'email.php';
 
 $stmt5 = $mysqli->prepare('WITH sealsCTI
@@ -23,21 +25,20 @@ $stmt5->bind_param('i', $lore['numberedt2']);
 $stmt5->execute();
 $result2 = $stmt5->get_result();
 while ($row2 = $result2->fetch_assoc()) {
-$emnumber = $row2['sch_ID'];
-$emplatform = $row2['platform_name'];
-$emdesc = $row2['training_description'];
-$emname =  $row2['seal_name'];
-$emdate = $row2['sch_nextdate'];
-$emtime = $row2['sch_nexttime'];
-$emtrainer = $row2['trainer'];
-$ememail = $row2['email'];
-$tmail = $row2['tmail'];
-
+    $emnumber = $row2['sch_ID'];
+    $emplatform = $row2['platform_name'];
+    $emdesc = $row2['training_description'];
+    $emname =  $row2['seal_name'];
+    $emdate = $row2['sch_nextdate'];
+    $emtime = $row2['sch_nexttime'];
+    $emtrainer = $row2['trainer'];
+    $ememail = $row2['email'];
+    $tmail = $row2['tmail'];
 }
 
 $theLink = "<a href='https://hullseals.space/trainings/scheduling/confirmed.php?cne=";
 $rawLink = "https://hullseals.space/trainings/scheduling/confirmed.php?cne=";
-$htmlMsg = "<h1>Greetings, CMDR ". $emname ."!</h1><p>This email is to inform you that your next training with the Hull Seals has been scheduled OR modified! Here are the details:</p>
+$htmlMsg = "<h1>Greetings, CMDR " . $emname . "!</h1><p>This email is to inform you that your next training with the Hull Seals has been scheduled OR modified! Here are the details:</p>
 <ul>
 <li>Training Type: " . $emdesc . "</li>
 <li>Training Date: " . $emdate . "</li>
@@ -46,7 +47,7 @@ $htmlMsg = "<h1>Greetings, CMDR ". $emname ."!</h1><p>This email is to inform yo
 <li>Trainer: CMDR " . $emtrainer . "</li>
 </ul>
 <p>Your lesson will be held in #drill-chat in the IRC. We look forward to seeing you there! Before your lesson, it is strongly encouraged you review the <a href='https://hullse.al/SOP'>Hull Seals SOPs</a>.<br><br>If you have any questions, please feel free to reach out to the training staff. <br><br>
-" . $theLink . $emnumber ."'>Click Here to Confirm your Training!</a><br><br> If you are UNABLE to attend this training, do NOT click the link and instead email HSR Unknown at unknownwolfdev@gmail.com<br><br>
+" . $theLink . $emnumber . "'>Click Here to Confirm your Training!</a><br><br> If you are UNABLE to attend this training, do NOT click the link and instead email Hack-Wizard at hack-wizard@is-a-furry.org<br><br>
 The Hull Seals</p>";
 $message = "Greetings, CMDR " . $emname . "!
 
@@ -59,8 +60,8 @@ Training Platform: " . $emplatform . "\r\n
 Trainer: " . $emtrainer . "\r\n
 Your lesson will be held in #drill-chat in the IRC. We look forward to seeing you there! Before your lesson, it is strongly encouraged you review the Hull Seals SOPs, available at https://hullse.al/SOP.\r\n
 If you have any questions, please feel free to reach out to the training staff.\r\n
-" . $theLink . $emnumber ." Remember to confirm your Training with this link.\r\n
-If you are UNABLE to attend this training, do NOT click the link and instead email HSR Unknown at unknownwolfdev@gmail.com\r\n
+" . $theLink . $emnumber . " Remember to confirm your Training with this link.\r\n
+If you are UNABLE to attend this training, do NOT click the link and instead email Hack-Wizard at hack-wizard@is-a-furry.org\r\n
 The Hull Seals";
 $sender = $email2['sender'];
 $senderName = $email2['senderName'];
@@ -72,30 +73,29 @@ $emailMaster = include 'vendor/autoload.php';
 
 $mail = new PHPMailer(true);
 try {
-// Specify the SMTP settings.
-$mail->isSMTP();
-$mail->setFrom($sender, $senderName);
-$mail->Username   = $usernameSmtp;
-$mail->Password   = $passwordSmtp;
-$mail->Host       = $host;
-$mail->Port       = $port;
-$mail->SMTPAuth   = true;
-$mail->SMTPSecure = 'tls';
+    // Specify the SMTP settings.
+    $mail->isSMTP();
+    $mail->setFrom($sender, $senderName);
+    $mail->Username   = $usernameSmtp;
+    $mail->Password   = $passwordSmtp;
+    $mail->Host       = $host;
+    $mail->Port       = $port;
+    $mail->SMTPAuth   = true;
+    $mail->SMTPSecure = 'tls';
 
-// Specify the message recipients.
-$mail->addAddress("scheduling@hullseals.space");
-// You can also add CC, BCC, and additional To recipients here.
-$mail->addBcc($ememail);
-$mail->addBcc($tmail);
-// Specify the content of the message.
-$mail->isHTML(true);
-$mail->Subject    = "Hull Seals Training Notification";
-$mail->Body          = $htmlMsg;
-$mail->AltBody       = $message;
-$mail->Send();
+    // Specify the message recipients.
+    $mail->addAddress("scheduling@hullseals.space");
+    // You can also add CC, BCC, and additional To recipients here.
+    $mail->addBcc($ememail);
+    $mail->addBcc($tmail);
+    // Specify the content of the message.
+    $mail->isHTML(true);
+    $mail->Subject    = "Hull Seals Training Notification";
+    $mail->Body          = $htmlMsg;
+    $mail->AltBody       = $message;
+    $mail->Send();
 } catch (phpmailerException $e) {
-echo "An error occurred. {$e->errorMessage()}", PHP_EOL; //Catch errors from PHPMailer.
+    echo "An error occurred. {$e->errorMessage()}", PHP_EOL; //Catch errors from PHPMailer.
 } catch (Exception $e) {
-echo "Email not sent. {$mail->ErrorInfo}", PHP_EOL; //Catch errors from Amazon SES.
+    echo "Email not sent. {$mail->ErrorInfo}", PHP_EOL; //Catch errors from Amazon SES.
 }
-?>
