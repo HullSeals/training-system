@@ -26,7 +26,7 @@ while ($platform = $res->fetch_assoc()) {
 
 //Check PW and IRC Names
 $stmt2 = $mysqli->prepare("SELECT COUNT(seal_name) AS num_cmdrs FROM sealsudb.staff WHERE seal_ID = ? AND del_flag != True");
-$stmt2->bind_param("is", $user->data()->id, $user->data()->username);
+$stmt2->bind_param("i", $user->data()->id);
 $stmt2->execute();
 $resultnum = $stmt2->get_result();
 $resultnum = $resultnum->fetch_assoc();
@@ -53,7 +53,6 @@ while ($trainingType = $res2->fetch_assoc()) {
 
 $validationErrors = 0;
 $lore = [];
-
 if (isset($_GET['cancel'])) {
   foreach ($_REQUEST as $key => $value) {
     $lore[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
@@ -64,20 +63,29 @@ if (isset($_GET['cancel'])) {
     $stmt4->bind_param('ii', $lore['numberedt'], $thenumersix);
     $stmt4->execute();
     $stmt4->close();
+    usMessage("Training Request Canceled!");
     header("Location: .");
     die();
   }
 }
 if (isset($_GET['new'])) {
   if (!isset($_POST['days'])) {
-    echo "No Days Set. Please try again!";
-  } elseif (!isset($_POST['times'])) {
-    echo "No Times Set. Please try again!";
-  } elseif (!isset($_POST['type']) || $_POST['type'] == "Choose...") {
-    echo "No Type Set. Please try again!";
-  } elseif (!isset($_POST['platform']) || $_POST['platform'] == "Choose...") {
-    echo "No Platform Set. Please try again!";
-  } else {
+    usError("No days set! Please try again.");
+    $validationErrors += 1;
+  }
+  if (!isset($_POST['times'])) {
+    usError("No times set! Please try again.");
+    $validationErrors += 1;
+  }
+  if (!isset($_POST['type']) || $_POST['type'] == "Choose...") {
+    usError("No training type set! Please try again.");
+    $validationErrors += 1;
+  }
+  if (!isset($_POST['platform']) || $_POST['platform'] == "Choose...") {
+    usError("No platform set! Please try again.");
+    $validationErrors += 1;
+  }
+  if ($validationErrors == 0) {
     $daysboxes = $_POST['days'];
     $daysimploded = implode(',', $daysboxes);
     $daysexploded = explode(',', $daysimploded);
@@ -89,13 +97,10 @@ if (isset($_GET['new'])) {
         $lore[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
       }
     }
-    if ($validationErrors == 0)) {
+    if ($validationErrors == 0) {
       $stmt = $mysqli->prepare('CALL spCreateTrainingReq(?,?,?,?,?,@schID)');
       $stmt->bind_param('iiiis', $user->data()->id, $lore['type'], $lore['platform'], $lore['numLessions'], $lgd_ip);
       $stmt->execute();
-      foreach ($stmt->error_list as $error) {
-        $validationErrors[] = 'DB: ' . $error['error'];
-      }
       $result = mysqli_stmt_get_result($stmt);
       while ($row = mysqli_fetch_array($result, MYSQLI_NUM)) {
         foreach ($row as $r) {
@@ -115,12 +120,39 @@ if (isset($_GET['new'])) {
         $stmt3->execute();
         $stmt3->close();
       }
+      usSuccess("Training Request Submitted!");
       header("Location: .");
       die();
     }
   }
 }
-?>
+
+if (isset($_GET['cne'])) {
+  usSuccess("Lesson Confirmed");
+  $beingManaged = $_GET['cne'];
+  $beingManaged = intval($beingManaged);
+  $stmtconfirm = $mysqli->prepare('SELECT sch_ID, seal_ID FROM training.schedule_requests WHERE sch_ID = ?');
+  $stmtconfirm->bind_param('i', $beingManaged);
+  $stmtconfirm->execute();
+  $resultconfirm = $stmtconfirm->get_result();
+  while ($rowconfirm = $resultconfirm->fetch_assoc()) {
+    $stmtconfirm->close();
+    $seal_ID = $rowconfirm['seal_ID'];
+    $sch_ID = $rowconfirm['sch_ID'];
+  }
+  if ($user->data()->id == $seal_ID) {
+    $stmt = $mysqli->prepare('call spTrainConfirm(?)');
+    $stmt->bind_param('i', $sch_ID);
+    $stmt->execute();
+    $stmt->close();
+    require_once 'trainerEmail.php'; ?>
+    <div class="alert alert-success" role="alert">
+      <h1>Lesson Confirmed.</h1>
+      <p>Thank you, CMDR. We look forward to seeing you soon!</p>
+      <p>You may now close the tab.</p>
+    </div>
+<?php }
+} ?>
 <h1>Pup Signup Form</h1>
 <p>
   Welcome, CMDR. You can request to be scheduled for Seal trainings here.<br>
@@ -131,7 +163,7 @@ if (isset($_GET['new'])) {
 <?php
 if ($resultnum['num_cmdrs'] === 0) { ?>
   <h4> You cannot submit a Training Request without a registered <a class="btn btn-secondary" target="_blank" href="https://hullseals.space/cmdr-management/">CMDR/Paperwork name</a>. Please fill that out before continuing!</h4>
-<?php } elseif ($resultIRC['num_IRC'] === 0) { ?>
+<?php } elseif ($resultIRC['num_irc'] === 0) { ?>
   <h4> You cannot submit a Training Request without a registered <a class="btn btn-secondary" target="_blank" href="https://hullseals.space/cmdr-management/irc-names">IRC name</a>. Please fill that out before continuing!</h4>
   <?php } else {
   $stmt = $mysqli->prepare("
@@ -172,7 +204,7 @@ GROUP BY sr.sch_ID;");
         <td>Confirmed?</td>
         <td>Options</td>
       </tr>
-      <?
+      <?php
       while ($row = $result->fetch_assoc()) {
         $field1name = $row['sch_ID'];
         $field2name = $row["training_description"];
@@ -222,7 +254,8 @@ GROUP BY sr.sch_ID;");
               </div>
             </div>
           </div>
-        <?php    }
+        <?php
+      }
     }
     echo '</table>';
     if ($result->num_rows === 0) { ?>
@@ -246,13 +279,13 @@ GROUP BY sr.sch_ID;");
                   <span class="input-group-text">Type of Training?</span>
                 </div>
                 <select class="custom-select" id="inputGroupSelect01" name="type" required>
-                  <option disabled selected value="4">
+                  <option disabled selected value="0">
                     Choose...
                   </option>
                   <?php
                   if (hasPerm([2], $user->data()->id)) {
                     foreach ($trainingList as $ttypeId => $ttypeName) {
-                      echo '<option value="' . $ttypeId . '">' . $ttypename . '</option>';
+                      echo '<option value="' . $ttypeId . '">' . $ttypeName . '</option>';
                     }
                   } else { ?>
                     <option value=1 checked>Seal Basic Training</option>
@@ -265,12 +298,12 @@ GROUP BY sr.sch_ID;");
                   <span class="input-group-text">Platform</span>
                 </div>
                 <select class="custom-select" id="inputGroupSelect01" name="platform" required>
-                  <option disabled selected value="4">
+                  <option disabled selected value="0">
                     Choose...
                   </option>
                   <?php
                   foreach ($platformList as $platformId => $platformName) {
-                    echo '<option value="' . $platformId . '">' . $platformname . '</option>';
+                    echo '<option value="' . $platformId . '">' . $platformName . '</option>';
                   }
                   ?>
                 </select>

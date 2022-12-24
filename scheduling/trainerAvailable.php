@@ -26,7 +26,7 @@ while ($platform = $res->fetch_assoc()) {
 
 //Check PW and IRC Names
 $stmt2 = $mysqli->prepare("SELECT COUNT(seal_name) AS num_cmdrs FROM sealsudb.staff WHERE seal_ID = ? AND del_flag != True");
-$stmt2->bind_param("is", $user->data()->id, $user->data()->username);
+$stmt2->bind_param("i", $user->data()->id);
 $stmt2->execute();
 $resultnum = $stmt2->get_result();
 $resultnum = $resultnum->fetch_assoc();
@@ -61,7 +61,8 @@ if (isset($_GET['cancel'])) {
     $stmt4->bind_param('ii', $lore['numberedt'], $thenumersix);
     $stmt4->execute();
     $stmt4->close();
-    header("Location: .");
+    usMessage("Availablility Canceled Successfully");
+    header("Location: trainerAvailable.php");
     die();
   }
 }
@@ -76,6 +77,10 @@ if (isset($_GET['new'])) {
   }
   if (!isset($_POST['times'])) {
     usError("Error! No times set! Availability not saved.");
+    $validationErrors += 1;
+  }
+  if (!isset($_POST['numLessions'])) {
+    usError("Error! No max lessons set! Availability not saved.");
     $validationErrors += 1;
   }
   if ($validationErrors == 0) {
@@ -112,7 +117,8 @@ if (isset($_GET['new'])) {
       $stmt3->execute();
       $stmt3->close();
     }
-    header("Location: .");
+    usSuccess("Availablility Recorded Successfully!");
+    header("Location: trainerAvailable.php");
     die();
   }
 }
@@ -125,7 +131,7 @@ if (isset($_GET['new'])) {
   You will receive an email when your drills are scheduled!
 </p>
 <?php
-if ($resultIRC['num_IRC'] === 0) { ?>
+if ($resultIRC['num_irc'] === 0) { ?>
   <h4> You cannot submit a Training Request without a registered <a class="btn btn-secondary" target="_blank" href="https://hullseals.space/cmdr-management/">CMDR/Paperwork name</a>. Please fill that out before continuing!</h4>
 <?php } elseif ($resultnum['num_cmdrs'] === 0) { ?>
   <h4> You cannot submit a Training Request without a registered <a class="btn btn-secondary" target="_blank" href="https://hullseals.space/cmdr-management/irc-names">IRC name</a>. Please fill that out before continuing!</h4>
@@ -198,8 +204,9 @@ GROUP BY sr.sch_ID;");
       }
     } ?>
     </table>
-    <button class="btn btn-success btn-lg active" data-target="#moNew" data-toggle="modal" type="button">New Training Availability</button>';
-  <?
+    <button class="btn btn-success btn-lg active" data-target="#moNew" data-toggle="modal" type="button">New Training Availability</button>
+    <a href="requests.php" class="btn btn-lg btn-danger" style="float: right;">Go Back</a>
+  <?php
   $result->free();
 }
   ?>
@@ -268,5 +275,5 @@ GROUP BY sr.sch_ID;");
       </div>
     </div>
   </div>
-  <hr><a href="requests.php" class="btn btn-small btn-danger" style="float: right;">Go Back</a><br>
+  <br>
   <?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>

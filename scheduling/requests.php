@@ -64,7 +64,6 @@ while ($trainerType = $res4->fetch_assoc()) {
   $trainerList[$trainerType['seal_ID']] = $trainerType['seal_name'];
 }
 
-# TODO: Redo Val
 $validationErrors = 0;
 $lore = [];
 if (isset($_GET['setTraining'])) {
@@ -96,7 +95,7 @@ if (isset($_GET['setTraining'])) {
     $stmt4->bind_param('issi', $lore['numberedt'], $lore['date'], $lore['time'], $lore['tname']);
     $stmt4->execute();
     $stmt4->close();
-    usSuccess("", "Training Request " . $lore['numberedt'] . " Set Successfully.");
+    usSuccess("Training Request " . $lore['numberedt'] . " Scheduled Successfully.");
     header("Location: ./requests.php");
     die();
   }
@@ -118,7 +117,7 @@ if (isset($_GET['setStatus'])) {
     $stmt4->bind_param('ii', $lore['numberedt'], $lore['tstatus']);
     $stmt4->execute();
     $stmt4->close();
-    usError("", "Status for Training Request " . $lore['numberedt'] . " Set Successfully.");
+    usSuccess("Status for Training Request " . $lore['numberedt'] . " Set Successfully.");
     header("Location: ./requests.php");
     die();
   }
@@ -137,7 +136,7 @@ if (isset($_GET['sendEmail'])) {
   }
   if ($validationErrors == 0) {
     require_once 'trainingEmail.php';
-    usSuccess("Email for Training Request" . $lore['numberedt2'] . " Sent Successfully.");
+    usSuccess("Email for Training Request " . $lore['numberedt2'] . " Sent Successfully.");
     header("Location: ./requests.php");
     die();
   }
@@ -152,7 +151,7 @@ if (isset($_GET['cancel'])) {
   $stmt4->execute();
   require_once 'cancelEmail.php';
   $stmt4->close();
-  usSuccess("", "Training Request " . $lore['numberedt3'] . " Canceled.");
+  usSuccess("Training Request " . $lore['numberedt3'] . " Canceled.");
   header("Location: ./requests.php");
   die();
 }
@@ -271,7 +270,6 @@ if ($result->num_rows === 0) { ?>
                       echo '<option value="' . $trainerId . '">' . $trainerName . '</option>';
                     } ?>
                   </select>
-
                   <br>
                   <button class="btn btn-primary" type="submit">Update Drill Time</button>
                 </form>
@@ -290,6 +288,7 @@ if ($result->num_rows === 0) { ?>
                   </select>
                   <button class="btn btn-primary" type="submit">Update Training Status</button>
                 </form>
+                <div class="separator">OR</div>
               </div>
               <div class="modal-footer">
                 <form action="?cancel" method="post">
