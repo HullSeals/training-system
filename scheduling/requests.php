@@ -83,8 +83,12 @@ if (isset($_GET['setTraining'])) {
     sessionValMessages("Error! No time set! Availability not set.");
     $validationErrors += 1;
   }
-  if (!isset($lore["trainer"])) {
+  if (!isset($lore["tname"])) {
     sessionValMessages("Error! No trainer selected! Availability not set.");
+    $validationErrors += 1;
+  }
+  if (strtotime(($lore['date'] . " " . $lore['time'])) < time()) {
+    sessionValMessages("Error! Date in the past! Availability not sent.");
     $validationErrors += 1;
   }
   if ($validationErrors == 0) {
@@ -92,7 +96,7 @@ if (isset($_GET['setTraining'])) {
     $stmt4->bind_param('issi', $lore['numberedt'], $lore['date'], $lore['time'], $lore['tname']);
     $stmt4->execute();
     $stmt4->close();
-    sessionValMessages("", "Training Request" . $lore['numberedt'] . " Set Successfully.");
+    sessionValMessages("", "Training Request " . $lore['numberedt'] . " Set Successfully.");
     header("Location: ./requests.php");
   }
 }
@@ -113,7 +117,7 @@ if (isset($_GET['setStatus'])) {
     $stmt4->bind_param('ii', $lore['numberedt'], $lore['tstatus']);
     $stmt4->execute();
     $stmt4->close();
-    sessionValMessages("", "Status for Training Request" . $lore['numberedt'] . " Set Successfully.");
+    sessionValMessages("", "Status for Training Request " . $lore['numberedt'] . " Set Successfully.");
     header("Location: ./requests.php");
   }
 }
@@ -125,7 +129,7 @@ if (isset($_GET['sendEmail'])) {
     sessionValMessages("Error! Invalid Training Date! Email not sent.");
     $validationErrors += 1;
   }
-  if (strtotime($lore['sch_next'] < time()){
+  if (strtotime(($lore['date'] . " " . $lore['time'])) < time()) {
     sessionValMessages("Error! Date in the past! Email not sent.");
     $validationErrors += 1;
   }
@@ -145,7 +149,7 @@ if (isset($_GET['cancel'])) {
   $stmt4->execute();
   require_once 'cancelEmail.php';
   $stmt4->close();
-  sessionValMessages("", "Training Request" . $lore['numberedt3'] . " Canceled.");
+  sessionValMessages("", "Training Request " . $lore['numberedt3'] . " Canceled.");
   header("Location: ./requests.php");
 }
 ?>
@@ -258,9 +262,9 @@ if ($result->num_rows === 0) { ?>
                     <option disabled selected value="1">
                       Choose...
                     </option>
-                    <?
+                    <?php
                     foreach ($trainerList as $trainerId => $trainerName) {
-                      echo '<option value="' . $trainerId . '">' . $trainername . '></option>';
+                      echo '<option value="' . $trainerId . '">' . $trainerName . '</option>';
                     } ?>
                   </select>
 
@@ -277,7 +281,7 @@ if ($result->num_rows === 0) { ?>
                     </option>
                     <?php
                     foreach ($statusList as $statusId => $statusName) {
-                      echo '<option value="' . $statusId . '">' . $statusname . '</option>';
+                      echo '<option value="' . $statusId . '">' . $statusName . '</option>';
                     } ?>
                   </select>
                   <button class="btn btn-primary" type="submit">Update Training Status</button>

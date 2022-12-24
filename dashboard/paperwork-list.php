@@ -52,7 +52,7 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'training_records'
 AS
 (
     SELECT MIN(ID), seal_ID, seal_name
-    FROM sealsudb.staff' . $field
+    FROM sealsudb.staff
     GROUP BY seal_ID
 )
 SELECT c.case_ID, seal_name, client_nm, current_sys, platform_name, case_created

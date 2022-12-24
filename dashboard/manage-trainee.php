@@ -202,19 +202,19 @@ if (isset($_GET['demote'])) {
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <?php if ($resultAlias->num_rows === 0) { ?>
+      <?php if ($resultAlias->num_rows === 0) { ?>
+        <tr>
           <td>No CMDRs.</td>
           <td>Remind them to Register!</td>
-        <?php } else {
-          while ($rowAlias = $resultAlias->fetch_assoc()) {
-            echo '<td>' . $rowAlias["seal_name"] . '</td>
-            <td>' . $rowAlias["platform_name"] . '</td>';
-          }
+        </tr>
+      <?php } else {
+        while ($rowAlias = $resultAlias->fetch_assoc()) {
+          echo '<tr><td>' . $rowAlias["seal_name"] . '</td>
+            <td>' . $rowAlias["platform_name"] . '</td></tr>';
         }
-        $resultAlias->free();
-        ?>
-      </tr>
+      }
+      $resultAlias->free();
+      ?>
     </tbody>
   </table>
 </div>
@@ -345,28 +345,28 @@ if (hasPerm([1], $beingManaged)) { ?>
         </th>
       </tr>
     </thead>
-    <tr>
-      <?php
-      if ($result5->num_rows === 0) { ?>
+    <?php
+    if ($result5->num_rows === 0) { ?>
+      <tr>
         <td>No Rescues</td>
         <td>No Rescues</td>
         <td>No Rescues</td>
-      <?php } else {
-        while ($row5 = $result5->fetch_assoc()) {
-          echo '<td>' . $row5["case_ID"] . '</td>
+      </tr>
+    <?php } else {
+      while ($row5 = $result5->fetch_assoc()) {
+        echo '<tr><td>' . $row5["case_ID"] . '</td>
                 <td>' . $row5["case_created"] . '</td>
                 <td>';
-          if ($row5["dispatch"] == "1") {
-            echo 'Dispatcher';
-          } elseif ($row5["dispatch"] == "0") {
-            echo 'Seal';
-          }
-          echo '</td>';
+        if ($row5["dispatch"] == "1") {
+          echo 'Dispatcher';
+        } elseif ($row5["dispatch"] == "0") {
+          echo 'Seal';
         }
+        echo '</td></tr>';
       }
-      $result5->free();
-      ?>
-    </tr>
+    }
+    $result5->free();
+    ?>
   </table>
 </div>
 <br>
