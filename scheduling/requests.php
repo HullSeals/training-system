@@ -72,23 +72,23 @@ if (isset($_GET['setTraining'])) {
     $lore[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
   }
   if (!isset($lore["numberedt"])) {
-    sessionValMessages("Error! No availability index! Availability not set.");
+    usError("Error! No availability index! Availability not set.");
     $validationErrors += 1;
   }
   if (!isset($lore["date"])) {
-    sessionValMessages("Error! No date set! Availability not set.");
+    usError("Error! No date set! Availability not set.");
     $validationErrors += 1;
   }
   if (!isset($lore["time"])) {
-    sessionValMessages("Error! No time set! Availability not set.");
+    usError("Error! No time set! Availability not set.");
     $validationErrors += 1;
   }
   if (!isset($lore["tname"])) {
-    sessionValMessages("Error! No trainer selected! Availability not set.");
+    usError("Error! No trainer selected! Availability not set.");
     $validationErrors += 1;
   }
   if (strtotime(($lore['date'] . " " . $lore['time'])) < time()) {
-    sessionValMessages("Error! Date in the past! Availability not sent.");
+    usError("Error! Date in the past! Availability not sent.");
     $validationErrors += 1;
   }
   if ($validationErrors == 0) {
@@ -96,8 +96,9 @@ if (isset($_GET['setTraining'])) {
     $stmt4->bind_param('issi', $lore['numberedt'], $lore['date'], $lore['time'], $lore['tname']);
     $stmt4->execute();
     $stmt4->close();
-    sessionValMessages("", "Training Request " . $lore['numberedt'] . " Set Successfully.");
+    usSuccess("", "Training Request " . $lore['numberedt'] . " Set Successfully.");
     header("Location: ./requests.php");
+    die();
   }
 }
 if (isset($_GET['setStatus'])) {
@@ -105,11 +106,11 @@ if (isset($_GET['setStatus'])) {
     $lore[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
   }
   if (!isset($lore["numberedt"])) {
-    sessionValMessages("Error! No availability index set! Availability not canceled.");
+    usError("Error! No availability index set! Availability not canceled.");
     $validationErrors += 1;
   }
   if (!isset($lore["tstatus"])) {
-    sessionValMessages("Error! No status set! Status not changed.");
+    usError("Error! No status set! Status not changed.");
     $validationErrors += 1;
   }
   if ($validationErrors == 0) {
@@ -117,8 +118,9 @@ if (isset($_GET['setStatus'])) {
     $stmt4->bind_param('ii', $lore['numberedt'], $lore['tstatus']);
     $stmt4->execute();
     $stmt4->close();
-    sessionValMessages("", "Status for Training Request " . $lore['numberedt'] . " Set Successfully.");
+    usError("", "Status for Training Request " . $lore['numberedt'] . " Set Successfully.");
     header("Location: ./requests.php");
+    die();
   }
 }
 if (isset($_GET['sendEmail'])) {
@@ -126,17 +128,18 @@ if (isset($_GET['sendEmail'])) {
     $lore[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
   }
   if ($lore['sch_next'] == "Not Scheduled") {
-    sessionValMessages("Error! Invalid Training Date! Email not sent.");
+    usError("Error! Invalid Training Date! Email not sent.");
     $validationErrors += 1;
   }
   if (strtotime(($lore['date'] . " " . $lore['time'])) < time()) {
-    sessionValMessages("Error! Date in the past! Email not sent.");
+    usError("Error! Date in the past! Email not sent.");
     $validationErrors += 1;
   }
   if ($validationErrors == 0) {
     require_once 'trainingEmail.php';
-    sessionValMessages("", "Email for Training Request" . $lore['numberedt2'] . " Sent Successfully.");
+    usSuccess("Email for Training Request" . $lore['numberedt2'] . " Sent Successfully.");
     header("Location: ./requests.php");
+    die();
   }
 }
 if (isset($_GET['cancel'])) {
@@ -149,8 +152,9 @@ if (isset($_GET['cancel'])) {
   $stmt4->execute();
   require_once 'cancelEmail.php';
   $stmt4->close();
-  sessionValMessages("", "Training Request " . $lore['numberedt3'] . " Canceled.");
+  usSuccess("", "Training Request " . $lore['numberedt3'] . " Canceled.");
   header("Location: ./requests.php");
+  die();
 }
 ?>
 <h1>All Requested Drills</h1>

@@ -50,24 +50,22 @@ while ($trainingType = $res2->fetch_assoc()) {
   }
   $trainingList[$trainingType['training_ID']] = $trainingType['training_description'];
 }
-# TODO: Val
-$validationErrors = [];
+
+$validationErrors = 0;
 $lore = [];
 
 if (isset($_GET['cancel'])) {
   foreach ($_REQUEST as $key => $value) {
     $lore[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
   }
-  if (!count($validationErrors)) {
+  if ($validationErrors == 0) {
     $thenumersix = '6';
     $stmt4 = $mysqli->prepare('CALL spUpdateTrainingReq(?,?)');
     $stmt4->bind_param('ii', $lore['numberedt'], $thenumersix);
     $stmt4->execute();
-    foreach ($stmt4->error_list as $error) {
-      $validationErrors[] = 'DB: ' . $error['error'];
-    }
     $stmt4->close();
     header("Location: .");
+    die();
   }
 }
 if (isset($_GET['new'])) {
@@ -91,7 +89,7 @@ if (isset($_GET['new'])) {
         $lore[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
       }
     }
-    if (!count($validationErrors)) {
+    if ($validationErrors == 0)) {
       $stmt = $mysqli->prepare('CALL spCreateTrainingReq(?,?,?,?,?,@schID)');
       $stmt->bind_param('iiiis', $user->data()->id, $lore['type'], $lore['platform'], $lore['numLessions'], $lgd_ip);
       $stmt->execute();
@@ -118,6 +116,7 @@ if (isset($_GET['new'])) {
         $stmt3->close();
       }
       header("Location: .");
+      die();
     }
   }
 }

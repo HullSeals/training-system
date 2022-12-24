@@ -95,8 +95,9 @@ if (isset($_GET['add'])) {
   $stmt3->bind_param('iii', $beingManaged, $user->data()->id, $data['perm']);
   $stmt3->execute();
   $stmt3->close();
-  sessionValMessages("", "Added Qualification Successfully.");
+  usSuccess("Added Qualification Successfully.");
   header("Location: manage-trainer.php?cne=$beingManaged");
+  die();
 }
 
 //Rem Perm
@@ -108,8 +109,9 @@ if (isset($_GET['rem'])) {
   $stmt4->bind_param('iii', $beingManaged, $user->data()->id, $data['perm']);
   $stmt4->execute();
   $stmt4->close();
-  sessionValMessages("", "Removed Qualification Successfully.");
+  usSuccess("Removed Qualification Successfully.");
   header("Location: manage-trainer.php?cne=$beingManaged");
+  die();
 }
 
 //Promote
@@ -146,8 +148,9 @@ if (isset($_GET['promote'])) {
   ));
   $result = curl_exec($ch);
   curl_close($ch);
-  sessionValMessages("", "Promoted " . echousername($beingManaged) . " to Seal.");
+  usSuccess("Promoted " . echousername($beingManaged) . " to Seal.");
   header("Location: manage-trainer.php?cne=$beingManaged");
+  die();
 }
 
 //Demote
@@ -184,8 +187,9 @@ if (isset($_GET['demote'])) {
   ));
   $result = curl_exec($ch);
   curl_close($ch);
-  sessionValMessages("", "Demoted " . echousername($beingManaged) . " to Pup.");
+  usSuccess("Demoted " . echousername($beingManaged) . " to Pup.");
   header("Location: manage-trainer.php?cne=$beingManaged");
+  die();
 }
 ?>
 <h2>Welcome, <?= echousername($user->data()->id); ?>.</h2>

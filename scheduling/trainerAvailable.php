@@ -52,7 +52,7 @@ if (isset($_GET['cancel'])) {
     $lore[$key] = strip_tags(stripslashes(str_replace(["'", '"'], '', $value)));
   }
   if (!isset($lore["numberedt"])) {
-    sessionValMessages("Error! No availability index set! Availability not canceled.");
+    usError("Error! No availability index set! Availability not canceled.");
     $validationErrors += 1;
   }
   if ($validationErrors == 0) {
@@ -62,19 +62,20 @@ if (isset($_GET['cancel'])) {
     $stmt4->execute();
     $stmt4->close();
     header("Location: .");
+    die();
   }
 }
 if (isset($_GET['new'])) {
   if (!isset($_POST["platform"])) {
-    sessionValMessages("Error! No platform set! Availability not saved.");
+    usError("Error! No platform set! Availability not saved.");
     $validationErrors += 1;
   }
   if (!isset($_POST['days'])) {
-    sessionValMessages("Error! No days set! Availability not saved.");
+    usError("Error! No days set! Availability not saved.");
     $validationErrors += 1;
   }
   if (!isset($_POST['times'])) {
-    sessionValMessages("Error! No times set! Availability not saved.");
+    usError("Error! No times set! Availability not saved.");
     $validationErrors += 1;
   }
   if ($validationErrors == 0) {
@@ -112,6 +113,7 @@ if (isset($_GET['new'])) {
       $stmt3->close();
     }
     header("Location: .");
+    die();
   }
 }
 ?>

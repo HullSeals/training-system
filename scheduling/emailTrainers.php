@@ -96,6 +96,6 @@ The Hull Seals";
     $valmsg = "Email not sent. {$mail->ErrorInfo}"; //Catch errors from Amazon SES.
   }
 }
-sessionValMessages("", "", $valmsg);
+usMessage($valmsg);
 header("Location: ./requests.php");
 require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>
