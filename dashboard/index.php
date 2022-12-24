@@ -4,8 +4,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 //Declare Title, Content, Author
-$pgAuthor = "";
-$pgContent = "";
+$pgAuthor = "David Sangrey";
+$pgContent = "Training Dashboard";
 $useIP = 0; //1 if Yes, 0 if No.
 
 //UserSpice Required
@@ -19,9 +19,10 @@ if (!securePage($_SERVER['PHP_SELF'])) {
 <p>Please choose your option.</p>
 <br>
 <ul class="list-group list-group-horizontal-sm">
-        <a href="manage.php" class="list-group-item list-group-item-action">Manage Seals</a>
-        <a href="paperwork-list.php" class="list-group-item list-group-item-action">Drill Paperwork Review</a>
-        <a href="../training-paperwork" class="list-group-item list-group-item-action">Drill Paperwork</a>
-        <a href="../scheduling/requests.php" class="list-group-item list-group-item-action">Drill Management Dashboard</a>
-        <a href="../scheduling/index.php" class="list-group-item list-group-item-action">Drill Signup Form</a>
-        <?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>
+        <li><a href="manage.php" class="list-group-item list-group-item-action">Manage Seals</a></li>
+        <li><a href="paperwork-list.php" class="list-group-item list-group-item-action">Drill Paperwork Review</a></li>
+        <li><a href="../training-paperwork" class="list-group-item list-group-item-action">Drill Paperwork</a></li>
+        <li><a href="../scheduling/requests.php" class="list-group-item list-group-item-action">Drill Management Dashboard</a></li>
+        <li><a href="../scheduling/index.php" class="list-group-item list-group-item-action">Drill Signup Form</a></li>
+</ul>
+<?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>
