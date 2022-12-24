@@ -50,6 +50,7 @@ while ($trainingType = $res2->fetch_assoc()) {
   }
   $trainingList[$trainingType['training_ID']] = $trainingType['training_description'];
 }
+# TODO: Val
 $validationErrors = [];
 $lore = [];
 

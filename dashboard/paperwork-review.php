@@ -4,8 +4,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 //Declare Title, Content, Author
-$pgAuthor = "";
-$pgContent = "";
+$pgAuthor = "David Sangrey";
+$pgContent = "Drill Paperwork Review";
 $useIP = 0; //1 if Yes, 0 if No.
 
 //UserSpice Required
@@ -60,8 +60,8 @@ $resultAssigned = $stmtAssigned->get_result();
 $stmtAssigned->close();
 //$rowAssigned = $resultAssigned->fetch_assoc();
 ?>
-<h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
-<p>You are Reviewing Drill Paperwork for Case # <?php echo $beingManaged; ?> <a href="paperwork-list.php" class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
+<h2>Welcome, <?= echousername($user->data()->id); ?>.</h2>
+<p>You are Reviewing Drill Paperwork for Case # <?= $beingManaged; ?> <a href="paperwork-list.php" class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
 <br>
 <h3>Case Info</h3>
 <br>
@@ -79,13 +79,11 @@ $stmtAssigned->close();
     <?php
     while ($rowCaseInfo = $resultCaseInfo->fetch_assoc()) {
       echo '<tr>
-          <td>' . $rowCaseInfo["client_nm"] . '</td>
-          <td>' . $rowCaseInfo["current_sys"] . '</td>
-          <td>' . $rowCaseInfo["platform_name"] . '</td>
-          <td>' . $rowCaseInfo["case_created"] . '</td>
-         </tr>';
-
-    ?>
+        <td>' . $rowCaseInfo["client_nm"] . '</td>
+        <td>' . $rowCaseInfo["current_sys"] . '</td>
+        <td>' . $rowCaseInfo["platform_name"] . '</td>
+        <td>' . $rowCaseInfo["case_created"] . '</td>
+      </tr>' ?>
   </tbody>
 </table>
 <br>
@@ -99,8 +97,8 @@ $stmtAssigned->close();
     </tr>
   </thead>
   <tbody>
-    <?php
-      echo '<tr>';
+    <tr>
+      <?php
       if ($rowCaseInfo["canopy_breach"] == 0) {
         echo '<td>Intact</td>';
       } elseif ($rowCaseInfo["canopy_breach"] == 1) {
@@ -108,10 +106,10 @@ $stmtAssigned->close();
       } else {
         echo '<td>ERROR!</td>';
       }
-      echo '<td>' . $rowCaseInfo["hull_stat"] . '</td>
-        <td>' . $rowCaseInfo["color_name"] . '</td>
-       </tr>';
-    ?>
+      ?>
+      <td><?= $rowCaseInfo["hull_stat"] ?></td>
+      <td><?= $rowCaseInfo["color_name"] ?></td>
+    </tr>
   </tbody>
 </table>
 <br>
@@ -123,11 +121,10 @@ $stmtAssigned->close();
     </tr>
   </thead>
   <tbody>
-  <?php
-      echo '<tr>
-        <td>' . $rowCaseInfo["notes"] . '</td>
-     </tr>';
-    }
+    <tr>
+      <td><?= $rowCaseInfo["notes"] ?></td>
+    </tr>
+  <?php }
     $resultCaseInfo->free();
   ?>
   </tbody>

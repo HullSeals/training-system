@@ -10,19 +10,18 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 //Declare Title, Content, Author
-$pgAuthor = "";
-$pgContent = "";
+$pgAuthor = "David Sangrey";
+$pgContent = "Email Trainers";
 $useIP = 1; //1 if Yes, 0 if No.
 
 $customContent = '<style>
-      .center {
+.center {
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 20%;
 }
-</style>
-';
+</style>';
 
 //UserSpice Required
 require_once '../../users/init.php';  //make sure this path is correct!
@@ -30,11 +29,16 @@ require_once $abs_us_root . $us_url_root . 'users/includes/template/prep.php';
 if (!securePage($_SERVER['PHP_SELF'])) {
   die();
 }
+?>
 
+<h1>Emailing Trainers... Please Wait</h1>
+<img src="EDLoader1.svg" alt="Processing..." class="center">
+
+<?
 $db = include '../assets/db.php';
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'training', $db['port']);
-
+# TODO: SP?
 $stmt9 = $mysqli->prepare('WITH sealsCTI
 AS
 (
@@ -55,7 +59,7 @@ while ($row9 = $result9->fetch_assoc()) {
 The Hull Seals</p>";
   $message = "Greetings, CMDR Trainer!\r\n
 This email is to inform you that the head trainer has prepared the next week's lessons and wishes to notify you.\r\n
-Please view the updated information on your Training Requests Page (https://hullseals.space/trainings/scheduling/requests.phpTraining)\r\n
+Please view the updated information on your Training Requests Page (https://hullseals.space/trainings/scheduling/requests.php)\r\n
 The Hull Seals";
   $sender = $email2['sender'];
   $senderName = $email2['senderName'];
@@ -79,11 +83,9 @@ The Hull Seals";
 
     // Specify the message recipients.
     $mail->addAddress($ememail);
-    // You can also add CC, BCC, and additional To recipients here.
-
     // Specify the content of the message.
     $mail->isHTML(true);
-    $mail->Subject    = "Hull Seals Training Notification";
+    $mail->Subject       = "Hull Seals Training Notification";
     $mail->Body          = $htmlMsg;
     $mail->AltBody       = $message;
     $mail->Send();
@@ -94,8 +96,6 @@ The Hull Seals";
     $valmsg = "Email not sent. {$mail->ErrorInfo}"; //Catch errors from Amazon SES.
   }
 }
-header("Location: ./requests.php?msg=$valmsg");
-?>
-<h1>Emailing Trainers... Please Wait</h1>
-<img src="EDLoader1.svg" alt="Processing..." class="center">
-<?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>
+sessionValMessages("", "", $valmsg);
+header("Location: ./requests.php");
+require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>

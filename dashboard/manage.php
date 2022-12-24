@@ -4,15 +4,14 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 //Declare Title, Content, Author
-$pgAuthor = "";
-$pgContent = "";
+$pgAuthor = "David Sangrey";
+$pgContent = "Manage Trainee";
 $useIP = 0; //1 if Yes, 0 if No.
 
 $preContent = '<link rel="stylesheet" type="text/css" href="../assets/datatables.min.css"/>
     <script type="text/javascript" src="../assets/datatables.min.js"></script>';
 
-$customContent = '
-    <script>
+$customContent = '<script>
     $(document).ready(function() {
     $(\'#PupList\').DataTable();
 } );</script>';
@@ -28,7 +27,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $db = include '../assets/db.php';
 $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['port']);
 ?>
-<h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
+<h2>Welcome, <?= echousername($user->data()->id); ?>.</h2>
 <p><a href="." class="btn btn-small btn-danger" style="float: right;">Back to Dashboard</a></p>
 <br>
 <br>
@@ -48,12 +47,12 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], $db['db'], $db['po
     $result = $stmt->get_result();
     while ($row = $result->fetch_assoc()) {
       $field2name = $row["seal_name"];
-      $field4name = $row["ID"];
-      echo '<tr>
-              <td>' . $field2name . '</td>
-              <td><a href="manage-trainee.php?cne=' . $field4name . '" class="btn btn-warning active">Manage CMDR</a></td>
-            </tr>';
-    }
+      $field4name = $row["ID"]; ?>
+      <tr>
+        <td><?= $field2name ?></td>
+        <td><a href="manage-trainee.php?cne=<?= $field4name ?>" class="btn btn-warning active">Manage CMDR</a></td>
+      </tr>
+    <?php }
     $result->free();
     ?>
   </tbody>

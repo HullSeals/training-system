@@ -4,19 +4,21 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 //Declare Title, Content, Author
-$pgAuthor = "";
-$pgContent = "";
+$pgAuthor = "David Sangrey";
+$pgContent = "Drill Paperwork Review";
 $useIP = 0; //1 if Yes, 0 if No.
 
 $preContent = '<link rel="stylesheet" type="text/css" href="../assets/datatables.min.css"/>
-    <script type="text/javascript" src="../assets/datatables.min.js"></script>';
+<script type="text/javascript" src="../assets/datatables.min.js"></script>';
 
-$customContent = ' <script>
- $(document).ready(function() {
- $(\'#PaperworkList\').DataTable({
-   "order": [[ 0, \'desc\' ]]
- });
-} );</script>';
+$customContent = '<script>
+$(document).ready(function() {
+      $(\'#PaperworkList\').DataTable({
+        "order": [
+          [0, \'desc\' ]]
+          });
+      });
+</script>';
 
 //UserSpice Required
 require_once '../../users/init.php';  //make sure this path is correct!
@@ -28,9 +30,8 @@ if (!securePage($_SERVER['PHP_SELF'])) {
 $db = include '../assets/db.php';
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'training_records', $db['port']);
-
 ?>
-<h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
+<h2>Welcome, <?= echousername($user->data()->id); ?>.</h2>
 <p><a href="." class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
 <br>
 <br>
@@ -51,7 +52,7 @@ $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'training_records'
 AS
 (
     SELECT MIN(ID), seal_ID, seal_name
-    FROM sealsudb.staff
+    FROM sealsudb.staff' . $field
     GROUP BY seal_ID
 )
 SELECT c.case_ID, seal_name, client_nm, current_sys, platform_name, case_created
@@ -68,16 +69,16 @@ WHERE ca.dispatch IS FALSE AND ca.support IS FALSE");
       $field2name = $row["client_nm"];
       $field3name = $row["current_sys"];
       $field4name = $row["platform_name"];
-      $field5name = $row["case_created"];
-      echo '<tr>
-            <td>' . $field1name . '</td>
-            <td>' . $field2name . '</td>
-            <td>' . $field3name . '</td>
-            <td>' . $field4name . '</td>
-            <td>' . $field5name . '</td>
-            <td><a href="paperwork-review.php?cne=' . $field1name . '" class="btn btn-warning active">Review Case</a></td>
-          </tr>';
-    }
+      $field5name = $row["case_created"]; ?>
+      <tr>
+        <td><?= $field1name ?></td>
+        <td><?= $field2name ?></td>
+        <td><?= $field3name ?></td>
+        <td><?= $field4name ?></td>
+        <td><?= $field5name ?></td>
+        <td><a href="paperwork-review.php?cne=<?= $field1name ?>" class="btn btn-warning active">Review Case</a></td>
+      </tr>
+    <?php }
     $result->free();
     ?>
   </tbody>

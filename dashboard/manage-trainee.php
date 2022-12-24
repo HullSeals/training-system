@@ -4,8 +4,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 //Declare Title, Content, Author
-$pgAuthor = "";
-$pgContent = "";
+$pgAuthor = "David Sangrey";
+$pgContent = "Manage Trainee";
 $useIP = 0; //1 if Yes, 0 if No.
 
 //If you have any custom scripts, CSS, etc, you MUST declare them here.
@@ -38,13 +38,12 @@ $beingManaged = $_GET['cne'];
 $beingManaged = intval($beingManaged);
 $thenumber1 = "1";
 $thenumber2 = "2";
+$beingManagedName = echousername($beingManaged);
 
 //SQL for the first part
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $db = include '../assets/db.php';
 $mysqli = new mysqli($db['server'], $db['user'], $db['pass'], 'auth', $db['port']);
-
-$beingManagedName = echousername($beingManaged);
 
 //IRC SQL
 $mysqlirc = new mysqli($db['server'], $db['user'], $db['pass'], 'records', $db['port']);
@@ -59,6 +58,7 @@ $stmtirc->close();
 if (!isset($resultirc) || $resultirc == NULL) {
   $resultirc = "Null3";
 }
+
 //Case History
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $mysqli5 = new mysqli($db['server'], $db['user'], $db['pass'], 'records', $db['port']);
@@ -95,6 +95,7 @@ if (isset($_GET['add'])) {
   $stmt3->bind_param('iii', $beingManaged, $user->data()->id, $data['perm']);
   $stmt3->execute();
   $stmt3->close();
+  sessionValMessages("", "Added Qualification Successfully.");
   header("Location: manage-trainer.php?cne=$beingManaged");
 }
 
@@ -107,6 +108,7 @@ if (isset($_GET['rem'])) {
   $stmt4->bind_param('iii', $beingManaged, $user->data()->id, $data['perm']);
   $stmt4->execute();
   $stmt4->close();
+  sessionValMessages("", "Removed Qualification Successfully.");
   header("Location: manage-trainer.php?cne=$beingManaged");
 }
 
@@ -144,6 +146,7 @@ if (isset($_GET['promote'])) {
   ));
   $result = curl_exec($ch);
   curl_close($ch);
+  sessionValMessages("", "Promoted " . echousername($beingManaged) . " to Seal.");
   header("Location: manage-trainer.php?cne=$beingManaged");
 }
 
@@ -181,11 +184,12 @@ if (isset($_GET['demote'])) {
   ));
   $result = curl_exec($ch);
   curl_close($ch);
+  sessionValMessages("", "Demoted " . echousername($beingManaged) . " to Pup.");
   header("Location: manage-trainer.php?cne=$beingManaged");
 }
 ?>
-<h2>Welcome, <?php echo echousername($user->data()->id); ?>.</h2>
-<p>You are managing user: <em><?php echo echousername($beingManaged); ?></em> <a href="manage.php" class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
+<h2>Welcome, <?= echousername($user->data()->id); ?>.</h2>
+<p>You are managing user: <em><?= echousername($beingManaged); ?></em> <a href="manage.php" class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
 <br>
 <h3>Registered CMDRs</h3>
 <br>
@@ -198,24 +202,19 @@ if (isset($_GET['demote'])) {
       </tr>
     </thead>
     <tbody>
-      <?php
-      if ($resultAlias->num_rows === 0) {
-        echo '<tr>
-            <td>No CMDRs.</td>
-            <td>Remind them to Register!</td>
-            </tr>';
-      } else {
-        while ($rowAlias = $resultAlias->fetch_assoc()) {
-          $fieldAliasName = $rowAlias["seal_name"];
-          $fieldAliasPLT = $rowAlias["platform_name"];
-          echo '<tr>
-            <td>' . $fieldAliasName . '</td>
-            <td>' . $fieldAliasPLT . '</td>
-            </tr>';
+      <tr>
+        <?php if ($resultAlias->num_rows === 0) { ?>
+          <td>No CMDRs.</td>
+          <td>Remind them to Register!</td>
+        <?php } else {
+          while ($rowAlias = $resultAlias->fetch_assoc()) {
+            echo '<td>' . $rowAlias["seal_name"] . '</td>
+            <td>' . $rowAlias["platform_name"] . '</td>';
+          }
         }
-      }
-      $resultAlias->free();
-      ?>
+        $resultAlias->free();
+        ?>
+      </tr>
     </tbody>
   </table>
 </div>
@@ -240,7 +239,7 @@ if (hasPerm([1], $beingManaged)) { ?>
         <tr>
           <td>Pup</td>
           <td>
-            <form method="post" action="?promote&cne=<?php echo $beingManaged; ?>">
+            <form method="post" action="?promote&cne=<?= $beingManaged; ?>">
               <button type="submit" class="btn btn-secondary" id="promote" name="promote">Seal</button>
             </form>
           </td>
@@ -265,7 +264,7 @@ if (hasPerm([1], $beingManaged)) { ?>
         <tr>
           <td>Seal</td>
           <td>
-            <form method="post" action="?demote&cne=<?php echo $beingManaged; ?>">
+            <form method="post" action="?demote&cne=<?= $beingManaged; ?>">
               <button type="submit" class="btn btn-secondary" id="promote" name="promote">Pup</button>
             </form>
           </td>
@@ -290,34 +289,38 @@ if (hasPerm([1], $beingManaged)) { ?>
       <tr>
         <td>KingFisher</td>
         <td>
-          <form method="post" action="?<?php if (hasPerm([3], $beingManaged)) {
-                                          echo "rem";
-                                        } else {
-                                          echo "add";
-                                        } ?>&cne=<?php echo $beingManaged; ?>">
+          <form method="post" action="?
+          <?php if (hasPerm([3], $beingManaged)) {
+            echo "rem";
+          } else {
+            echo "add";
+          } ?>&cne=<?= $beingManaged; ?>">
             <input type="hidden" name="perm" value="3">
-            <button type="submit" class="btn btn-secondary" id="kingfishersub" name="kingfishersub"><?php if (hasPerm([3], $beingManaged)) {
-                                                                                                      echo "Remove";
-                                                                                                    } else {
-                                                                                                      echo "Add";
-                                                                                                    } ?></button>
+            <button type="submit" class="btn btn-secondary" id="kingfishersub" name="kingfishersub">
+              <?php if (hasPerm([3], $beingManaged)) {
+                echo "Remove";
+              } else {
+                echo "Add";
+              } ?></button>
           </form>
         </td>
       </tr>
       <tr>
         <td>Dispatcher</td>
         <td>
-          <form method="post" action="?<?php if (hasPerm([6], $beingManaged)) {
-                                          echo "rem";
-                                        } else {
-                                          echo "add";
-                                        } ?>&cne=<?php echo $beingManaged; ?>">
+          <form method="post" action="?
+          <?php if (hasPerm([6], $beingManaged)) {
+            echo "rem";
+          } else {
+            echo "add";
+          } ?>&cne=<?= $beingManaged; ?>">
             <input type="hidden" name="perm" value="6">
-            <button type="submit" class="btn btn-secondary" id="dispatchsub" name="dispatchsub"><?php if (hasPerm([6], $beingManaged)) {
-                                                                                                  echo "Remove";
-                                                                                                } else {
-                                                                                                  echo "Add";
-                                                                                                } ?></button>
+            <button type="submit" class="btn btn-secondary" id="dispatchsub" name="dispatchsub">
+              <?php if (hasPerm([6], $beingManaged)) {
+                echo "Remove";
+              } else {
+                echo "Add";
+              } ?></button>
           </form>
         </td>
       </tr>
@@ -342,34 +345,30 @@ if (hasPerm([1], $beingManaged)) { ?>
         </th>
       </tr>
     </thead>
-    <?php
-    if ($result5->num_rows === 0) {
-      echo '<tr>
-      <td>No Rescues</td>
-      <td>No Rescues</td>
-      <td>No Rescues</td>
-      </tr>';
-    } else {
-      while ($row5 = $result5->fetch_assoc()) {
-        $field15name = $row5["case_ID"];
-        $field25name = $row5["case_created"];
-        $field35name = $row5["dispatch"];
-        echo '<tr>
-                  <td>' . $field15name . '</td>
-                  <td>' . $field25name . '</td>
-                  <td>';
-        if ($field35name == "1") {
-          echo 'Dispatcher';
-        } elseif ($field35name == "0") {
-          echo 'Seal';
+    <tr>
+      <?php
+      if ($result5->num_rows === 0) { ?>
+        <td>No Rescues</td>
+        <td>No Rescues</td>
+        <td>No Rescues</td>
+      <?php } else {
+        while ($row5 = $result5->fetch_assoc()) {
+          echo '<td>' . $row5["case_ID"] . '</td>
+                <td>' . $row5["case_created"] . '</td>
+                <td>';
+          if ($row5["dispatch"] == "1") {
+            echo 'Dispatcher';
+          } elseif ($row5["dispatch"] == "0") {
+            echo 'Seal';
+          }
+          echo '</td>';
         }
-        echo '</td>
-                </tr>';
       }
-    }
-    echo '</table></div>';
-    $result5->free();
-    ?>
-    <br>
-    <p><a href="manage.php" class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
-    <?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>
+      $result5->free();
+      ?>
+    </tr>
+  </table>
+</div>
+<br>
+<p><a href="manage.php" class="btn btn-small btn-danger" style="float: right;">Go Back</a></p>
+<?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>

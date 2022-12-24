@@ -4,6 +4,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 $email2 = include 'email.php';
+# TODO: SP?
 $stmt5 = $mysqli->prepare('WITH sealsCTI
 AS
 (
