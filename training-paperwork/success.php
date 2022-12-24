@@ -3,30 +3,18 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+//Declare Title, Content, Author
+$pgAuthor = "David Sangrey";
+$pgContent = "Drill Paperwork Complete";
+$useIP = 0;
 //UserSpice Required
 require_once '../../users/init.php';  //make sure this path is correct!
-if (!securePage($_SERVER['PHP_SELF'])){die();}
+require_once $abs_us_root . $us_url_root . 'users/includes/template/prep.php';
+if (!securePage($_SERVER['PHP_SELF'])) {
+	die();
+}
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta content="Welcome to the Hull Seals, Elite Dangerous's Premier Hull Repair Specialists!" name="description">
- <title>Drill Paperwork | The Hull Seals</title>
- <meta content="David Sangrey" name="author">
- <?php include '../../assets/includes/headerCenter.php'; ?>
-</head>
-<body>
-    <div id="home">
-      <?php include '../../assets/includes/menuCode.php';?>
-      <section class="introduction container">
-    <article id="intro3">
-				<h1 style="text-align: center;">Drill Paperwork</h1>
-				<h5 class="text-success">Thank you for submitting your paperwork, Seal!</h5>
-        <p>Please inform your Trainer.</p>
-      </article>
-      <div class="clearfix"></div>
-  </section>
-  </div>
-  <?php include '../../assets/includes/footer.php'; ?>
-  </body>
-  </html>
+<h1 style="text-align: center;">Drill Paperwork</h1>
+<h5 class="text-success">Thank you for submitting your paperwork, Seal!</h5>
+<p>Please inform your Trainer.</p>
+<?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>

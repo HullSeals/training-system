@@ -1,8 +1,10 @@
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-$email2 = include 'email.php';
 
+$email2 = include 'email.php';
+# TODO: SP?
 $stmt5 = $mysqli->prepare('WITH sealsCTI
 AS
 (
@@ -22,15 +24,15 @@ $stmt5->bind_param('i', $sch_ID);
 $stmt5->execute();
 $result2 = $stmt5->get_result();
 while ($row2 = $result2->fetch_assoc()) {
-$emplatform = $row2['platform_name'];
-$emdesc = $row2['training_description'];
-$emname =  $row2['seal_name'];
-$emdate = $row2['sch_nextdate'];
-$emtime = $row2['sch_nexttime'];
-$emtrainer = $row2['trainer'];
-$ememail = $row2['email'];
+    $emplatform = $row2['platform_name'];
+    $emdesc = $row2['training_description'];
+    $emname =  $row2['seal_name'];
+    $emdate = $row2['sch_nextdate'];
+    $emtime = $row2['sch_nexttime'];
+    $emtrainer = $row2['trainer'];
+    $ememail = $row2['email'];
 }
-$htmlMsg = "<h1>Greetings, CMDR ". $emtrainer ."!</h1><p>This email is to inform you that your Pup has confirmed their next lesson! Here are the details:</p>
+$htmlMsg = "<h1>Greetings, CMDR " . $emtrainer . "!</h1><p>This email is to inform you that your Pup has confirmed their next lesson! Here are the details:</p>
 <ul>
 <li>Training Type: " . $emdesc . "</li>
 <li>Training Date: " . $emdate . "</li>
@@ -58,32 +60,28 @@ $passwordSmtp = $email2['passwordSmtp'];
 $host = $email2['host'];
 $port = $email2['port'];
 $emailMaster = include 'vendor/autoload.php';
-
 $mail = new PHPMailer(true);
 try {
-// Specify the SMTP settings.
-$mail->isSMTP();
-$mail->setFrom($sender, $senderName);
-$mail->Username   = $usernameSmtp;
-$mail->Password   = $passwordSmtp;
-$mail->Host       = $host;
-$mail->Port       = $port;
-$mail->SMTPAuth   = true;
-$mail->SMTPSecure = 'tls';
+    // Specify the SMTP settings.
+    $mail->isSMTP();
+    $mail->setFrom($sender, $senderName);
+    $mail->Username   = $usernameSmtp;
+    $mail->Password   = $passwordSmtp;
+    $mail->Host       = $host;
+    $mail->Port       = $port;
+    $mail->SMTPAuth   = true;
+    $mail->SMTPSecure = 'tls';
 
-// Specify the message recipients.
-$mail->addAddress($ememail);
-// You can also add CC, BCC, and additional To recipients here.
-
-// Specify the content of the message.
-$mail->isHTML(true);
-$mail->Subject    = "Hull Seals Trainer Notification";
-$mail->Body          = $htmlMsg;
-$mail->AltBody       = $message;
-$mail->Send();
+    // Specify the message recipients.
+    $mail->addAddress($ememail);
+    // Specify the content of the message.
+    $mail->isHTML(true);
+    $mail->Subject    = "Hull Seals Trainer Notification";
+    $mail->Body          = $htmlMsg;
+    $mail->AltBody       = $message;
+    $mail->Send();
 } catch (phpmailerException $e) {
-echo "An error occurred. {$e->errorMessage()}", PHP_EOL; //Catch errors from PHPMailer.
+    echo "An error occurred. {$e->errorMessage()}", PHP_EOL; //Catch errors from PHPMailer.
 } catch (Exception $e) {
-echo "Email not sent. {$mail->ErrorInfo}", PHP_EOL; //Catch errors from Amazon SES.
+    echo "Email not sent. {$mail->ErrorInfo}", PHP_EOL; //Catch errors from Amazon SES.
 }
-?>
