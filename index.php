@@ -7,9 +7,7 @@ if (!securePage($_SERVER['PHP_SELF'])){die();}
 
 if (hasPerm([4,7,8,9,10],$user->data()->id)){
 header("Location: ./dashboard");
-die();
 }
 else {
   header("Location: https://hullseals.space/trainings/scheduling/index.php");
 }
-?>
