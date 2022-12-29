@@ -33,8 +33,8 @@ $resultnum = $resultnum->fetch_assoc();
 
 $stmt3 = $mysqli->prepare('SELECT count(nick) as num_irc FROM ircDB.anope_db_NickAlias
 INNER JOIN ircDB.anope_db_NickCore AS nc ON nc.display = nc
-WHERE nc = ?');
-$stmt3->bind_param("s", $user->data()->username);
+WHERE nc.id = ?');
+$stmt3->bind_param("i", $user->data()->id);
 $stmt3->execute();
 $resultIRC = $stmt3->get_result();
 $resultIRC = $resultIRC->fetch_assoc();
